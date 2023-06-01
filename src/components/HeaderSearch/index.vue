@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import Fuse from 'fuse.js'
-import { getNormalPath } from '@/utils/ruoyi'
+import { getNormalPath } from '@/utils/bit'
 import { isHttp } from '@/utils/validate'
 import usePermissionStore from '@/store/modules/permission'
 import { RouteOption } from 'vue-router'

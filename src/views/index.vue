@@ -2,9 +2,9 @@
   <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>RuoYi-Vue-Plus多租户管理系统</h2>
+        <h2>Bit-Vue-Plus多租户管理系统</h2>
         <p>
-          RuoYi-Vue-Plus 是基于 RuoYi-Vue 针对 分布式集群 场景升级(不兼容原框架)
+          Bit-Vue-Plus 是基于 Bit-Vue 针对 分布式集群 场景升级(不兼容原框架)
           <br />
           * 前端开发框架 Vue3、TS、Element Plus<br />
           * 后端开发框架 Spring Boot<br />
@@ -38,8 +38,7 @@
           <el-tag type="danger">&yen;免费开源</el-tag>
         </p>
         <p>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://gitee.com/dromara/RuoYi-Vue-Plus')">访问码云</el-button>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://github.com/dromara/RuoYi-Vue-Plus')">访问GitHub</el-button>
+          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://github.com/Liang-Dongxing/Bit-Boot-Plus')">访问GitHub</el-button>
           <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://javalionli.gitee.io/plus-doc/#/ruoyi-vue-plus/changlog')"
             >更新日志</el-button
           >
@@ -47,9 +46,9 @@
       </el-col>
 
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>RuoYi-Cloud-Plus多租户微服务管理系统</h2>
+        <h2>Bit-Cloud-Plus多租户微服务管理系统</h2>
         <p>
-          RuoYi-Cloud-Plus 微服务通用权限管理系统 重写 RuoYi-Cloud 全方位升级(不兼容原框架)
+          Bit-Cloud-Plus 微服务通用权限管理系统 重写 Bit-Cloud 全方位升级(不兼容原框架)
           <br />
           * 前端开发框架 Vue3、TS、Element UI<br />
           * 后端开发框架 Spring Boot<br />
@@ -83,8 +82,7 @@
           <el-tag type="danger">&yen;免费开源</el-tag>
         </p>
         <p>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://gitee.com/dromara/RuoYi-Cloud-Plus')">访问码云</el-button>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://github.com/dromara/RuoYi-Cloud-Plus')">访问GitHub</el-button>
+          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://github.com/Liang-Dongxing/Bit-Boot-Plus')">访问GitHub</el-button>
           <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://javalionli.gitee.io/plus-doc/#/ruoyi-cloud-plus/changlog')"
             >更新日志</el-button
           >

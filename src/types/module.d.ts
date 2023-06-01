@@ -1,7 +1,7 @@
 import modal from '@/plugins/modal';
 import tab from '@/plugins/tab';
 import { useDict } from '@/utils/dict';
-import { addDateRange, handleTree, selectDictLabel, selectDictLabels, parseTime } from '@/utils/ruoyi';
+import { addDateRange, handleTree, selectDictLabel, selectDictLabels, parseTime } from '@/utils/bit';
 import { getConfigKey, updateConfigByKey } from '@/api/system/config';
 import { download as download1 } from '@/utils/request';
 import download from '@/plugins/download';

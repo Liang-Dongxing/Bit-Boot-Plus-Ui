@@ -28,7 +28,7 @@ import './permission';
 
 import { useDict } from '@/utils/dict';
 import { getConfigKey, updateConfigByKey } from '@/api/system/config';
-import { parseTime, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi';
+import { parseTime, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/bit';
 
 // 国际化
 import i18n from '@/lang/index';

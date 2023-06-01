@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-const url = ref('https://gitee.com/dromara/RuoYi-Vue-Plus');
+const url = ref('https://github.com/Liang-Dongxing/Bit-Boot-Plus');
 
 function goto() {
   window.open(url.value)

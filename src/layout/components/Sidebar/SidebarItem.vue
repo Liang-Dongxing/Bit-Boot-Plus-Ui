@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { isExternal } from '@/utils/validate'
 import AppLink from './Link.vue'
-import { getNormalPath } from '@/utils/ruoyi'
+import { getNormalPath } from '@/utils/bit'
 import { RouteOption } from "vue-router";
 import { PropType } from "vue";
 

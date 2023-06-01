@@ -1,4 +1,4 @@
-import { parseTime } from '@/utils/ruoyi';
+import { parseTime } from '@/utils/bit';
 
 /**
  * 表格时间格式化
