@@ -9,6 +9,7 @@ export const useSettingsStore = defineStore('setting', () => {
 
   const prop: { [key: string]: Ref<any> } = {
     title: ref<string>(''),
+    appTitle: ref<string>(import.meta.env.VITE_APP_TITLE),
     theme: ref<string>(storageSetting.theme || defaultSettings.theme),
     sideTheme: ref<string>(storageSetting.sideTheme || defaultSettings.sideTheme),
     showSettings: ref<boolean>(storageSetting.showSettings),
@@ -21,7 +22,7 @@ export const useSettingsStore = defineStore('setting', () => {
     dark: ref<boolean>(storageSetting.dark || defaultSettings.dark)
   };
 
-  const { title, theme, sideTheme, showSettings, topNav, tagsView, fixedHeader, sidebarLogo, dynamicTitle, animationEnable, dark } = prop;
+  const { title, appTitle, theme, sideTheme, showSettings, topNav, tagsView, fixedHeader, sidebarLogo, dynamicTitle, animationEnable, dark } = prop;
 
   // actions
   const changeSetting = (param: { key: SettingTypeEnum; value: any }) => {
@@ -36,6 +37,7 @@ export const useSettingsStore = defineStore('setting', () => {
   };
   return {
     title,
+    appTitle,
     theme,
     sideTheme,
     showSettings,

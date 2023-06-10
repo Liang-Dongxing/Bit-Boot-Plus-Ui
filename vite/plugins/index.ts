@@ -6,6 +6,7 @@ import createIcons from './icons';
 import createSvgIconsPlugin from './svg-icon';
 import createCompression from './compression';
 import createVueSetupExtend from './vue-setup-extend';
+import createHtmlPlugin from './create-html-plugin';
 import path from 'path';
 
 export default (viteEnv: any, isBuild = false): [] => {
@@ -18,5 +19,6 @@ export default (viteEnv: any, isBuild = false): [] => {
   vitePlusgins.push(createIcons());
   vitePlusgins.push(createSvgIconsPlugin(path, isBuild));
   vitePlusgins.push(createVueSetupExtend());
+  vitePlusgins.push(createHtmlPlugin(viteEnv));
   return vitePlusgins;
 };

@@ -39,7 +39,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2023 疯狂的狮子Li All Rights Reserved.</span>
+      <span>Copyright © 2018-2023 {{ appTitle }} All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -52,9 +52,11 @@ import { useUserStore } from '@/store/modules/user';
 import { LoginData, TenantVO } from '@/api/types';
 import { FormRules } from 'element-plus';
 import { to } from 'await-to-js';
+import useSettingsStore from '@/store/modules/settings'
 
 const userStore = useUserStore();
 const router = useRouter();
+const appTitle = useSettingsStore().appTitle;
 
 const loginForm = ref<LoginData>({
     tenantId: "000000",
