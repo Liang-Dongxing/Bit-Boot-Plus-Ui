@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.1.0",
+    "@icon-park/vue-next": "^1.4.2",
     "@vueup/vue-quill": "1.1.0",
     "@vueuse/core": "9.5.0",
     "animate.css": "4.1.1",
