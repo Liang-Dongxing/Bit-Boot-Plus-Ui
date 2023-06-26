@@ -42,16 +42,16 @@
       <li class="el-dropdown-menu__item" @click="refreshSelectedTag(selectedTag)">
         <el-icon class="is-icon-close"><refresh-right /></el-icon>刷新页面
       </li>
-      <li class="el-dropdown-menu__item" v-if="!isAffix()" @click="closeSelectedTag(selectedTag)">
+      <li v-if="!isAffix()" class="el-dropdown-menu__item" @click="closeSelectedTag(selectedTag)">
         <el-icon class="is-icon-close"><close /></el-icon>关闭当前
       </li>
       <li class="el-dropdown-menu__item" @click="closeOthersTags">
         <el-icon class="is-icon-close"><circle-close /></el-icon>关闭其他
       </li>
-      <li class="el-dropdown-menu__item" v-if="!isFirstView()" @click="closeLeftTags">
+      <li v-if="!isFirstView()" class="el-dropdown-menu__item" @click="closeLeftTags">
         <el-icon class="is-icon-close"><back /></el-icon>关闭左侧
       </li>
-      <li class="el-dropdown-menu__item" v-if="!isLastView()" @click="closeRightTags">
+      <li v-if="!isLastView()" class="el-dropdown-menu__item" @click="closeRightTags">
         <el-icon class="is-icon-close"><right /></el-icon>关闭右侧
       </li>
       <li class="el-dropdown-menu__item" @click="closeAllTags(selectedTag)">
@@ -284,4 +284,10 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.el-tabs {
+  .el-tabs__header {
+    margin: 0;
+  }
+}
+</style>

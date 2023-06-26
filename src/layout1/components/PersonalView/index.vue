@@ -4,6 +4,8 @@ import useUserStore from '@/store/modules/user'
 import { dynamicClear, dynamicTenant } from '@/api/system/tenant'
 import { ComponentInternalInstance } from 'vue'
 import { TenantVO } from '@/api/types'
+import { getTenantList } from '@/api/login'
+import defAva from '@/assets/images/avatar.png'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -33,6 +35,18 @@ const dynamicClearEvent = async () => {
   proxy?.$tab.closeAllPage()
   proxy?.$router.push('/')
 }
+/** 租户列表 */
+const initTenantList = async () => {
+  const { data } = await getTenantList()
+  tenantEnabled.value = data.tenantEnabled === undefined ? true : data.tenantEnabled
+  if (tenantEnabled.value) {
+    tenantList.value = data.voList
+  }
+}
+
+defineExpose({
+  initTenantList,
+})
 const logout = async () => {
   await ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
     confirmButtonText: '确定',
@@ -52,128 +66,66 @@ const commandMap: { [key: string]: any } = {
   setLayout,
   logout,
 }
-const handleCommand = (command: string) => {
-  // 判断是否存在该方法
-  if (commandMap[command]) {
-    commandMap[command]()
-  }
-}
 </script>
 
 <template>
   <div class="PersonalView">
     <template v-if="appStore.device !== 'mobile'">
       <el-select
+        v-if="userId === 1 && tenantEnabled"
         v-model="companyName"
         clearable
         filterable
         reserve-keyword
         :placeholder="$t('navbar.selectTenant')"
-        v-if="userId === 1 && tenantEnabled"
         @change="dynamicTenantEvent"
         @clear="dynamicClearEvent">
-        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId">
-        </el-option>
-        <template #prefix><svg-icon icon-class="company" class="el-input__icon input-icon" /></template>
+        <template #prefix><icon-park type="city-one" /></template>
+        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId" />
       </el-select>
 
-      <header-search id="header-search" class="right-menu-item" />
+      <header-search class="item" />
 
       <el-tooltip content="Github" effect="dark" placement="bottom">
-        <bit-git id="bit-git" class="right-menu-item hover-effect" />
+        <bit-git class="item" />
       </el-tooltip>
 
       <el-tooltip :content="$t('navbar.document')" effect="dark" placement="bottom">
-        <bit-doc id="bit-doc" class="right-menu-item hover-effect" />
+        <bit-doc class="item" />
       </el-tooltip>
 
       <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <screenfull class="item" />
       </el-tooltip>
 
       <el-tooltip :content="$t('navbar.language')" effect="dark" placement="bottom">
-        <lang-select id="lang-select" class="right-menu-item hover-effect" />
+        <lang-select class="item" />
       </el-tooltip>
 
       <el-tooltip :content="$t('navbar.layoutSize')" effect="dark" placement="bottom">
-        <size-select id="size-select" class="right-menu-item hover-effect" />
+        <size-select class="item" />
       </el-tooltip>
     </template>
-    <div class="avatar-container">
-      <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="userStore.avatar" class="user-avatar" />
-          <el-icon><caret-bottom /></el-icon>
-        </div>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <router-link to="/user/profile" v-if="!dynamic">
-              <el-dropdown-item>{{ $t('navbar.personalCenter') }}</el-dropdown-item>
-            </router-link>
-            <el-dropdown-item command="setLayout">
-              <span>{{ $t('navbar.layoutSetting') }}</span>
-            </el-dropdown-item>
-            <el-dropdown-item divided command="logout">
-              <span>{{ $t('navbar.logout') }}</span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
+    <el-avatar shape="circle" :size="40" :src="userStore.avatar" class="item">
+      <img :src="defAva" />
+    </el-avatar>
   </div>
 </template>
 
 <style scoped lang="scss">
-.right-menu {
-  float: right;
-  height: 100%;
-  line-height: 50px;
+.PersonalView {
   display: flex;
-
-  &:focus {
-    outline: none;
+  align-items: center;
+  .item {
+    margin: 0 6px;
+    font-size: 20px;
+    height: 60px;
   }
-
-  .right-menu-item {
-    display: inline-block;
-    padding: 0 8px;
-    height: 100%;
-    font-size: 18px;
-    color: #5a5e66;
-    vertical-align: text-bottom;
-
-    &.hover-effect {
-      cursor: pointer;
-      transition: background 0.3s;
-
-      &:hover {
-        background: rgba(0, 0, 0, 0.025);
-      }
-    }
-  }
-
-  .avatar-container {
-    margin-right: 40px;
-
-    .avatar-wrapper {
-      margin-top: 5px;
-      position: relative;
-
-      .user-avatar {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        margin-top: 10px;
-      }
-
-      i {
-        cursor: pointer;
-        position: absolute;
-        right: -20px;
-        top: 25px;
-        font-size: 12px;
-      }
+  .el-avatar {
+    background: #ffffff;
+    img {
+      width: 20px;
+      height: 20px;
     }
   }
 }

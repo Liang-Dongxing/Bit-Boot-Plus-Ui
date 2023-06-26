@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <svg-icon icon-class="question" @click="goto" />
-  </div>
+  <icon-park type="help" size="20" @click="goto" />
 </template>
 
 <script setup>
-const url = ref('https://javalionli.gitee.io/plus-doc');
+const url = ref('https://javalionli.gitee.io/plus-doc')
 
 function goto() {
   window.open(url.value)
