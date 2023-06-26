@@ -38,6 +38,7 @@
     "vue": "3.2.45",
     "vue-cropper": "1.0.3",
     "vue-i18n": "9.2.2",
+    "vue-resize-observer": "^2.0.15",
     "vue-router": "4.1.4"
   },
   "devDependencies": {

@@ -1,12 +1,30 @@
 <script setup lang="ts">
 import TagsView from '../TagsView/index.vue'
 import PersonalView from '../PersonalView/index.vue'
+
+import { Ref } from 'vue'
+
+const refTopbar = ref<HTMLElement>() as Ref<HTMLElement>
+const refTagsView = ref(TagsView)
+const refPersonalView = ref(PersonalView)
+const tagsViewWidth = ref(100)
+
+onMounted(() => {
+  onResize({
+    width: refPersonalView.value.$refs.personalView.offsetWidth,
+    height: refPersonalView.value.$refs.personalView.offsetHeight,
+  })
+})
+
+const onResize = (attribute: any) => {
+  tagsViewWidth.value = refTopbar.value.offsetWidth - attribute.width
+}
 </script>
 
 <template>
-  <div class="Topbar">
-    <TagsView />
-    <PersonalView />
+  <div ref="refTopbar" class="Topbar">
+    <TagsView ref="refTagsView" :style="{ width: tagsViewWidth + 'px' }" />
+    <PersonalView ref="refPersonalView" v-resize="onResize" />
   </div>
 </template>
 

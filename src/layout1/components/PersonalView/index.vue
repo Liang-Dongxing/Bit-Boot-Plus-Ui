@@ -69,7 +69,7 @@ const commandMap: { [key: string]: any } = {
 </script>
 
 <template>
-  <div class="PersonalView">
+  <div ref="personalView" class="PersonalView">
     <template v-if="appStore.device !== 'mobile'">
       <el-select
         v-if="userId === 1 && tenantEnabled"
@@ -106,7 +106,7 @@ const commandMap: { [key: string]: any } = {
         <size-select class="item" />
       </el-tooltip>
     </template>
-    <el-avatar shape="circle" :size="40" :src="userStore.avatar" class="item">
+    <el-avatar shape="circle" :size="40" :src="userStore.avatar">
       <img :src="defAva" />
     </el-avatar>
   </div>
@@ -116,17 +116,30 @@ const commandMap: { [key: string]: any } = {
 .PersonalView {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   .item {
-    margin: 0 6px;
+    padding: 0 6px;
     font-size: 20px;
     height: 60px;
+    display: flex;
+    align-items: center;
+    color: var(--el-text-color-primary);
+    cursor: pointer;
+  }
+  .item:hover {
+    background: var(--el-border-color);
   }
   .el-avatar {
     background: #ffffff;
+    cursor: pointer;
+    border: 2px solid var(--el-color-white);
     img {
       width: 20px;
       height: 20px;
     }
+  }
+  .el-avatar:hover {
+    border: 2px solid var(--el-border-color);
   }
 }
 </style>

@@ -10,7 +10,7 @@
   </section>
 </template>
 
-<script setup name="AppMain" lang="ts">
+<script setup lang="ts">
 import useTagsViewStore from '@/store/modules/tagsView'
 import useSettingsStore from '@/store/modules/settings'
 import { ComponentInternalInstance } from 'vue'

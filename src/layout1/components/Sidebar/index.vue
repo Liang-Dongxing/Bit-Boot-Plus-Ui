@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import usePermissionStore from '@/store/modules/permission'
-import MenuItem from '@/layout1/components/Sidebar/MenuItem.vue'
-import Logo from '@/layout1/components/Sidebar/Logo.vue'
+import MenuItem from './MenuItem.vue'
+import Logo from './Logo.vue'
 
 const permissionStore = usePermissionStore()
 

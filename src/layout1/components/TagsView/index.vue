@@ -31,34 +31,34 @@
         </div>
       </div>
     </div>
-  </div>
-  <div
-    v-show="visible"
-    class="el-popper is-pure is-light el-dropdown__popper"
-    style="z-index: 2056; position: absolute"
-    :style="{ left: left + 'px', top: top + 'px' }"
-    data-popper-placement="bottom">
-    <ul class="el-dropdown-menu">
-      <li class="el-dropdown-menu__item" @click="refreshSelectedTag(selectedTag)">
-        <el-icon class="is-icon-close"><refresh-right /></el-icon>刷新页面
-      </li>
-      <li v-if="!isAffix()" class="el-dropdown-menu__item" @click="closeSelectedTag(selectedTag)">
-        <el-icon class="is-icon-close"><close /></el-icon>关闭当前
-      </li>
-      <li class="el-dropdown-menu__item" @click="closeOthersTags">
-        <el-icon class="is-icon-close"><circle-close /></el-icon>关闭其他
-      </li>
-      <li v-if="!isFirstView()" class="el-dropdown-menu__item" @click="closeLeftTags">
-        <el-icon class="is-icon-close"><back /></el-icon>关闭左侧
-      </li>
-      <li v-if="!isLastView()" class="el-dropdown-menu__item" @click="closeRightTags">
-        <el-icon class="is-icon-close"><right /></el-icon>关闭右侧
-      </li>
-      <li class="el-dropdown-menu__item" @click="closeAllTags(selectedTag)">
-        <el-icon class="is-icon-close"><circle-close /></el-icon>全部关闭
-      </li>
-    </ul>
-    <span class="el-popper__arrow" data-popper-arrow="" style="position: absolute; left: 46px"></span>
+    <div
+      v-show="visible"
+      class="el-popper is-pure is-light el-dropdown__popper"
+      style="z-index: 2056; position: absolute"
+      :style="{ left: left + 'px', top: top + 'px' }"
+      data-popper-placement="bottom">
+      <ul class="el-dropdown-menu">
+        <li class="el-dropdown-menu__item" @click="refreshSelectedTag(selectedTag)">
+          <el-icon class="is-icon-close"><refresh-right /></el-icon>刷新页面
+        </li>
+        <li v-if="!isAffix()" class="el-dropdown-menu__item" @click="closeSelectedTag(selectedTag)">
+          <el-icon class="is-icon-close"><close /></el-icon>关闭当前
+        </li>
+        <li class="el-dropdown-menu__item" @click="closeOthersTags">
+          <el-icon class="is-icon-close"><circle-close /></el-icon>关闭其他
+        </li>
+        <li v-if="!isFirstView()" class="el-dropdown-menu__item" @click="closeLeftTags">
+          <el-icon class="is-icon-close"><back /></el-icon>关闭左侧
+        </li>
+        <li v-if="!isLastView()" class="el-dropdown-menu__item" @click="closeRightTags">
+          <el-icon class="is-icon-close"><right /></el-icon>关闭右侧
+        </li>
+        <li class="el-dropdown-menu__item" @click="closeAllTags(selectedTag)">
+          <el-icon class="is-icon-close"><circle-close /></el-icon>全部关闭
+        </li>
+      </ul>
+      <span class="el-popper__arrow" data-popper-arrow="" style="position: absolute; left: 46px"></span>
+    </div>
   </div>
 </template>
 

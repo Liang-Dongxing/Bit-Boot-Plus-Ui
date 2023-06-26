@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <el-dropdown trigger="click" @command="handleSetSize">
-      <icon-park type="add-text" size="20" />
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item
-            v-for="item of sizeOptions"
-            :key="item.value"
-            :disabled="size === item.value"
-            :command="item.value">
-            {{ item.label }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
-  </div>
+  <el-dropdown trigger="click" @command="handleSetSize">
+    <icon-park type="add-text" size="20" />
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item
+          v-for="item of sizeOptions"
+          :key="item.value"
+          :disabled="size === item.value"
+          :command="item.value">
+          {{ item.label }}
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
 </template>
 
 <script setup lang="ts">
