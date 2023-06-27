@@ -2,11 +2,11 @@
   <div class="relative" :style="{ width: width }">
     <el-input v-model="modelValue" readonly placeholder="点击选择图标" @click="visible = !visible">
       <template #prepend>
-        <svg-icon :icon-class="modelValue as string" />
+        <icon-park v-if="modelValue" :key="modelValue" :type="modelValue" />
       </template>
     </el-input>
 
-    <el-popover shadow="none" :visible="visible" placement="bottom-end" trigger="click" :width="450">
+    <el-popover shadow="none" :visible="visible" placement="bottom-end" trigger="click" :width="412">
       <template #reference>
         <div
           class="cursor-pointer text-[#999] absolute right-[10px] top-0 height-[32px] leading-[32px]"
@@ -18,26 +18,26 @@
 
       <el-input v-model="filterValue" class="p-2" placeholder="搜索图标" clearable @input="filterIcons" />
 
-      <el-scrollbar height="w-[200px]">
-        <ul class="icon-list">
-          <el-tooltip
-            v-for="(iconName, index) in iconNames"
-            :key="index"
-            :content="iconName"
-            placement="bottom"
-            effect="light">
-            <li :class="['icon-item', { active: modelValue == iconName }]" @click="selectedIcon(iconName)">
-              <svg-icon color="var(--el-text-color-regular)" :icon-class="iconName" />
-            </li>
-          </el-tooltip>
-        </ul>
-      </el-scrollbar>
+      <ul v-infinite-scroll="load" class="icon-list">
+        <el-tooltip
+          v-for="(icon, index) in iconNames"
+          :key="index"
+          :content="icon.title"
+          placement="bottom"
+          effect="light">
+          <li :class="['icon-item', { active: modelValue == icon.name }]" @click="selectedIcon(icon.name)">
+            <icon-park :key="icon.name" :type="icon.name" />
+          </li>
+        </el-tooltip>
+      </ul>
     </el-popover>
   </div>
 </template>
 
 <script setup lang="ts">
 import icons from '@/components/IconSelect/requireIcons'
+import { getCurrentInstance } from 'vue'
+import { ComponentInternalInstance } from 'vue/dist/vue'
 
 const props = defineProps({
   modelValue: {
@@ -51,21 +51,28 @@ const props = defineProps({
   },
 })
 
+const { proxy } = getCurrentInstance() as ComponentInternalInstance
+
 const emit = defineEmits(['update:modelValue'])
 const visible = ref(false)
 const { modelValue, width } = toRefs(props)
-const iconNames = ref<string[]>(icons)
+const iconAll = ref<any[]>(icons)
+const iconNames = ref<any[]>([])
 
 const filterValue = ref('')
+
+const load = () => {
+  iconNames.value = iconAll.value.slice(0, iconNames.value?.length + 100)
+}
 
 /**
  * 筛选图标
  */
 const filterIcons = () => {
   if (filterValue.value) {
-    iconNames.value = icons.filter((iconName) => iconName.includes(filterValue.value))
+    iconNames.value = icons.filter((iconName) => iconName.title.includes(filterValue.value))
   } else {
-    iconNames.value = icons
+    load()
   }
 }
 /**
@@ -83,21 +90,20 @@ const selectedIcon = (iconName: string) => {
   margin: 10px auto !important;
 }
 .icon-list {
+  height: 200px;
   display: flex;
   flex-wrap: wrap;
-  padding-left: 10px;
-  margin-top: 10px;
+  list-style: none;
+  overflow: auto;
 
   .icon-item {
+    width: 28px;
+    height: 28px;
     cursor: pointer;
-    width: 10%;
-    margin: 0 10px 10px 0;
+    margin: 5px;
     padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
     border: 1px solid #ccc;
+    font-size: 16px;
     &:hover {
       border-color: var(--el-color-primary);
       color: var(--el-color-primary);
