@@ -2,7 +2,7 @@
 import { PropType } from 'vue'
 import { RouteOption } from 'vue-router'
 import { isExternal } from '@/utils/validate'
-import { getNormalPath } from '@/utils/bit'
+import { getNormalPath } from '@/utils/om'
 
 const props = defineProps({
   item: {

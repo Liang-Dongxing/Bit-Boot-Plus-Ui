@@ -38,6 +38,12 @@ const onResize = (attribute: any) => {
     .el-tabs__nav-prev {
       line-height: var(--el-tabs-header-height);
     }
+    .el-tabs__nav-next {
+      border-right: solid 1px var(--el-menu-border-color);
+    }
+    .el-tabs__nav-prev {
+      //border-left: solid 1px var(--el-menu-border-color);
+    }
     .el-tabs__nav {
       border-radius: unset;
     }

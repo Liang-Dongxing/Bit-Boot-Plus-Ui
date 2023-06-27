@@ -20,7 +20,7 @@ const title = useSettingsStore().appTitle
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 0;
+  height: 60px;
 
   .sidebar-logo {
     width: 32px;
@@ -32,6 +32,7 @@ const title = useSettingsStore().appTitle
     color: var(--el-text-color-primary);
     font-weight: bold;
     white-space: nowrap;
+    font-size: 13px;
   }
 }
 </style>
