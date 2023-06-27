@@ -1,15 +1,14 @@
 <template>
   <div class="el-tree-select">
     <el-select
-      style="width: 100%"
-      v-model="valueId"
       ref="treeSelect"
+      v-model="valueId"
+      style="width: 100%"
       :filterable="true"
       :clearable="true"
-      @clear="clearHandle"
       :filter-method="selectFilterData"
       :placeholder="placeholder"
-    >
+      @clear="clearHandle">
       <el-option :value="valueId" :label="valueTitle">
         <el-tree
           id="tree-option"
@@ -21,8 +20,7 @@
           :expand-on-click-node="false"
           :default-expanded-keys="defaultExpandedKey"
           :filter-node-method="filterNode"
-          @node-click="handleNodeClick"
-        ></el-tree>
+          @node-click="handleNodeClick"></el-tree>
       </el-option>
     </el-select>
   </div>
@@ -34,72 +32,71 @@ import { ElTreeSelect } from 'element-plus'
 const props = defineProps({
   /* 配置项 */
   objMap: {
-  type: Object,
-  default: () => {
-    return {
-    value: 'id', // ID字段名
-    label: 'label', // 显示名称
-    children: 'children' // 子级字段名
-    }
-  }
+    type: Object,
+    default: () => {
+      return {
+        value: 'id', // ID字段名
+        label: 'label', // 显示名称
+        children: 'children', // 子级字段名
+      }
+    },
   },
   /* 自动收起 */
   accordion: {
-  type: Boolean,
-  default: () => {
-    return false
-  }
+    type: Boolean,
+    default: () => {
+      return false
+    },
   },
   /**当前双向数据绑定的值 */
   value: {
-  type: [String, Number],
-  default: ''
+    type: [String, Number],
+    default: '',
   },
   /**当前的数据 */
   options: {
-  type: Array,
-  default: () => []
+    type: Array,
+    default: () => [],
   },
   /**输入框内部的文字 */
   placeholder: {
-  type: String,
-  default: ''
-  }
+    type: String,
+    default: '',
+  },
 })
 
+const selectTree = ref(ElTreeSelect)
 
-const selectTree = ref(ElTreeSelect);
-
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value'])
 
 const valueId = computed({
   get: () => props.value,
   set: (val) => {
-  emit('update:value', val)
-  }
-});
-const valueTitle = ref('');
-const defaultExpandedKey = ref<any[]>([]);
+    emit('update:value', val)
+  },
+})
+const valueTitle = ref('')
+const defaultExpandedKey = ref<any[]>([])
 
 function initHandle() {
   nextTick(() => {
-  const selectedValue = valueId.value;
-  if(selectedValue !== null && typeof (selectedValue) !== 'undefined') {
-    const node = selectTree.value.getNode(selectedValue)
-    if (node) {
-    valueTitle.value = node.data[props.objMap.label]
-    selectTree.value.setCurrentKey(selectedValue) // 设置默认选中
-    defaultExpandedKey.value = [selectedValue] // 设置默认展开
+    const selectedValue = valueId.value
+    if (selectedValue !== null && typeof selectedValue !== 'undefined') {
+      const node = selectTree.value.getNode(selectedValue)
+      if (node) {
+        valueTitle.value = node.data[props.objMap.label]
+        selectTree.value.setCurrentKey(selectedValue) // 设置默认选中
+        defaultExpandedKey.value = [selectedValue] // 设置默认展开
+      }
+    } else {
+      clearHandle()
     }
-  } else {
-    clearHandle()
-  }
   })
 }
 function handleNodeClick(node: any) {
   valueTitle.value = node[props.objMap.label]
-  valueId.value = node[props.objMap.value];
-  defaultExpandedKey.value = [];
+  valueId.value = node[props.objMap.value]
+  defaultExpandedKey.value = []
   selectTree.value.blur()
   selectFilterData('')
 }
@@ -113,7 +110,7 @@ function filterNode(value: any, data: any) {
 function clearHandle() {
   valueTitle.value = ''
   valueId.value = ''
-  defaultExpandedKey.value = [];
+  defaultExpandedKey.value = []
   clearSelected()
 }
 function clearSelected() {
@@ -126,12 +123,12 @@ onMounted(() => {
 })
 
 watch(valueId, () => {
-  initHandle();
+  initHandle()
 })
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.module.scss";
+@import '@/assets/styles/variables.module.scss';
 .el-scrollbar .el-scrollbar__view .el-select-dropdown__item {
   padding: 0;
   background-color: #fff;

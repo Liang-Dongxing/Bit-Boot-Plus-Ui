@@ -1,29 +1,43 @@
 <template>
-  <el-drawer v-model="showSettings" :withHeader="false" direction="rtl" size="300px" close-on-click-modal>
+  <el-drawer v-model="showSettings" :with-header="false" direction="rtl" size="300px" close-on-click-modal>
     <div class="setting-drawer-title">
       <h3 class="drawer-title">主题风格设置</h3>
     </div>
     <div class="setting-drawer-block-checbox">
       <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-dark')">
         <img src="@/assets/images/dark.svg" alt="dark" />
-        <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
+        <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block">
           <i aria-label="图标: check" class="anticon anticon-check">
-            <svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" :fill="theme" aria-hidden="true" focusable="false" class>
+            <svg
+              viewBox="64 64 896 896"
+              data-icon="check"
+              width="1em"
+              height="1em"
+              :fill="theme"
+              aria-hidden="true"
+              focusable="false"
+              class>
               <path
-                d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"
-              />
+                d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z" />
             </svg>
           </i>
         </div>
       </div>
       <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-light')">
         <img src="@/assets/images/light.svg" alt="light" />
-        <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
+        <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block">
           <i aria-label="图标: check" class="anticon anticon-check">
-            <svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" :fill="theme" aria-hidden="true" focusable="false" class>
+            <svg
+              viewBox="64 64 896 896"
+              data-icon="check"
+              width="1em"
+              height="1em"
+              :fill="theme"
+              aria-hidden="true"
+              focusable="false"
+              class>
               <path
-                d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"
-              />
+                d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z" />
             </svg>
           </i>
         </div>
@@ -87,99 +101,100 @@ import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
 import { handleThemeStyle } from '@/utils/theme'
-import { ComponentInternalInstance } from "vue";
-import { SettingTypeEnum } from "@/enums/SettingTypeEnum";
+import { ComponentInternalInstance } from 'vue'
+import { SettingTypeEnum } from '@/enums/SettingTypeEnum'
 
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
+const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const appStore = useAppStore()
 const settingsStore = useSettingsStore()
 const permissionStore = usePermissionStore()
 
-
-const showSettings = ref(false);
-const theme = ref(settingsStore.theme);
-const sideTheme = ref(settingsStore.sideTheme);
-const storeSettings = computed(() => settingsStore);
-const predefineColors = ref(["#409EFF", "#ff4500", "#ff8c00", "#ffd700", "#90ee90", "#00ced1", "#1e90ff", "#c71585"]);
+const showSettings = ref(false)
+const theme = ref(settingsStore.theme)
+const sideTheme = ref(settingsStore.sideTheme)
+const storeSettings = computed(() => settingsStore)
+const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585'])
 
 /** 是否需要topnav */
 const topNav = computed({
-    get: () => storeSettings.value.topNav,
-    set: (val) => {
-        settingsStore.changeSetting({ key: SettingTypeEnum.TOP_NAV, value: val })
-        if (!val) {
-            appStore.toggleSideBarHide(false);
-            permissionStore.setSidebarRouters(permissionStore.defaultRoutes);
-        }
+  get: () => storeSettings.value.topNav,
+  set: (val) => {
+    settingsStore.changeSetting({ key: SettingTypeEnum.TOP_NAV, value: val })
+    if (!val) {
+      appStore.toggleSideBarHide(false)
+      permissionStore.setSidebarRouters(permissionStore.defaultRoutes)
     }
+  },
 })
 /** 是否需要tagview */
 const tagsView = computed({
-    get: () => storeSettings.value.tagsView,
-    set: (val) => {
-        settingsStore.changeSetting({ key: SettingTypeEnum.TAGS_VIEW, value: val })
-    }
+  get: () => storeSettings.value.tagsView,
+  set: (val) => {
+    settingsStore.changeSetting({ key: SettingTypeEnum.TAGS_VIEW, value: val })
+  },
 })
 /**是否需要固定头部 */
 const fixedHeader = computed({
-    get: () => storeSettings.value.fixedHeader,
-    set: (val) => {
-        settingsStore.changeSetting({ key: SettingTypeEnum.FIXED_HEADER, value: val })
-    }
+  get: () => storeSettings.value.fixedHeader,
+  set: (val) => {
+    settingsStore.changeSetting({ key: SettingTypeEnum.FIXED_HEADER, value: val })
+  },
 })
 /**是否需要侧边栏的logo */
 const sidebarLogo = computed({
-    get: () => storeSettings.value.sidebarLogo,
-    set: (val) => {
-        settingsStore.changeSetting({ key: SettingTypeEnum.SIDEBAR_LOGO, value: val })
-    }
+  get: () => storeSettings.value.sidebarLogo,
+  set: (val) => {
+    settingsStore.changeSetting({ key: SettingTypeEnum.SIDEBAR_LOGO, value: val })
+  },
 })
 /**是否需要侧边栏的动态网页的title */
 const dynamicTitle = computed({
-    get: () => storeSettings.value.dynamicTitle,
-    set: (val) => {
-        settingsStore.changeSetting({ key: SettingTypeEnum.DYNAMIC_TITLE, value: val })
-        // 动态设置网页标题
-        useDynamicTitle()
-    }
+  get: () => storeSettings.value.dynamicTitle,
+  set: (val) => {
+    settingsStore.changeSetting({ key: SettingTypeEnum.DYNAMIC_TITLE, value: val })
+    // 动态设置网页标题
+    useDynamicTitle()
+  },
 })
 
 const themeChange = (val: string | null) => {
-    settingsStore.changeSetting({ key: SettingTypeEnum.THEME, value: val })
-    theme.value = val;
-    if (val) {
-        handleThemeStyle(val);
-    }
+  settingsStore.changeSetting({ key: SettingTypeEnum.THEME, value: val })
+  theme.value = val
+  if (val) {
+    handleThemeStyle(val)
+  }
 }
 const handleTheme = (val: string) => {
-    settingsStore.changeSetting({ key: SettingTypeEnum.SIDE_THEME, value: val })
-    sideTheme.value = val;
+  settingsStore.changeSetting({ key: SettingTypeEnum.SIDE_THEME, value: val })
+  sideTheme.value = val
 }
 const saveSetting = () => {
-    proxy?.$modal.loading("正在保存到本地，请稍候...");
-    let layoutSetting = {
-        "topNav": storeSettings.value.topNav,
-        "tagsView": storeSettings.value.tagsView,
-        "fixedHeader": storeSettings.value.fixedHeader,
-        "sidebarLogo": storeSettings.value.sidebarLogo,
-        "dynamicTitle": storeSettings.value.dynamicTitle,
-        "sideTheme": storeSettings.value.sideTheme,
-        "theme": storeSettings.value.theme
-    };
-    localStorage.setItem("layout-setting", JSON.stringify(layoutSetting));
-    setTimeout(() => {proxy?.$modal.closeLoading()}, 1000)
+  proxy?.$modal.loading('正在保存到本地，请稍候...')
+  let layoutSetting = {
+    topNav: storeSettings.value.topNav,
+    tagsView: storeSettings.value.tagsView,
+    fixedHeader: storeSettings.value.fixedHeader,
+    sidebarLogo: storeSettings.value.sidebarLogo,
+    dynamicTitle: storeSettings.value.dynamicTitle,
+    sideTheme: storeSettings.value.sideTheme,
+    theme: storeSettings.value.theme,
+  }
+  localStorage.setItem('layout-setting', JSON.stringify(layoutSetting))
+  setTimeout(() => {
+    proxy?.$modal.closeLoading()
+  }, 1000)
 }
 const resetSetting = () => {
-    proxy?.$modal.loading("正在清除设置缓存并刷新，请稍候...");
-    localStorage.removeItem("layout-setting")
-    setTimeout("window.location.reload()", 1000)
+  proxy?.$modal.loading('正在清除设置缓存并刷新，请稍候...')
+  localStorage.removeItem('layout-setting')
+  setTimeout('window.location.reload()', 1000)
 }
 const openSetting = () => {
-    showSettings.value = true;
+  showSettings.value = true
 }
 
 defineExpose({
-    openSetting,
+  openSetting,
 })
 </script>
 

@@ -50,6 +50,6 @@ const setting: DefaultSettings = {
 
   animationEnable: false,
 
-  dark: false
-};
-export default setting;
+  dark: false,
+}
+export default setting

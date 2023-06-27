@@ -2,89 +2,89 @@ export interface DemoVO {
   /**
    * 主键
    */
-  id: string | number;
+  id: string | number
 
   /**
    * 部门id
    */
-  deptId: string | number;
+  deptId: string | number
 
   /**
    * 用户id
    */
-  userId: string | number;
+  userId: string | number
 
   /**
    * 排序号
    */
-  orderNum: number;
+  orderNum: number
 
   /**
    * key键
    */
-  testKey: string;
+  testKey: string
 
   /**
    * 值
    */
-  value: string;
+  value: string
 }
 
 export interface DemoForm extends BaseEntity {
   /**
    * 主键
    */
-  id?: string | number;
+  id?: string | number
 
   /**
    * 部门id
    */
-  deptId?: string | number;
+  deptId?: string | number
 
   /**
    * 用户id
    */
-  userId?: string | number;
+  userId?: string | number
 
   /**
    * 排序号
    */
-  orderNum?: number;
+  orderNum?: number
 
   /**
    * key键
    */
-  testKey?: string;
+  testKey?: string
 
   /**
    * 值
    */
-  value?: string;
+  value?: string
 }
 
 export interface DemoQuery extends PageQuery {
   /**
    * 部门id
    */
-  deptId?: string | number;
+  deptId?: string | number
 
   /**
    * 用户id
    */
-  userId?: string | number;
+  userId?: string | number
 
   /**
    * 排序号
    */
-  orderNum?: number;
+  orderNum?: number
 
   /**
    * key键
    */
-  testKey?: string;
+  testKey?: string
 
   /**
    * 值
    */
-  value?: string;
+  value?: string
 }

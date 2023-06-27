@@ -1,11 +1,11 @@
-import { defineStore } from 'pinia';
-import defaultSettings from '@/settings';
-import { SettingTypeEnum } from '@/enums/SettingTypeEnum';
-import { useDynamicTitle } from '@/utils/dynamicTitle';
-import { Ref } from 'vue';
+import { defineStore } from 'pinia'
+import defaultSettings from '@/settings'
+import { SettingTypeEnum } from '@/enums/SettingTypeEnum'
+import { useDynamicTitle } from '@/utils/dynamicTitle'
+import { Ref } from 'vue'
 
 export const useSettingsStore = defineStore('setting', () => {
-  const storageSetting = JSON.parse(localStorage.getItem('layout-setting') || '{}');
+  const storageSetting = JSON.parse(localStorage.getItem('layout-setting') || '{}')
 
   const prop: { [key: string]: Ref<any> } = {
     title: ref<string>(''),
@@ -19,22 +19,35 @@ export const useSettingsStore = defineStore('setting', () => {
     sidebarLogo: ref<boolean>(storageSetting.sidebarLogo || defaultSettings.sidebarLogo),
     dynamicTitle: ref<boolean>(storageSetting.dynamicTitle || defaultSettings.dynamicTitle),
     animationEnable: ref<boolean>(storageSetting.animationEnable || defaultSettings.animationEnable),
-    dark: ref<boolean>(storageSetting.dark || defaultSettings.dark)
-  };
+    dark: ref<boolean>(storageSetting.dark || defaultSettings.dark),
+  }
 
-  const { title, appTitle, theme, sideTheme, showSettings, topNav, tagsView, fixedHeader, sidebarLogo, dynamicTitle, animationEnable, dark } = prop;
+  const {
+    title,
+    appTitle,
+    theme,
+    sideTheme,
+    showSettings,
+    topNav,
+    tagsView,
+    fixedHeader,
+    sidebarLogo,
+    dynamicTitle,
+    animationEnable,
+    dark,
+  } = prop
 
   // actions
   const changeSetting = (param: { key: SettingTypeEnum; value: any }) => {
-    const { key, value } = param;
+    const { key, value } = param
     if (key in prop) {
-      prop[key].value = value;
+      prop[key].value = value
     }
-  };
+  }
   const setTitle = (value: string) => {
-    title.value = value;
-    useDynamicTitle();
-  };
+    title.value = value
+    useDynamicTitle()
+  }
   return {
     title,
     appTitle,
@@ -49,8 +62,8 @@ export const useSettingsStore = defineStore('setting', () => {
     animationEnable,
     dark,
     changeSetting,
-    setTitle
-  };
-});
+    setTitle,
+  }
+})
 
-export default useSettingsStore;
+export default useSettingsStore

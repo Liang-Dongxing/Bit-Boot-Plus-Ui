@@ -12,5 +12,5 @@ export enum SettingTypeEnum {
   LAYOUT = 'layout',
   DARK = 'dark',
 
-  LAYOUT_SETTING = 'layout-setting'
+  LAYOUT_SETTING = 'layout-setting',
 }

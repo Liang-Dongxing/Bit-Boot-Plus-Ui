@@ -1,58 +1,58 @@
-import zhCN from 'element-plus/es/locale/lang/zh-cn';
-import enUS from 'element-plus/es/locale/lang/en';
+import zhCN from 'element-plus/es/locale/lang/zh-cn'
+import enUS from 'element-plus/es/locale/lang/en'
 
 export const useAppStore = defineStore('app', () => {
-  const sidebarStatus = useStorage('sidebarStatus', '1');
+  const sidebarStatus = useStorage('sidebarStatus', '1')
   const sidebar = reactive({
     opened: sidebarStatus.value ? !!+sidebarStatus.value : true,
     withoutAnimation: false,
-    hide: false
-  });
-  const device = ref<string>('desktop');
-  const size = useStorage('size', 'default');
+    hide: false,
+  })
+  const device = ref<string>('desktop')
+  const size = useStorage('size', 'default')
 
   // 语言
-  const language = useStorage('language', 'zh_CN');
+  const language = useStorage('language', 'zh_CN')
   const languageObj: any = {
     en_US: enUS,
-    zh_CN: zhCN
-  };
+    zh_CN: zhCN,
+  }
   const locale = computed(() => {
-    return languageObj[language.value];
-  });
+    return languageObj[language.value]
+  })
 
   const toggleSideBar = (withoutAnimation: boolean) => {
     if (sidebar.hide) {
-      return false;
+      return false
     }
 
-    sidebar.opened = !sidebar.opened;
-    sidebar.withoutAnimation = withoutAnimation;
+    sidebar.opened = !sidebar.opened
+    sidebar.withoutAnimation = withoutAnimation
     if (sidebar.opened) {
-      sidebarStatus.value = '1';
+      sidebarStatus.value = '1'
     } else {
-      sidebarStatus.value = '0';
+      sidebarStatus.value = '0'
     }
-  };
+  }
 
   const closeSideBar = ({ withoutAnimation }: any): void => {
-    sidebarStatus.value = '0';
-    sidebar.opened = false;
-    sidebar.withoutAnimation = withoutAnimation;
-  };
+    sidebarStatus.value = '0'
+    sidebar.opened = false
+    sidebar.withoutAnimation = withoutAnimation
+  }
   const toggleDevice = (d: string): void => {
-    device.value = d;
-  };
+    device.value = d
+  }
   const setSize = (s: string): void => {
-    size.value = s;
-  };
+    size.value = s
+  }
   const toggleSideBarHide = (status: boolean): void => {
-    sidebar.hide = status;
-  };
+    sidebar.hide = status
+  }
 
   const changeLanguage = (val: string): void => {
-    language.value = val;
-  };
+    language.value = val
+  }
 
   return {
     device,
@@ -65,8 +65,8 @@ export const useAppStore = defineStore('app', () => {
     closeSideBar,
     toggleDevice,
     setSize,
-    toggleSideBarHide
-  };
-});
+    toggleSideBarHide,
+  }
+})
 
-export default useAppStore;
+export default useAppStore

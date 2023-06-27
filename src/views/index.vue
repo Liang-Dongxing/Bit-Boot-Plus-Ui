@@ -38,8 +38,18 @@
           <el-tag type="danger">&yen;免费开源</el-tag>
         </p>
         <p>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://github.com/Liang-Dongxing/Bit-Boot-Plus')">访问GitHub</el-button>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://javalionli.gitee.io/plus-doc/#/ruoyi-vue-plus/changlog')"
+          <el-button
+            type="primary"
+            icon="Cloudy"
+            plain
+            @click="goTarget('https://github.com/Liang-Dongxing/Bit-Boot-Plus')"
+            >访问GitHub</el-button
+          >
+          <el-button
+            type="primary"
+            icon="Cloudy"
+            plain
+            @click="goTarget('https://javalionli.gitee.io/plus-doc/#/ruoyi-vue-plus/changlog')"
             >更新日志</el-button
           >
         </p>
@@ -82,8 +92,18 @@
           <el-tag type="danger">&yen;免费开源</el-tag>
         </p>
         <p>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://github.com/Liang-Dongxing/Bit-Boot-Plus')">访问GitHub</el-button>
-          <el-button type="primary" icon="Cloudy" plain @click="goTarget('https://javalionli.gitee.io/plus-doc/#/ruoyi-cloud-plus/changlog')"
+          <el-button
+            type="primary"
+            icon="Cloudy"
+            plain
+            @click="goTarget('https://github.com/Liang-Dongxing/Bit-Boot-Plus')"
+            >访问GitHub</el-button
+          >
+          <el-button
+            type="primary"
+            icon="Cloudy"
+            plain
+            @click="goTarget('https://javalionli.gitee.io/plus-doc/#/ruoyi-cloud-plus/changlog')"
             >更新日志</el-button
           >
         </p>
@@ -94,8 +114,7 @@
 </template>
 
 <script setup name="Index" lang="ts">
-
-const goTarget = (url:string) => {
+const goTarget = (url: string) => {
   window.open(url, '__blank')
 }
 </script>
@@ -123,7 +142,7 @@ const goTarget = (url:string) => {
     margin: 0;
   }
 
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;

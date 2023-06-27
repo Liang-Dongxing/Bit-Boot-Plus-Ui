@@ -2,7 +2,7 @@ export default {
   // 路由国际化
   route: {
     dashboard: '首页',
-    document: '项目文档'
+    document: '项目文档',
   },
   // 登录页面国际化
   login: {
@@ -10,7 +10,7 @@ export default {
     password: '密码',
     login: '登 录',
     code: '请输入验证码',
-    copyright: ''
+    copyright: '',
   },
   navbar: {
     full: '全屏',
@@ -21,6 +21,6 @@ export default {
     selectTenant: '选择租户',
     layoutSetting: '布局设置',
     personalCenter: '个人中心',
-    logout: '退出登录'
-  }
-};
+    logout: '退出登录',
+  },
+}

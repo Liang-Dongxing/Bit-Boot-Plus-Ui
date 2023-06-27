@@ -1,10 +1,10 @@
-import { UserConfig, ConfigEnv, loadEnv, defineConfig } from 'vite';
+import { UserConfig, ConfigEnv, loadEnv, defineConfig } from 'vite'
 
-import createPlugins from './vite/plugins';
+import createPlugins from './vite/plugins'
 
-import path from 'path';
+import path from 'path'
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
-  const env = loadEnv(mode, process.cwd());
+  const env = loadEnv(mode, process.cwd())
   return {
     // 部署生产环境和开发环境下的URL。
     // 默认情况下，vite 会假设你的应用是被部署在一个域名的根路径上
@@ -14,9 +14,9 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
       alias: {
         '~': path.resolve(__dirname, './'),
         '@': path.resolve(__dirname, './src'),
-        'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js'
+        'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
       },
-      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
     // https://cn.vitejs.dev/config/#resolve-extensions
     plugins: createPlugins(env, command === 'build'),
@@ -28,15 +28,15 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         [env.VITE_APP_BASE_API]: {
           target: 'http://localhost:8080',
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
-        }
-      }
+          rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
+        },
+      },
     },
     css: {
       preprocessorOptions: {
         scss: {
-          javascriptEnabled: true
-        }
+          javascriptEnabled: true,
+        },
       },
       postcss: {
         plugins: [
@@ -45,13 +45,13 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
             AtRule: {
               charset: (atRule) => {
                 if (atRule.name === 'charset') {
-                  atRule.remove();
+                  atRule.remove()
                 }
-              }
-            }
-          }
-        ]
-      }
+              },
+            },
+          },
+        ],
+      },
     },
     // 预编译
     optimizeDeps: {
@@ -111,8 +111,8 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         'element-plus/es/components/transfer/style/css',
         'element-plus/es/components/tabs/style/css',
         'element-plus/es/components/image/style/css',
-        'element-plus/es/components/tab-pane/style/css'
-      ]
-    }
-  };
-});
+        'element-plus/es/components/tab-pane/style/css',
+      ],
+    },
+  }
+})

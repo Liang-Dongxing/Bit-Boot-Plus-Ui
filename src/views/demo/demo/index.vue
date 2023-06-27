@@ -1,8 +1,10 @@
 <template>
   <div class="p-2">
-    <transition :enter-active-class="proxy?.animate.searchAnimate.enter" :leave-active-class="proxy?.animate.searchAnimate.leave">
-      <div class="search" v-show="showSearch">
-        <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="68px">
+    <transition
+      :enter-active-class="proxy?.animate.searchAnimate.enter"
+      :leave-active-class="proxy?.animate.searchAnimate.leave">
+      <div v-show="showSearch" class="search">
+        <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="部门id" prop="deptId">
             <el-input v-model="queryParams.deptId" placeholder="请输入部门id" clearable @keyup.enter="handleQuery" />
           </el-form-item>
@@ -30,16 +32,36 @@
       <template #header>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['demo:demo:add']">新增</el-button>
+            <el-button v-hasPermi="['demo:demo:add']" type="primary" plain icon="Plus" @click="handleAdd"
+              >新增</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate()" v-hasPermi="['demo:demo:edit']">修改</el-button>
+            <el-button
+              v-hasPermi="['demo:demo:edit']"
+              type="success"
+              plain
+              icon="Edit"
+              :disabled="single"
+              @click="handleUpdate()"
+              >修改</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete()" v-hasPermi="['demo:demo:remove']">删除</el-button>
+            <el-button
+              v-hasPermi="['demo:demo:remove']"
+              type="danger"
+              plain
+              icon="Delete"
+              :disabled="multiple"
+              @click="handleDelete()"
+              >删除</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['demo:demo:export']">导出</el-button>
+            <el-button v-hasPermi="['demo:demo:export']" type="warning" plain icon="Download" @click="handleExport"
+              >导出</el-button
+            >
           </el-col>
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -47,7 +69,7 @@
 
       <el-table v-loading="loading" :data="demoList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="主键" align="center" prop="id" v-if="true" />
+        <el-table-column v-if="true" label="主键" align="center" prop="id" />
         <el-table-column label="部门id" align="center" prop="deptId" />
         <el-table-column label="用户id" align="center" prop="userId" />
         <el-table-column label="排序号" align="center" prop="orderNum" />
@@ -56,25 +78,34 @@
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template #default="scope">
             <el-tooltip content="修改" placement="top">
-              <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['demo:demo:edit']"></el-button>
+              <el-button
+                v-hasPermi="['demo:demo:edit']"
+                link
+                type="primary"
+                icon="Edit"
+                @click="handleUpdate(scope.row)"></el-button>
             </el-tooltip>
             <el-tooltip content="删除" placement="top">
-              <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['demo:demo:remove']"></el-button>
+              <el-button
+                v-hasPermi="['demo:demo:remove']"
+                link
+                type="primary"
+                icon="Delete"
+                @click="handleDelete(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
 
       <pagination
-          v-show="total>0"
-          :total="total"
-          v-model:page="queryParams.pageNum"
-          v-model:limit="queryParams.pageSize"
-          @pagination="getList"
-      />
+        v-show="total > 0"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        :total="total"
+        @pagination="getList" />
     </el-card>
     <!-- 添加或修改测试单对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
+    <el-dialog v-model="dialog.visible" :title="dialog.title" width="500px" append-to-body>
       <el-form ref="demoFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="部门id" prop="deptId">
           <el-input v-model="form.deptId" placeholder="请输入部门id" />
@@ -103,29 +134,29 @@
 </template>
 
 <script setup name="Demo" lang="ts">
-import { listDemo, getDemo, delDemo, addDemo, updateDemo } from '@/api/demo/demo';
-import { DemoVO, DemoQuery, DemoForm } from '@/api/demo/demo/types';
-import { ComponentInternalInstance } from 'vue';
-import { ElForm } from 'element-plus';
+import { listDemo, getDemo, delDemo, addDemo, updateDemo } from '@/api/demo/demo'
+import { DemoVO, DemoQuery, DemoForm } from '@/api/demo/demo/types'
+import { ComponentInternalInstance } from 'vue'
+import { ElForm } from 'element-plus'
 
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
+const { proxy } = getCurrentInstance() as ComponentInternalInstance
 
-const demoList = ref<DemoVO[]>([]);
-const buttonLoading = ref(false);
-const loading = ref(true);
-const showSearch = ref(true);
-const ids = ref<Array<string | number>>([]);
-const single = ref(true);
-const multiple = ref(true);
-const total = ref(0);
+const demoList = ref<DemoVO[]>([])
+const buttonLoading = ref(false)
+const loading = ref(true)
+const showSearch = ref(true)
+const ids = ref<Array<string | number>>([])
+const single = ref(true)
+const multiple = ref(true)
+const total = ref(0)
 
-const queryFormRef = ref(ElForm);
-const demoFormRef = ref(ElForm);
+const queryFormRef = ref(ElForm)
+const demoFormRef = ref(ElForm)
 
 const dialog = reactive<DialogOption>({
   visible: false,
-  title: ''
-});
+  title: '',
+})
 
 const initFormData: DemoForm = {
   id: undefined,
@@ -136,7 +167,7 @@ const initFormData: DemoForm = {
   value: undefined,
 }
 const data = reactive<PageData<DemoForm, DemoQuery>>({
-  form: {...initFormData},
+  form: { ...initFormData },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -147,126 +178,118 @@ const data = reactive<PageData<DemoForm, DemoQuery>>({
     value: undefined,
   },
   rules: {
-    id: [
-      { required: true, message: "主键不能为空", trigger: "blur" }
-    ],
-    deptId: [
-      { required: true, message: "部门id不能为空", trigger: "blur" }
-    ],
-    userId: [
-      { required: true, message: "用户id不能为空", trigger: "blur" }
-    ],
-    orderNum: [
-      { required: true, message: "排序号不能为空", trigger: "blur" }
-    ],
-    testKey: [
-      { required: true, message: "key键不能为空", trigger: "blur" }
-    ],
-    value: [
-      { required: true, message: "值不能为空", trigger: "blur" }
-    ],
-  }
-});
+    id: [{ required: true, message: '主键不能为空', trigger: 'blur' }],
+    deptId: [{ required: true, message: '部门id不能为空', trigger: 'blur' }],
+    userId: [{ required: true, message: '用户id不能为空', trigger: 'blur' }],
+    orderNum: [{ required: true, message: '排序号不能为空', trigger: 'blur' }],
+    testKey: [{ required: true, message: 'key键不能为空', trigger: 'blur' }],
+    value: [{ required: true, message: '值不能为空', trigger: 'blur' }],
+  },
+})
 
-const { queryParams, form, rules } = toRefs(data);
+const { queryParams, form, rules } = toRefs(data)
 
 /** 查询测试单列表 */
 const getList = async () => {
-  loading.value = true;
-  const res = await listDemo(queryParams.value);
-  demoList.value = res.rows;
-  total.value = res.total;
-  loading.value = false;
+  loading.value = true
+  const res = await listDemo(queryParams.value)
+  demoList.value = res.rows
+  total.value = res.total
+  loading.value = false
 }
 
 /** 取消按钮 */
 const cancel = () => {
-  reset();
-  dialog.visible = false;
+  reset()
+  dialog.visible = false
 }
 
 /** 表单重置 */
 const reset = () => {
-  form.value = {...initFormData};
-  demoFormRef.value.resetFields();
+  form.value = { ...initFormData }
+  demoFormRef.value.resetFields()
 }
 
 /** 搜索按钮操作 */
 const handleQuery = () => {
-  queryParams.value.pageNum = 1;
-  getList();
+  queryParams.value.pageNum = 1
+  getList()
 }
 
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields();
-  handleQuery();
+  queryFormRef.value.resetFields()
+  handleQuery()
 }
 
 /** 多选框选中数据 */
 const handleSelectionChange = (selection: DemoVO[]) => {
-  ids.value = selection.map(item => item.id);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
+  ids.value = selection.map((item) => item.id)
+  single.value = selection.length != 1
+  multiple.value = !selection.length
 }
 
 /** 新增按钮操作 */
 const handleAdd = () => {
-  dialog.visible = true;
-  dialog.title = "添加测试单";
+  dialog.visible = true
+  dialog.title = '添加测试单'
   nextTick(() => {
-    reset();
-  });
+    reset()
+  })
 }
 
 /** 修改按钮操作 */
 const handleUpdate = (row?: DemoVO) => {
   loading.value = true
-  dialog.visible = true;
-  dialog.title = "修改测试单";
+  dialog.visible = true
+  dialog.title = '修改测试单'
   nextTick(async () => {
-    reset();
+    reset()
     const _id = row?.id || ids.value[0]
-    const res = await getDemo(_id);
-    loading.value = false;
-    Object.assign(form.value, res.data);
-  });
+    const res = await getDemo(_id)
+    loading.value = false
+    Object.assign(form.value, res.data)
+  })
 }
 
 /** 提交按钮 */
 const submitForm = () => {
   demoFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
-      buttonLoading.value = true;
+      buttonLoading.value = true
       if (form.value.id) {
-        await updateDemo(form.value).finally(() =>  buttonLoading.value = false);
+        await updateDemo(form.value).finally(() => (buttonLoading.value = false))
       } else {
-        await addDemo(form.value).finally(() =>  buttonLoading.value = false);
+        await addDemo(form.value).finally(() => (buttonLoading.value = false))
       }
-      proxy?.$modal.msgSuccess("修改成功");
-      dialog.visible = false;
-      await getList();
+      proxy?.$modal.msgSuccess('修改成功')
+      dialog.visible = false
+      await getList()
     }
-  });
+  })
 }
 
 /** 删除按钮操作 */
 const handleDelete = async (row?: DemoVO) => {
-  const _ids = row?.id || ids.value;
-  await proxy?.$modal.confirm('是否确认删除测试单编号为"' + _ids + '"的数据项？').finally(() => loading.value = false);
-  await delDemo(_ids);
-  proxy?.$modal.msgSuccess("删除成功");
-  await getList();
+  const _ids = row?.id || ids.value
+  await proxy?.$modal.confirm('是否确认删除测试单编号为"' + _ids + '"的数据项？').finally(() => (loading.value = false))
+  await delDemo(_ids)
+  proxy?.$modal.msgSuccess('删除成功')
+  await getList()
 }
 
 /** 导出按钮操作 */
 const handleExport = () => {
-  proxy?.download('demo/demo/export', {
-    ...queryParams.value
-  }, `demo_${new Date().getTime()}.xlsx`)
+  proxy?.download(
+    'demo/demo/export',
+    {
+      ...queryParams.value,
+    },
+    `demo_${new Date().getTime()}.xlsx`
+  )
 }
 
 onMounted(() => {
-  getList();
-});
+  getList()
+})
 </script>

@@ -1,12 +1,12 @@
-import { FormRules } from 'element-plus';
+import { FormRules } from 'element-plus'
 declare global {
   /**
    * 界面字段隐藏属性
    */
   interface FieldOption {
-    key: number;
-    label: string;
-    visible: boolean;
+    key: number
+    label: string
+    visible: boolean
   }
 
   /**
@@ -16,19 +16,19 @@ declare global {
     /**
      * 弹窗标题
      */
-    title?: string;
+    title?: string
     /**
      * 是否显示
      */
-    visible: boolean;
+    visible: boolean
   }
 
   interface UploadOption {
     /** 设置上传的请求头部 */
-    headers: { [key: string]: any };
+    headers: { [key: string]: any }
 
     /** 上传的地址 */
-    url: string;
+    url: string
   }
 
   /**
@@ -36,31 +36,31 @@ declare global {
    */
   interface ImportOption extends UploadOption {
     /** 是否显示弹出层 */
-    open: boolean;
+    open: boolean
     /** 弹出层标题 */
-    title: string;
+    title: string
     /** 是否禁用上传 */
-    isUploading: boolean;
+    isUploading: boolean
 
     /** 其他参数 */
-    [key: string]: any;
+    [key: string]: any
   }
   /**
    * 字典数据  数据配置
    */
   interface DictDataOption {
-    label: string;
-    value: string;
-    elTagType?: ElTagType;
-    elTagClass?: string;
+    label: string
+    value: string
+    elTagType?: ElTagType
+    elTagClass?: string
   }
 
   interface BaseEntity {
-    createBy?: any;
-    createDept?: any;
-    createTime?: string;
-    updateBy?: any;
-    updateTime?: any;
+    createBy?: any
+    createDept?: any
+    createTime?: string
+    updateBy?: any
+    updateTime?: any
   }
 
   /**
@@ -69,16 +69,16 @@ declare global {
    * D : 查询参数
    */
   interface PageData<T, D> {
-    form: T;
-    queryParams: D;
-    rules: FormRules;
+    form: T
+    queryParams: D
+    rules: FormRules
   }
   /**
    * 分页查询参数
    */
   interface PageQuery {
-    pageNum: number;
-    pageSize: number;
+    pageNum: number
+    pageSize: number
   }
 }
-export {};
+export {}

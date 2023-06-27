@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="6" :xs="24">
         <el-card class="box-card">
-          <template v-slot:header>
+          <template #header>
             <div class="clearfix">
               <span>个人信息</span>
             </div>
@@ -27,7 +27,9 @@
               </li>
               <li class="list-group-item">
                 <svg-icon icon-class="tree" />所属部门
-                <div class="pull-right" v-if="state.user.dept">{{ state.user.dept.deptName }} / {{ state.postGroup }}</div>
+                <div v-if="state.user.dept" class="pull-right">
+                  {{ state.user.dept.deptName }} / {{ state.postGroup }}
+                </div>
               </li>
               <li class="list-group-item">
                 <svg-icon icon-class="peoples" />所属角色
@@ -43,7 +45,7 @@
       </el-col>
       <el-col :span="18" :xs="24">
         <el-card>
-          <template v-slot:header>
+          <template #header>
             <div class="clearfix">
               <span>基本资料</span>
             </div>
@@ -63,29 +65,29 @@
 </template>
 
 <script setup name="Profile" lang="ts">
-import userAvatar from "./userAvatar.vue";
-import userInfo from "./userInfo.vue";
-import resetPwd from "./resetPwd.vue";
-import { getUserProfile } from "@/api/system/user";
+import userAvatar from './userAvatar.vue'
+import userInfo from './userInfo.vue'
+import resetPwd from './resetPwd.vue'
+import { getUserProfile } from '@/api/system/user'
 
-const activeTab = ref("userinfo");
-const state = ref<{ user: any; roleGroup: string;  postGroup: string}>({
-    user: {},
-    roleGroup: '',
-    postGroup: ''
-});
+const activeTab = ref('userinfo')
+const state = ref<{ user: any; roleGroup: string; postGroup: string }>({
+  user: {},
+  roleGroup: '',
+  postGroup: '',
+})
 
-const userForm = ref({});
+const userForm = ref({})
 
 const getUser = async () => {
-    const res = await getUserProfile();
-    state.value.user = res.data.user;
-    userForm.value = { ...res.data.user }
-    state.value.roleGroup = res.data.roleGroup;
-    state.value.postGroup = res.data.postGroup;
-};
+  const res = await getUserProfile()
+  state.value.user = res.data.user
+  userForm.value = { ...res.data.user }
+  state.value.roleGroup = res.data.roleGroup
+  state.value.postGroup = res.data.postGroup
+}
 
 onMounted(() => {
-    getUser();
+  getUser()
 })
 </script>

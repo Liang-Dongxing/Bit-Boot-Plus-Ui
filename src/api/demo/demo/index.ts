@@ -1,6 +1,6 @@
-import request from '@/utils/request';
-import { AxiosPromise } from 'axios';
-import { DemoVO, DemoForm, DemoQuery } from '@/api/demo/demo/types';
+import request from '@/utils/request'
+import { AxiosPromise } from 'axios'
+import { DemoVO, DemoForm, DemoQuery } from '@/api/demo/demo/types'
 
 /**
  * 查询测试单列表
@@ -11,9 +11,9 @@ export const listDemo = (query?: DemoQuery): AxiosPromise<DemoVO[]> => {
   return request({
     url: '/demo/demo/list',
     method: 'get',
-    params: query
-  });
-};
+    params: query,
+  })
+}
 
 /**
  * 查询测试单详细
@@ -22,9 +22,9 @@ export const listDemo = (query?: DemoQuery): AxiosPromise<DemoVO[]> => {
 export const getDemo = (id: string | number): AxiosPromise<DemoVO> => {
   return request({
     url: '/demo/demo/' + id,
-    method: 'get'
-  });
-};
+    method: 'get',
+  })
+}
 
 /**
  * 新增测试单
@@ -34,9 +34,9 @@ export const addDemo = (data: DemoForm) => {
   return request({
     url: '/demo/demo',
     method: 'post',
-    data: data
-  });
-};
+    data: data,
+  })
+}
 
 /**
  * 修改测试单
@@ -46,9 +46,9 @@ export const updateDemo = (data: DemoForm) => {
   return request({
     url: '/demo/demo',
     method: 'put',
-    data: data
-  });
-};
+    data: data,
+  })
+}
 
 /**
  * 删除测试单
@@ -57,6 +57,6 @@ export const updateDemo = (data: DemoForm) => {
 export const delDemo = (id: string | number | Array<string | number>) => {
   return request({
     url: '/demo/demo/' + id,
-    method: 'delete'
-  });
-};
+    method: 'delete',
+  })
+}

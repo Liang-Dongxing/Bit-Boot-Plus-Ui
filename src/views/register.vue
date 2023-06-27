@@ -2,7 +2,7 @@
   <div class="register">
     <el-form ref="registerRef" :model="registerForm" :rules="registerRules" class="register-form">
       <h3 class="title">Bit-Vue-Plus多租户管理系统</h3>
-      <el-form-item prop="tenantId" v-if="tenantEnabled">
+      <el-form-item v-if="tenantEnabled" prop="tenantId">
         <el-select v-model="registerForm.tenantId" filterable placeholder="请选择/输入公司名称" style="width: 100%">
           <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId">
           </el-option>
@@ -36,10 +36,10 @@
           <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
         </el-input>
       </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
+      <el-form-item v-if="captchaEnabled" prop="code">
         <el-input
-          size="large"
           v-model="registerForm.code"
+          size="large"
           auto-complete="off"
           placeholder="验证码"
           style="width: 63%"
@@ -47,7 +47,7 @@
           <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
         </el-input>
         <div class="register-code">
-          <img :src="codeUrl" @click="getCode" class="register-code-img" />
+          <img :src="codeUrl" class="register-code-img" @click="getCode" />
         </div>
       </el-form-item>
       <el-form-item style="width: 100%">

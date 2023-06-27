@@ -28,40 +28,40 @@ import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 
 const settingsStore = useSettingsStore()
-const theme = computed(() => settingsStore.theme);
-const sidebar = computed(() => useAppStore().sidebar);
-const device = computed(() => useAppStore().device);
-const needTagsView = computed(() => settingsStore.tagsView);
-const fixedHeader = computed(() => settingsStore.fixedHeader);
+const theme = computed(() => settingsStore.theme)
+const sidebar = computed(() => useAppStore().sidebar)
+const device = computed(() => useAppStore().device)
+const needTagsView = computed(() => settingsStore.tagsView)
+const fixedHeader = computed(() => settingsStore.fixedHeader)
 
 const classObj = computed(() => ({
-    hideSidebar: !sidebar.value.opened,
-    openSidebar: sidebar.value.opened,
-    withoutAnimation: sidebar.value.withoutAnimation,
-    mobile: device.value === 'mobile'
+  hideSidebar: !sidebar.value.opened,
+  openSidebar: sidebar.value.opened,
+  withoutAnimation: sidebar.value.withoutAnimation,
+  mobile: device.value === 'mobile',
 }))
 
-const { width } = useWindowSize();
-const WIDTH = 992; // refer to Bootstrap's responsive design
+const { width } = useWindowSize()
+const WIDTH = 992 // refer to Bootstrap's responsive design
 
 watchEffect(() => {
-    if (device.value === 'mobile' && sidebar.value.opened) {
-        useAppStore().closeSideBar({ withoutAnimation: false })
-    }
-    if (width.value - 1 < WIDTH) {
-        useAppStore().toggleDevice('mobile')
-        useAppStore().closeSideBar({ withoutAnimation: true })
-    } else {
-        useAppStore().toggleDevice('desktop')
-    }
+  if (device.value === 'mobile' && sidebar.value.opened) {
+    useAppStore().closeSideBar({ withoutAnimation: false })
+  }
+  if (width.value - 1 < WIDTH) {
+    useAppStore().toggleDevice('mobile')
+    useAppStore().closeSideBar({ withoutAnimation: true })
+  } else {
+    useAppStore().toggleDevice('desktop')
+  }
 })
 
-const navbarRef = ref(Navbar);
-const settingRef = ref(Settings);
+const navbarRef = ref(Navbar)
+const settingRef = ref(Settings)
 
 onMounted(() => {
   nextTick(() => {
-    navbarRef.value.initTenantList();
+    navbarRef.value.initTenantList()
   })
 })
 
@@ -70,13 +70,13 @@ const handleClickOutside = () => {
 }
 
 const setLayout = () => {
-  settingRef.value.openSetting();
+  settingRef.value.openSetting()
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/mixin.scss";
-  @import "@/assets/styles/variables.module.scss";
+@import '@/assets/styles/mixin.scss';
+@import '@/assets/styles/variables.module.scss';
 
 .app-wrapper {
   @include clearfix;

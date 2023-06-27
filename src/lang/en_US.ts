@@ -2,7 +2,7 @@ export default {
   // 路由国际化
   route: {
     dashboard: 'Dashboard',
-    document: 'Document'
+    document: 'Document',
   },
   // 登录页面国际化
   login: {
@@ -10,7 +10,7 @@ export default {
     password: 'Password',
     login: 'Login',
     code: 'Verification Code',
-    copyright: ''
+    copyright: '',
   },
   // 导航栏国际化
   navbar: {
@@ -22,6 +22,6 @@ export default {
     selectTenant: 'Select Tenant',
     layoutSetting: 'Layout Setting',
     personalCenter: 'Personal Center',
-    logout: 'Logout'
-  }
-};
+    logout: 'Logout',
+  },
+}
