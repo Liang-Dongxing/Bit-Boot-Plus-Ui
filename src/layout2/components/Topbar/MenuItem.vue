@@ -2,7 +2,7 @@
 import { PropType } from 'vue'
 import { RouteOption } from 'vue-router'
 import { isExternal } from '@/utils/validate'
-import { getNormalPath } from '@/utils/om'
+import { getNormalPath } from '@/utils/bit'
 
 const props = defineProps({
   item: {
@@ -23,20 +23,24 @@ const hasOneShowingChild = (children: RouteOption[] = [], parent: RouteOption) =
     if (item.hidden) {
       return false
     } else {
+      // Temp set(will be used if only has one showing child)
+      onlyOneChild.value = item
       return true
     }
   })
 
-  if (showingChildren.length > 0) {
-    return false
-  } else {
-    if (children.length === 1 && children[0].hidden === true) {
-      onlyOneChild.value = children[0]
-      return true
-    }
-    onlyOneChild.value = parent
+  // When there is only one child router, the child router is displayed by default
+  if (showingChildren.length === 1) {
     return true
   }
+
+  // Show parent if there are no child router to display
+  if (showingChildren.length === 0) {
+    onlyOneChild.value = { ...parent, path: '', noShowingChildren: true }
+    return true
+  }
+
+  return false
 }
 
 const resolvePath = (routePath: string, routeQuery?: string): any => {
@@ -56,7 +60,13 @@ const resolvePath = (routePath: string, routeQuery?: string): any => {
 
 <template>
   <template v-if="!item.hidden">
-    <el-menu-item v-if="hasOneShowingChild(item.children || [], item)" :index="resolvePath(onlyOneChild.path)">
+    <el-menu-item
+      v-if="
+        hasOneShowingChild(item.children, item) &&
+        (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
+        !item.alwaysShow
+      "
+      :index="resolvePath(onlyOneChild.path)">
       <el-icon v-if="onlyOneChild.meta && onlyOneChild.meta.icon !== '#'">
         <icon-park :type="onlyOneChild.meta.icon" />
       </el-icon>

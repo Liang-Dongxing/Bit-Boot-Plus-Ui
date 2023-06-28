@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter, RouteOption } from 'vue-router'
 /* Layout */
-import Layout from '@/layout/index.vue'
+import Layout from '@/layout1/index.vue'
 
 /**
  * Note: 路由配置项

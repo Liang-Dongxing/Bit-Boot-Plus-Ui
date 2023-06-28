@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { getNormalPath } from '@/utils/om'
+import { getNormalPath } from '@/utils/bit'
 import useTagsViewStore from '@/store/modules/tagsView'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
