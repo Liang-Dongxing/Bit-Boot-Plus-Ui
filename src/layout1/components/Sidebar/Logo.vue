@@ -7,7 +7,7 @@ const title = useSettingsStore().appTitle
 </script>
 
 <template>
-  <router-link to="/" class="sidebar-link">
+  <router-link to="/" class="sidebar-link router-link">
     <img :src="logo" class="sidebar-logo" />
     <h1 class="sidebar-title">
       {{ title }}

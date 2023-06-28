@@ -140,7 +140,7 @@ const handleCommand = (command: string) => {
     background: #ffffff;
     cursor: pointer;
     border: 2px solid var(--el-color-white);
-    img {
+    :deep(img) {
       width: 20px;
       height: 20px;
     }

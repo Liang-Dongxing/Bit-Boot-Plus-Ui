@@ -125,6 +125,7 @@ const handleCommand = (command: string) => {
   align-items: center;
   justify-content: flex-end;
   padding: 0 6px;
+  width: 400px;
   .item {
     padding: 0 6px;
     font-size: 20px;
@@ -141,7 +142,7 @@ const handleCommand = (command: string) => {
     background: #ffffff;
     cursor: pointer;
     border: 2px solid var(--el-color-white);
-    img {
+    :deep(img) {
       width: 20px;
       height: 20px;
     }

@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter, RouteOption } from 'vue-router'
 /* Layout */
-import Layout from '@/layout1/index.vue'
+import Layout from '@/layout/index.vue'
 
 /**
  * Note: 路由配置项
@@ -61,12 +61,14 @@ export const constantRoutes: RouteOption[] = [
     path: '',
     component: Layout,
     redirect: '/index',
+    hidden: false,
     children: [
       {
         path: '/index',
         component: () => import('@/views/index.vue'),
         name: 'Index',
-        meta: { title: '首页', icon: 'home', affix: true },
+        hidden: true,
+        meta: { title: '首页', icon: 'dashboard', affix: true },
       },
     ],
   },
