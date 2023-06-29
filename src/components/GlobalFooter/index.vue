@@ -5,22 +5,21 @@ const appTitle = useSettingsStore().appTitle
 </script>
 
 <template>
-  <div class="el-login-footer">
+  <div class="footer">
     <span>Copyright © 2018-2023 {{ appTitle }} All Rights Reserved.</span>
   </div>
 </template>
 
 <style scoped lang="scss">
-.el-login-footer {
-  height: 40px;
-  line-height: 40px;
-  position: fixed;
-  bottom: 0;
+.footer {
   width: 100%;
+  height: 100%;
   text-align: center;
   color: var(--el-text-color-primary);
-  font-family: Arial, serif;
   font-size: 12px;
   letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
