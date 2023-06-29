@@ -36,7 +36,7 @@ const hasOneShowingChild = (children: RouteOption[] = [], parent: RouteOption) =
 
   // Show parent if there are no child router to display
   if (showingChildren.length === 0) {
-    onlyOneChild.value = { ...parent, path: '', noShowingChildren: true }
+    onlyOneChild.value = { ...parent, noShowingChildren: true }
     return true
   }
 
