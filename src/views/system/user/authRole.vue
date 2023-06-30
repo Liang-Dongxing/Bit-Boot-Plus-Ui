@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div class="AppMain">
     <div class="panel">
       <h4 class="panel-title">基本信息</h4>
       <el-form :model="form" label-width="80px" :inline="true">

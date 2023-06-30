@@ -1,8 +1,8 @@
 <template>
-  <div class="p-2">
+  <div class="AppMain">
     <el-row>
       <el-col :span="24" class="card-box">
-        <el-card>
+        <el-card shadow="never">
           <template #header>
             <Monitor style="width: 1em; height: 1em; vertical-align: middle" />
             <span style="vertical-align: middle">基本信息</span>
@@ -100,9 +100,10 @@
           </div>
         </el-card>
       </el-col>
-
+    </el-row>
+    <el-row :gutter="20">
       <el-col :span="12" class="card-box">
-        <el-card>
+        <el-card shadow="never">
           <template #header>
             <PieChart style="width: 1em; height: 1em; vertical-align: middle" />
             <span style="vertical-align: middle">命令统计</span>
@@ -114,7 +115,7 @@
       </el-col>
 
       <el-col :span="12" class="card-box">
-        <el-card>
+        <el-card shadow="never">
           <template #header>
             <Odometer style="width: 1em; height: 1em; vertical-align: middle" />
             <span style="vertical-align: middle">内存信息</span>

@@ -1,9 +1,7 @@
 <template>
-  <div class="p-2">
-    <transition
-      :enter-active-class="proxy?.animate.searchAnimate.enter"
-      :leave-active-class="proxy?.animate.searchAnimate.leave">
-      <div v-show="showSearch" class="search">
+  <div class="AppMain">
+    <transition name="el-zoom-in-top" mode="out-in">
+      <el-card v-show="showSearch" shadow="never" class="search">
         <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="树节点名" prop="treeName">
             <el-input
@@ -17,12 +15,12 @@
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </el-card>
     </transition>
 
     <el-card shadow="never">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row :gutter="10">
           <el-col :span="1.5">
             <el-button v-hasPermi="['demo:tree:add']" type="primary" plain icon="Plus" @click="handleAdd()"
               >新增</el-button

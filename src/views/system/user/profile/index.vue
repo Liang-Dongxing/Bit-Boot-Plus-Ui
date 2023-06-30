@@ -1,50 +1,62 @@
 <template>
-  <div class="p-2">
+  <div class="AppMain">
     <el-row :gutter="20">
       <el-col :span="6" :xs="24">
-        <el-card class="box-card">
+        <el-card class="box-card" shadow="never">
           <template #header>
             <div class="clearfix">
               <span>个人信息</span>
             </div>
           </template>
-          <div>
-            <div class="text-center">
-              <userAvatar :user="state.user" />
-            </div>
-            <ul class="list-group list-group-striped">
-              <li class="list-group-item">
-                <svg-icon icon-class="user" />用户名称
-                <div class="pull-right">{{ state.user.userName }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="phone" />手机号码
-                <div class="pull-right">{{ state.user.phonenumber }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="email" />用户邮箱
-                <div class="pull-right">{{ state.user.email }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="tree" />所属部门
-                <div v-if="state.user.dept" class="pull-right">
-                  {{ state.user.dept.deptName }} / {{ state.postGroup }}
-                </div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="peoples" />所属角色
-                <div class="pull-right">{{ state.roleGroup }}</div>
-              </li>
-              <li class="list-group-item">
-                <svg-icon icon-class="date" />创建日期
-                <div class="pull-right">{{ state.user.createTime }}</div>
-              </li>
-            </ul>
-          </div>
+          <UserAvatar :user="state.user" />
+          <el-descriptions :column="1">
+            <el-descriptions-item label="用户名称">
+              <template #label>
+                <icon-park type="user" />
+                用户名称
+              </template>
+              {{ state.user.userName }}
+            </el-descriptions-item>
+            <el-descriptions-item label="手机号码">
+              <template #label>
+                <icon-park type="phone" />
+                手机号码
+              </template>
+              {{ state.user.phonenumber }}
+            </el-descriptions-item>
+            <el-descriptions-item label="用户邮箱">
+              <template #label>
+                <icon-park type="email-security" />
+                用户邮箱
+              </template>
+              {{ state.user.email }}
+            </el-descriptions-item>
+            <el-descriptions-item label="所属部门">
+              <template #label>
+                <icon-park type="city" />
+                所属部门
+              </template>
+              <span v-if="state.user.dept">{{ state.user.dept.deptName }} / {{ state.postGroup }}</span>
+            </el-descriptions-item>
+            <el-descriptions-item label="所属角色">
+              <template #label>
+                <icon-park type="permissions" />
+                所属角色
+              </template>
+              {{ state.roleGroup }}
+            </el-descriptions-item>
+            <el-descriptions-item label="创建日期">
+              <template #label>
+                <icon-park type="calendar" />
+                创建日期
+              </template>
+              {{ state.user.createTime }}
+            </el-descriptions-item>
+          </el-descriptions>
         </el-card>
       </el-col>
       <el-col :span="18" :xs="24">
-        <el-card>
+        <el-card shadow="never">
           <template #header>
             <div class="clearfix">
               <span>基本资料</span>
@@ -52,10 +64,10 @@
           </template>
           <el-tabs v-model="activeTab">
             <el-tab-pane label="基本资料" name="userinfo">
-              <userInfo :user="userForm" />
+              <UserInfo :user="userForm" />
             </el-tab-pane>
             <el-tab-pane label="修改密码" name="resetPwd">
-              <resetPwd />
+              <ResetPwd />
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -65,16 +77,17 @@
 </template>
 
 <script setup name="Profile" lang="ts">
-import userAvatar from './userAvatar.vue'
-import userInfo from './userInfo.vue'
-import resetPwd from './resetPwd.vue'
+import UserAvatar from './UserAvatar.vue'
+import UserInfo from './UserInfo.vue'
+import ResetPwd from './ResetPwd.vue'
 import { getUserProfile } from '@/api/system/user'
 
 const activeTab = ref('userinfo')
-const state = ref<{ user: any; roleGroup: string; postGroup: string }>({
+const state = ref<{ user: any; roleGroup: string; postGroup: string; auths: any[] }>({
   user: {},
   roleGroup: '',
   postGroup: '',
+  auths: [],
 })
 
 const userForm = ref({})

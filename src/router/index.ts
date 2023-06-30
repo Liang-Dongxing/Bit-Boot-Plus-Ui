@@ -61,13 +61,11 @@ export const constantRoutes: RouteOption[] = [
     path: '',
     component: Layout,
     redirect: '/index',
-    hidden: false,
     children: [
       {
         path: '/index',
         component: () => import('@/views/index.vue'),
         name: 'Index',
-        hidden: true,
         meta: { title: '首页', icon: 'dashboard', affix: true },
       },
     ],

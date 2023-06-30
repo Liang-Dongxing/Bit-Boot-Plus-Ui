@@ -1,9 +1,10 @@
+@import 'animate.css';
+@import 'element-plus/dist/index.css';
 @import './mixin.scss';
 @import './transition.scss';
 @import './bit.scss';
 @import './var.scss';
-@import 'animate.css';
-@import 'element-plus/dist/index.css';
+@import "./element-plus";
 
 /* 基本样式 */
 * {

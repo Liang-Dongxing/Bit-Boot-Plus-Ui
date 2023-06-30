@@ -1,6 +1,8 @@
 <template>
-  <div class="user-info-head" @click="editCropper()">
-    <img :src="options.img as string" title="点击上传头像" class="img-circle img-lg" />
+  <div class="UserAvatar">
+    <div class="user-info-head" @click="editCropper()">
+      <img :src="options.img as string" title="点击上传头像" class="img-circle img-lg" />
+    </div>
     <el-dialog v-model="open" :title="title" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
@@ -153,27 +155,21 @@ const closeDialog = () => {
 </script>
 
 <style lang="scss" scoped>
-.user-info-head {
-  position: relative;
-  display: inline-block;
-  height: 120px;
+.UserAvatar {
+  display: flex;
+  justify-content: center;
 }
-
-.user-info-head:hover:after {
-  content: '+';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: #eee;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  cursor: pointer;
-  line-height: 110px;
+.user-info-head {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  img {
+    width: 100%;
+  }
+}
+.user-info-head:hover {
+  border: 2px solid var(--el-color-primary-light-9);
 }
 </style>

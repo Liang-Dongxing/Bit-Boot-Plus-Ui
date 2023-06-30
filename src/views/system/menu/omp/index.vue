@@ -44,7 +44,6 @@
         :data="menuList"
         row-key="menuId"
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-        border
         :default-expand-all="isExpandAll">
         <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
         <el-table-column prop="icon" label="图标" align="center" width="100">
@@ -322,6 +321,7 @@ const initFormData = {
   menuName: '',
   icon: '',
   menuType: MenuTypeEnum.M,
+  menuPlatform: MenuTypeEnum.OMP,
   orderNum: 1,
   isFrame: '1',
   isCache: '0',
@@ -333,6 +333,7 @@ const data = reactive<PageData<MenuForm, MenuQuery>>({
   queryParams: {
     menuName: undefined,
     status: undefined,
+    menuPlatform: MenuTypeEnum.OMP,
   },
   rules: {
     menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
@@ -347,6 +348,7 @@ const { queryParams, form, rules } = toRefs<PageData<MenuForm, MenuQuery>>(data)
 /** 查询菜单列表 */
 const getList = async () => {
   loading.value = true
+  console.log(queryParams.value)
   const res = await listMenu(queryParams.value)
   const data = proxy?.handleTree<MenuVO>(res.data, 'menuId')
   if (data) {

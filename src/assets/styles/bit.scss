@@ -1,0 +1,68 @@
+.LoginApp,
+.RegisterApp {
+  height: 100vh;
+  background-image: url('@/assets/images/login-background.jpg');
+  background-size: cover;
+
+  .el-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .title {
+    margin: 0px auto 30px auto;
+    text-align: center;
+    color: var(--el-color-black);
+  }
+
+  .login-form,
+  .register-form {
+    border-radius: 6px;
+    width: 400px;
+    padding: 25px 25px 5px 25px;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.5);
+
+    .el-input {
+      height: 40px;
+
+      input {
+        height: 40px;
+      }
+    }
+
+    .input-icon {
+      height: 39px;
+      width: 14px;
+      margin-left: 0px;
+    }
+  }
+
+  .login-code,
+  .register-code {
+    width: 33%;
+    height: 40px;
+    float: right;
+
+    img {
+      cursor: pointer;
+      vertical-align: middle;
+    }
+  }
+
+  .login-code-img,
+  .register-code-img {
+    height: 40px;
+    padding-left: 12px;
+  }
+}
+
+.AppMain{
+  .search{
+    margin-bottom: 20px;
+    .el-row {
+      margin-bottom: 20px;
+    }
+  }
+}

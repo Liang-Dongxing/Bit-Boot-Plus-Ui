@@ -1,9 +1,7 @@
 <template>
-  <div class="p-2">
-    <transition
-      :enter-active-class="proxy?.animate.searchAnimate.enter"
-      :leave-active-class="proxy?.animate.searchAnimate.leave">
-      <div v-show="showSearch" class="search">
+  <div class="AppMain">
+    <transition name="el-zoom-in-top" mode="out-in">
+      <el-card v-show="showSearch" shadow="never" class="search">
         <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="菜单名称" prop="menuName">
             <el-input
@@ -22,7 +20,7 @@
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </el-card>
     </transition>
 
     <el-card shadow="never">

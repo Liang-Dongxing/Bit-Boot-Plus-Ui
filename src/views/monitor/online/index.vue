@@ -1,6 +1,6 @@
 <template>
-  <div class="p-2">
-    <div class="search">
+  <div class="AppMain">
+    <el-card class="search" shadow="never">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
         <el-form-item label="登录地址" prop="ipaddr">
           <el-input
@@ -23,8 +23,8 @@
           <el-button icon="Refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-    </div>
-    <div class="panel">
+    </el-card>
+    <el-card class="panel" shadow="never">
       <el-table
         v-loading="loading"
         :data="
@@ -68,7 +68,7 @@
         v-model:page="queryParams.pageNum"
         v-model:limit="queryParams.pageSize"
         :total="total" />
-    </div>
+    </el-card>
   </div>
 </template>
 

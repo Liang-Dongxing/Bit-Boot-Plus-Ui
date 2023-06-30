@@ -1,9 +1,7 @@
 <template>
-  <div class="p-2">
-    <transition
-      :enter-active-class="proxy?.animate.searchAnimate.enter"
-      :leave-active-class="proxy?.animate.searchAnimate.leave">
-      <div v-show="showSearch" class="search">
+  <div class="AppMain">
+    <transition name="el-zoom-in-top" mode="out-in">
+      <el-card v-show="showSearch" shadow="never" class="search">
         <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="数据源" prop="dataName">
             <el-select
@@ -46,12 +44,12 @@
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </el-card>
     </transition>
 
     <el-card shadow="never">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row :gutter="10">
           <el-col :span="1.5">
             <el-button v-hasPermi="['tool:gen:code']" type="primary" plain icon="Download" @click="handleGenTable()"
               >生成</el-button
@@ -261,7 +259,7 @@ const handleGenTable = async (row?: TableVO) => {
     await genCode(row.tableId)
     proxy?.$modal.msgSuccess('成功生成到自定义路径：' + row.genPath)
   } else {
-    proxy?.$download.zip('/tool/gen/batchGenCode?tableIdStr=' + tbIds, 'bit.zip')
+    proxy?.$download.zip('/tool/gen/batchGenCode?tableIdStr=' + tbIds, 'om.zip')
   }
 }
 /** 同步数据库操作 */

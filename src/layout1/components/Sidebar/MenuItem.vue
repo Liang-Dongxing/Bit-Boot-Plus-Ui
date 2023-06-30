@@ -66,7 +66,7 @@ const resolvePath = (routePath: string, routeQuery?: string): any => {
         (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
         !item.alwaysShow
       "
-      :index="resolvePath(onlyOneChild.path)">
+      :index="resolvePath(onlyOneChild.path, onlyOneChild.query)">
       <el-icon v-if="onlyOneChild.meta && onlyOneChild.meta.icon !== '#'">
         <icon-park :type="onlyOneChild.meta.icon" />
       </el-icon>

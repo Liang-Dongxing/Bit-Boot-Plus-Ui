@@ -1,9 +1,9 @@
 <template>
-  <div class="p-2">
+  <div class="AppMain">
     <el-row :gutter="20">
       <!-- 部门树 -->
       <el-col :lg="4" :xs="24" style="">
-        <el-card shadow="hover">
+        <el-card shadow="never">
           <el-input v-model="deptName" placeholder="请输入部门名称" prefix-icon="Search" clearable />
           <el-tree
             ref="deptTreeRef"
@@ -19,10 +19,8 @@
         </el-card>
       </el-col>
       <el-col :lg="20" :xs="24">
-        <transition
-          :enter-active-class="proxy?.animate.searchAnimate.enter"
-          :leave-active-class="proxy?.animate.searchAnimate.leave">
-          <div v-show="showSearch" class="search">
+        <transition name="el-zoom-in-top" mode="out-in">
+          <el-card v-show="showSearch" shadow="never" class="search">
             <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
               <el-form-item label="用户名称" prop="userName">
                 <el-input
@@ -64,7 +62,7 @@
                 <el-button icon="Refresh" @click="resetQuery">重置</el-button>
               </el-form-item>
             </el-form>
-          </div>
+          </el-card>
         </transition>
 
         <el-card shadow="hover">
