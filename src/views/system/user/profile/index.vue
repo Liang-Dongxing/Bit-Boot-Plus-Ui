@@ -70,7 +70,7 @@
               <ResetPwd />
             </el-tab-pane>
             <el-tab-pane label="第三方应用" name="thirdParty">
-              <thirdParty :auths="state.auths" />
+              <ThirdParty :auths="state.auths" />
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -83,7 +83,7 @@
 import UserAvatar from './UserAvatar.vue'
 import UserInfo from './UserInfo.vue'
 import ResetPwd from './ResetPwd.vue'
-import thirdParty from './thirdParty.vue'
+import ThirdParty from './ThirdParty.vue'
 import { getAuthList } from '@/api/system/social/auth'
 import { getUserProfile } from '@/api/system/user'
 

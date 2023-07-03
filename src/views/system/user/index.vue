@@ -65,7 +65,7 @@
           </el-card>
         </transition>
 
-        <el-card shadow="hover">
+        <el-card shadow="never">
           <template #header>
             <el-row :gutter="10">
               <el-col :span="1.5">

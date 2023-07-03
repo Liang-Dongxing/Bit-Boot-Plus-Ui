@@ -1,10 +1,8 @@
 <template>
-  <div class="p-2">
-    <transition
-      :enter-active-class="proxy?.animate.searchAnimate.enter"
-      :leave-active-class="proxy?.animate.searchAnimate.leave">
-      <div class="search" v-show="showSearch">
-        <el-form :model="queryParams" ref="queryFormRef" :inline="true" label-width="100px">
+  <div class="AppMain">
+    <transition name="el-zoom-in-top" mode="out-in">
+      <el-card v-show="showSearch" class="search" shadow="never">
+        <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="100px">
           <el-form-item label="客户端key" prop="clientKey">
             <el-input
               v-model="queryParams.clientKey"
@@ -29,41 +27,41 @@
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </el-card>
     </transition>
 
     <el-card shadow="never">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row :gutter="10">
           <el-col :span="1.5">
-            <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:client:add']"
+            <el-button v-hasPermi="['system:client:add']" type="primary" plain icon="Plus" @click="handleAdd"
               >新增</el-button
             >
           </el-col>
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:client:edit']"
               type="success"
               plain
               icon="Edit"
               :disabled="single"
               @click="handleUpdate()"
-              v-hasPermi="['system:client:edit']"
               >修改</el-button
             >
           </el-col>
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:client:remove']"
               type="danger"
               plain
               icon="Delete"
               :disabled="multiple"
               @click="handleDelete()"
-              v-hasPermi="['system:client:remove']"
               >删除</el-button
             >
           </el-col>
           <el-col :span="1.5">
-            <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['system:client:export']"
+            <el-button v-hasPermi="['system:client:export']" type="warning" plain icon="Download" @click="handleExport"
               >导出</el-button
             >
           </el-col>
@@ -73,7 +71,7 @@
 
       <el-table v-loading="loading" :data="clientList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="id" align="center" prop="id" v-if="true" />
+        <el-table-column v-if="true" label="id" align="center" prop="id" />
         <el-table-column label="客户端id" align="center" prop="clientId" />
         <el-table-column label="客户端key" align="center" prop="clientKey" />
         <el-table-column label="客户端秘钥" align="center" prop="clientSecret" />
@@ -93,7 +91,7 @@
         </el-table-column>
         <el-table-column label="Token活跃超时时间" align="center" prop="activeTimeout" />
         <el-table-column label="Token固定超时时间" align="center" prop="timeout" />
-        <el-table-column label="状态" align="center" key="status">
+        <el-table-column key="status" label="状态" align="center">
           <template #default="scope">
             <el-switch
               v-model="scope.row.status"
@@ -106,19 +104,19 @@
           <template #default="scope">
             <el-tooltip content="修改" placement="top">
               <el-button
+                v-hasPermi="['system:client:edit']"
                 link
                 type="primary"
                 icon="Edit"
-                @click="handleUpdate(scope.row)"
-                v-hasPermi="['system:client:edit']"></el-button>
+                @click="handleUpdate(scope.row)"></el-button>
             </el-tooltip>
             <el-tooltip content="删除" placement="top">
               <el-button
+                v-hasPermi="['system:client:remove']"
                 link
                 type="primary"
                 icon="Delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['system:client:remove']"></el-button>
+                @click="handleDelete(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -126,13 +124,13 @@
 
       <pagination
         v-show="total > 0"
-        :total="total"
         v-model:page="queryParams.pageNum"
         v-model:limit="queryParams.pageSize"
+        :total="total"
         @pagination="getList" />
     </el-card>
     <!-- 添加或修改客户端管理对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
+    <el-dialog v-model="dialog.visible" :title="dialog.title" width="500px" append-to-body>
       <el-form ref="clientFormRef" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="客户端key" prop="clientKey">
           <el-input v-model="form.clientKey" :disabled="form.id != null" placeholder="请输入客户端key" />
