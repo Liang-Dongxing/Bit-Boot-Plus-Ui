@@ -69,6 +69,9 @@
             <el-tab-pane label="修改密码" name="resetPwd">
               <ResetPwd />
             </el-tab-pane>
+            <el-tab-pane label="第三方应用" name="thirdParty">
+              <thirdParty :auths="state.auths" />
+            </el-tab-pane>
           </el-tabs>
         </el-card>
       </el-col>
@@ -80,7 +83,9 @@
 import UserAvatar from './UserAvatar.vue'
 import UserInfo from './UserInfo.vue'
 import ResetPwd from './ResetPwd.vue'
-import { getUserProfile } from '@/api/system/user'
+import thirdParty from "./thirdParty.vue";
+import { getAuthList } from "@/api/system/social/auth";
+import { getUserProfile } from "@/api/system/user";
 
 const activeTab = ref('userinfo')
 const state = ref<{ user: any; roleGroup: string; postGroup: string; auths: any[] }>({
@@ -100,7 +105,13 @@ const getUser = async () => {
   state.value.postGroup = res.data.postGroup
 }
 
+const getAuths = async () => {
+    const res = await getAuthList();
+    state.value.auths = res.data;
+};
+
 onMounted(() => {
-  getUser()
+    getUser();
+    getAuths();
 })
 </script>

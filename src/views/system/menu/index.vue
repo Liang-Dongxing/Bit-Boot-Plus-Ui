@@ -203,7 +203,7 @@
           </el-col>
           <el-col v-if="form.menuType === 'C'" :span="12">
             <el-form-item>
-              <el-input v-model="form.query" placeholder="请输入路由参数" maxlength="255" />
+              <el-input v-model="form.queryParam" placeholder="请输入路由参数" maxlength="255" />
               <template #label>
                 <span>
                   <el-tooltip content='访问路由的默认传递参数，如：`{"id": 1, "name": "ry"}`' placement="top">
