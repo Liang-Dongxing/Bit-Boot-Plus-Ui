@@ -1,5 +1,5 @@
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { IconPark } from '@icon-park/vue-next/es/all'
+import { IconPark } from '@/components/IconPark/all'
 import { App } from 'vue'
 
 export default {

@@ -54,17 +54,17 @@
           </div>
         </el-form-item>
         <div style="display: flex; justify-content: flex-end; flex-direction: row">
-          <el-button circle>
-            <svg-icon icon-class="qq" @click="doSocialLogin('qq')" />
+          <el-button circle @click="doSocialLogin('qq')">
+            <icon-park type="tencent-qq" />
           </el-button>
-          <el-button circle>
-            <svg-icon icon-class="wechat" @click="doSocialLogin('wechat')" />
+          <el-button circle @click="doSocialLogin('wechat')">
+            <icon-park type="wechat" />
           </el-button>
-          <el-button circle>
-            <svg-icon icon-class="gitee" @click="doSocialLogin('gitee')" />
+          <el-button circle @click="doSocialLogin('gitee')">
+            <icon-park type="gitee" />
           </el-button>
-          <el-button circle>
-            <svg-icon icon-class="github" @click="doSocialLogin('github')" />
+          <el-button circle @click="doSocialLogin('github')">
+            <icon-park type="github" />
           </el-button>
         </div>
       </el-form>

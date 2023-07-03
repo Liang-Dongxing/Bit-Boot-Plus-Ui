@@ -5,6 +5,6 @@
 //   icons.push(p)
 // }
 // 使用 iconpark 的 icon
+import CustomIconMap from '@/components/IconPark/icons.json'
 import IconMap from '@icon-park/vue-next/icons.json'
-
-export default IconMap
+export default [...IconMap, ...CustomIconMap]
