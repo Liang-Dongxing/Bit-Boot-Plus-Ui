@@ -22,10 +22,10 @@ export const useUserStore = defineStore('user', () => {
   const login = async (userInfo: LoginData): Promise<void> => {
     const [err, res] = await to(loginApi(userInfo))
     if (res) {
-      const data = res.data;
-      setToken(data.access_token);
-      token.value = data.access_token;
-      return Promise.resolve();
+      const data = res.data
+      setToken(data.access_token)
+      token.value = data.access_token
+      return Promise.resolve()
     }
     return Promise.reject(err)
   }

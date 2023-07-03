@@ -4,7 +4,7 @@ import { LoginData, LoginResult, VerifyCodeResult, TenantInfo } from './types'
 import { UserInfo } from '@/api/system/user/types'
 
 // pc端固定客户端授权id
-const clientId = 'e5cd7e4891bf95d1d19206ce24a7b32e';
+const clientId = 'e5cd7e4891bf95d1d19206ce24a7b32e'
 
 /**
  * @param data {LoginData}
@@ -14,8 +14,8 @@ export function login(data: LoginData): AxiosPromise<LoginResult> {
   const params = {
     ...data,
     clientId: data.clientId || clientId,
-    grantType: data.grantType || 'password'
-  };
+    grantType: data.grantType || 'password',
+  }
   return request({
     url: '/auth/login',
     headers: {
@@ -69,13 +69,13 @@ export function callback(data: LoginData): AxiosPromise<any> {
   const LoginData = {
     ...data,
     clientId: clientId,
-    grantType: 'social'
-  };
+    grantType: 'social',
+  }
   return request({
     url: '/auth/social/callback',
     method: 'post',
-    data: LoginData
-  });
+    data: LoginData,
+  })
 }
 
 // 获取用户详细信息
