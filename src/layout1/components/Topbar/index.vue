@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TagsView from '../TagsView/index.vue'
-import PersonalView from '../PersonalView/index.vue'
+import PersonalView from '@/components/PersonalView/index.vue'
 </script>
 
 <template>

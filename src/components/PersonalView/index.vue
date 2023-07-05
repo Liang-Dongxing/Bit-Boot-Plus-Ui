@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { ComponentInternalInstance } from 'vue'
+import { useI18n } from 'vue-i18n'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import { dynamicClear, dynamicTenant } from '@/api/system/tenant'
-import { ComponentInternalInstance } from 'vue'
 import { TenantVO } from '@/api/types'
 import { getTenantList } from '@/api/login'
 import defAva from '@/assets/images/avatar.png'
-import router from '@/router'
+import { useSettingsStore } from '@/store/modules/settings'
 
+const settingsStore = useSettingsStore()
 const appStore = useAppStore()
 const userStore = useUserStore()
 
@@ -20,12 +22,13 @@ const tenantList = ref<TenantVO[]>([])
 const dynamic = ref(false)
 // 租户开关
 const tenantEnabled = ref(true)
+const isDrawer = ref(false)
 
 onMounted(() => {
   initTenantList()
 })
 
-// 动态切换
+// 租户动态切换
 const dynamicTenantEvent = async (tenantId: string) => {
   if (companyName.value != null && companyName.value !== '') {
     await dynamicTenant(tenantId)
@@ -73,6 +76,43 @@ const handleCommand = (command: string) => {
     commandMap[command]()
   }
 }
+const { isFullscreen, toggle } = useFullscreen()
+// 语言切换
+const { locale } = useI18n()
+const message: any = {
+  zh_CN: '切换语言成功！',
+  en_US: 'Switch Language Successful!',
+}
+const handleLanguageChange = (lang: string) => {
+  locale.value = lang
+  appStore.changeLanguage(lang)
+  ElMessage.success(message[lang] || '切换语言成功！')
+  settingsStore.changeSetting({ key: 'language', value: lang })
+}
+const avatarClick = () => {
+  isDrawer.value = true
+}
+// 布局大小
+const size = computed(() => appStore.size)
+
+const sizeOptions = ref([
+  { label: '较大', value: 'large' },
+  { label: '默认', value: 'default' },
+  { label: '稍小', value: 'small' },
+])
+
+const handleSetSize = (size: string) => {
+  appStore.setSize(size)
+  settingsStore.changeSetting({ key: 'layoutSize', value: size })
+}
+// 暗黑切换
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+const changeDark = () => {
+  settingsStore.changeSetting({ key: 'dark', value: isDark.value })
+}
 </script>
 
 <template>
@@ -92,30 +132,43 @@ const handleCommand = (command: string) => {
       </el-select>
 
       <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-        <screenfull class="item" />
-      </el-tooltip>
-
-      <el-tooltip :content="$t('navbar.language')" effect="dark" placement="bottom">
-        <lang-select class="item" />
-      </el-tooltip>
-
-      <el-tooltip :content="$t('navbar.layoutSize')" effect="dark" placement="bottom">
-        <size-select class="item" />
+        <icon-park v-if="isFullscreen" type="off-screen-one" size="20" class="item" @click="toggle" />
+        <icon-park v-else type="full-screen-one" size="20" class="item" @click="toggle" />
       </el-tooltip>
     </template>
     <el-dropdown trigger="hover" @command="handleCommand">
-      <el-avatar shape="circle" :size="40" :src="userStore.avatar">
+      <el-avatar shape="circle" :size="40" :src="userStore.avatar" @click="avatarClick">
         <img :src="defAva" />
       </el-avatar>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item v-if="!dynamic" command="profile">{{ $t('navbar.personalCenter') }}</el-dropdown-item>
+          <el-dropdown-item v-if="!dynamic" command="profile">
+            {{ $t('navbar.personalCenter') }}
+          </el-dropdown-item>
           <el-dropdown-item divided command="logout">
             {{ $t('navbar.logout') }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <el-drawer v-model="isDrawer" title="个人设置">
+      <el-form label-position="right" label-width="auto">
+        <el-form-item label="暗黑模式">
+          <DarkSwitch @click="toggleDark();changeDark();" />
+        </el-form-item>
+        <el-form-item label="语言切换">
+          <el-select v-model="locale" @change="handleLanguageChange">
+            <el-option label="中文" value="zh_CN" />
+            <el-option label="English" value="en_US" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="布局大小">
+          <el-select v-model="size" @change="handleSetSize">
+            <el-option v-for="item of sizeOptions" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
   </div>
 </template>
 
@@ -124,6 +177,8 @@ const handleCommand = (command: string) => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding: 0 6px;
+  width: 400px;
   .item {
     padding: 0 6px;
     font-size: 20px;

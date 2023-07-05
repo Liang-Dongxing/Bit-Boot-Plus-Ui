@@ -8,5 +8,25 @@
     "author": "梁东兴",
     "tag": [],
     "rtl": true
+  },
+  {
+    "id": 2659,
+    "title": "dark",
+    "name": "dark",
+    "category": "Edit",
+    "categoryCN": "编辑",
+    "author": "梁东兴",
+    "tag": [],
+    "rtl": true
+  },
+  {
+    "id": 2660,
+    "title": "light",
+    "name": "light",
+    "category": "Edit",
+    "categoryCN": "编辑",
+    "author": "梁东兴",
+    "tag": [],
+    "rtl": true
   }
 ]

@@ -2,7 +2,7 @@
 import usePermissionStore from '@/store/modules/permission'
 import MenuItem from './MenuItem.vue'
 import Logo from './Logo.vue'
-import PersonalView from '../PersonalView'
+import PersonalView from '@/components/PersonalView/index.vue'
 
 const route = useRoute()
 const permissionStore = usePermissionStore()

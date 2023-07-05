@@ -11,31 +11,15 @@ export const useSettingsStore = defineStore('setting', () => {
     title: ref<string>(''),
     appTitle: ref<string>(import.meta.env.VITE_APP_TITLE),
     theme: ref<string>(storageSetting.theme || defaultSettings.theme),
-    sideTheme: ref<string>(storageSetting.sideTheme || defaultSettings.sideTheme),
-    showSettings: ref<boolean>(storageSetting.showSettings),
-    topNav: ref<boolean>(storageSetting.topNav || defaultSettings.topNav),
     tagsView: ref<boolean>(storageSetting.tagsView || defaultSettings.tagsView),
-    fixedHeader: ref<boolean>(storageSetting.fixedHeader || defaultSettings.fixedHeader),
     sidebarLogo: ref<boolean>(storageSetting.sidebarLogo || defaultSettings.sidebarLogo),
+    layoutSize: ref<boolean>(storageSetting.layoutSize || defaultSettings.layoutSize),
+    language: ref<boolean>(storageSetting.language || defaultSettings.language),
     dynamicTitle: ref<boolean>(storageSetting.dynamicTitle || defaultSettings.dynamicTitle),
-    animationEnable: ref<boolean>(storageSetting.animationEnable || defaultSettings.animationEnable),
     dark: ref<boolean>(storageSetting.dark || defaultSettings.dark),
   }
 
-  const {
-    title,
-    appTitle,
-    theme,
-    sideTheme,
-    showSettings,
-    topNav,
-    tagsView,
-    fixedHeader,
-    sidebarLogo,
-    dynamicTitle,
-    animationEnable,
-    dark,
-  } = prop
+  const { title, appTitle, theme, tagsView, sidebarLogo, layoutSize, language, dynamicTitle, dark } = prop
 
   // actions
   const changeSetting = (param: { key: SettingTypeEnum; value: any }) => {
@@ -52,14 +36,11 @@ export const useSettingsStore = defineStore('setting', () => {
     title,
     appTitle,
     theme,
-    sideTheme,
-    showSettings,
-    topNav,
     tagsView,
-    fixedHeader,
     sidebarLogo,
+    layoutSize,
+    language,
     dynamicTitle,
-    animationEnable,
     dark,
     changeSetting,
     setTitle,

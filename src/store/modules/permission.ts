@@ -4,7 +4,7 @@ import store from '@/store'
 import { getRouters } from '@/api/menu'
 import Layout from '@/layout1/index.vue'
 import ParentView from '@/components/ParentView/index.vue'
-import InnerLink from '@/layout/components/InnerLink/index.vue'
+import InnerLink from '@/components/InnerLink/index.vue'
 import auth from '@/plugins/auth'
 import { RouteOption } from 'vue-router'
 // 匹配views里面所有的.vue文件
