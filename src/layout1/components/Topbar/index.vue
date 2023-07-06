@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import TagsView from '../TagsView/index.vue'
 import PersonalView from '@/components/PersonalView/index.vue'
+import { useSettingsStore } from '@/store/modules/settings'
+
+const settingsStore = useSettingsStore()
 </script>
 
 <template>
   <div class="Topbar">
-    <TagsView />
+    <TagsView v-if="settingsStore.tagsView" />
     <PersonalView />
   </div>
 </template>
@@ -13,7 +16,7 @@ import PersonalView from '@/components/PersonalView/index.vue'
 <style scoped lang="scss">
 .Topbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   :deep(.el-tabs) {
     flex: 1;
     overflow: hidden;

@@ -6,7 +6,9 @@ import PersonalView from '@/components/PersonalView/index.vue'
 
 const route = useRoute()
 const permissionStore = usePermissionStore()
+import { useSettingsStore } from '@/store/modules/settings'
 
+const settingsStore = useSettingsStore()
 const sidebarRouters = computed(() => permissionStore.sidebarRouters.filter((item) => !item.hidden))
 // 默认激活的菜单
 const activeMenu = computed(() => {
@@ -16,7 +18,7 @@ const activeMenu = computed(() => {
 
 <template>
   <div class="Topbar">
-    <logo />
+    <logo v-if="settingsStore.sidebarLogo" />
     <el-menu :default-active="activeMenu as string" :router="true" mode="horizontal">
       <MenuItem v-for="item in sidebarRouters" :key="item.path as string || item.redirect as string" :item="item" />
     </el-menu>

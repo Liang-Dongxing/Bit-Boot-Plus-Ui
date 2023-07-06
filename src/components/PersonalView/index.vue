@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { ComponentInternalInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
-import useAppStore from '@/store/modules/app'
+import defAva from '@/assets/images/avatar.png'
 import useUserStore from '@/store/modules/user'
+import { useSettingsStore } from '@/store/modules/settings'
+import { SettingTypeEnum } from '@/enums/SettingTypeEnum'
 import { dynamicClear, dynamicTenant } from '@/api/system/tenant'
 import { TenantVO } from '@/api/types'
 import { getTenantList } from '@/api/login'
-import defAva from '@/assets/images/avatar.png'
-import { useSettingsStore } from '@/store/modules/settings'
 
 const settingsStore = useSettingsStore()
-const appStore = useAppStore()
 const userStore = useUserStore()
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -22,7 +21,7 @@ const tenantList = ref<TenantVO[]>([])
 const dynamic = ref(false)
 // 租户开关
 const tenantEnabled = ref(true)
-const isDrawer = ref(false)
+const isDrawer = ref(true)
 
 onMounted(() => {
   initTenantList()
@@ -76,7 +75,18 @@ const handleCommand = (command: string) => {
     commandMap[command]()
   }
 }
+// 全屏切换
 const { isFullscreen, toggle } = useFullscreen()
+// 暗黑切换
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+const changeDark = () => {
+  toggleDark()
+  settingsStore.changeSetting({ key: SettingTypeEnum.DARK, value: isDark.value })
+}
+
 // 语言切换
 const { locale } = useI18n()
 const message: any = {
@@ -84,16 +94,15 @@ const message: any = {
   en_US: 'Switch Language Successful!',
 }
 const handleLanguageChange = (lang: string) => {
-  locale.value = lang
-  appStore.changeLanguage(lang)
+  // locale.value = lang
   ElMessage.success(message[lang] || '切换语言成功！')
-  settingsStore.changeSetting({ key: 'language', value: lang })
+  settingsStore.changeSetting({ key: SettingTypeEnum.LANGUAGE, value: lang })
 }
 const avatarClick = () => {
   isDrawer.value = true
 }
 // 布局大小
-const size = computed(() => appStore.size)
+const layoutSize = computed(() => settingsStore.layoutSize)
 
 const sizeOptions = ref([
   { label: '较大', value: 'large' },
@@ -102,40 +111,46 @@ const sizeOptions = ref([
 ])
 
 const handleSetSize = (size: string) => {
-  appStore.setSize(size)
-  settingsStore.changeSetting({ key: 'layoutSize', value: size })
+  settingsStore.changeSetting({ key: SettingTypeEnum.LAYOUT_SIZE, value: size })
 }
-// 暗黑切换
-import { useDark, useToggle } from '@vueuse/core'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
-const changeDark = () => {
-  settingsStore.changeSetting({ key: 'dark', value: isDark.value })
+// 是否显示多标签导航
+const showTagsView = ref(settingsStore.tagsView)
+const handleTagsView = (show: boolean) => {
+  settingsStore.changeSetting({ key: SettingTypeEnum.TAGS_VIEW, value: show })
+}
+// 是否显示logo
+const showSidebarLogo = ref(settingsStore.sidebarLogo)
+const handleSidebarLogo = (show: boolean) => {
+  settingsStore.changeSetting({ key: SettingTypeEnum.SIDEBAR_LOGO, value: show })
+}
+// 是否显示logo
+const showDynamicTitle = ref(settingsStore.dynamicTitle)
+const handleDynamicTitle = (show: boolean) => {
+  settingsStore.changeSetting({ key: SettingTypeEnum.DYNAMIC_TITLE, value: show })
+  settingsStore.setTitle(settingsStore.title)
 }
 </script>
 
 <template>
   <div ref="personalView" class="PersonalView">
-    <template v-if="appStore.device !== 'mobile'">
-      <el-select
-        v-if="userId === 1 && tenantEnabled"
-        v-model="companyName"
-        clearable
-        filterable
-        reserve-keyword
-        :placeholder="$t('navbar.selectTenant')"
-        @change="dynamicTenantEvent"
-        @clear="dynamicClearEvent">
-        <template #prefix><icon-park type="city-one" /></template>
-        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId" />
-      </el-select>
+    <el-select
+      v-if="userId === 1 && tenantEnabled"
+      v-model="companyName"
+      clearable
+      filterable
+      reserve-keyword
+      :placeholder="$t('navbar.selectTenant')"
+      @change="dynamicTenantEvent"
+      @clear="dynamicClearEvent">
+      <template #prefix><icon-park type="city-one" /></template>
+      <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId" />
+    </el-select>
 
-      <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-        <icon-park v-if="isFullscreen" type="off-screen-one" size="20" class="item" @click="toggle" />
-        <icon-park v-else type="full-screen-one" size="20" class="item" @click="toggle" />
-      </el-tooltip>
-    </template>
+    <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
+      <icon-park v-if="isFullscreen" type="off-screen-one" size="20" class="item" @click="toggle" />
+      <icon-park v-else type="full-screen-one" size="20" class="item" @click="toggle" />
+    </el-tooltip>
     <el-dropdown trigger="hover" @command="handleCommand">
       <el-avatar shape="circle" :size="40" :src="userStore.avatar" @click="avatarClick">
         <img :src="defAva" />
@@ -151,10 +166,10 @@ const changeDark = () => {
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <el-drawer v-model="isDrawer" title="个人设置">
-      <el-form label-position="right" label-width="auto">
+    <el-drawer v-model="isDrawer" title="个人设置" size="300">
+      <el-form label-position="left" label-width="auto">
         <el-form-item label="暗黑模式">
-          <DarkSwitch @click="toggleDark();changeDark();" />
+          <DarkSwitch @click="changeDark" />
         </el-form-item>
         <el-form-item label="语言切换">
           <el-select v-model="locale" @change="handleLanguageChange">
@@ -163,9 +178,18 @@ const changeDark = () => {
           </el-select>
         </el-form-item>
         <el-form-item label="布局大小">
-          <el-select v-model="size" @change="handleSetSize">
+          <el-select v-model="layoutSize" @change="handleSetSize">
             <el-option v-for="item of sizeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="是否显示多标签导航">
+          <el-switch v-model="showTagsView" @change="handleTagsView" />
+        </el-form-item>
+        <el-form-item label="是否显示Logo">
+          <el-switch v-model="showSidebarLogo" @change="handleSidebarLogo" />
+        </el-form-item>
+        <el-form-item label="是否显示动态标题">
+          <el-switch v-model="showDynamicTitle" @change="handleDynamicTitle" />
         </el-form-item>
       </el-form>
     </el-drawer>

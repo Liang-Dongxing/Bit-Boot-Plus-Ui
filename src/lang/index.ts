@@ -1,5 +1,12 @@
 // 自定义国际化配置
 import { createI18n } from 'vue-i18n'
+import zhCN from 'element-plus/es/locale/lang/zh-cn'
+import enUS from 'element-plus/es/locale/lang/en'
+
+export const languageObj: any = {
+  en_US: enUS,
+  zh_CN: zhCN,
+}
 
 // 本地语言包
 import enUSLocale from './en_US'
