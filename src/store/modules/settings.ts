@@ -18,9 +18,24 @@ export const useSettingsStore = defineStore('setting', () => {
     dynamicTitle: ref<boolean>(storageSetting.dynamicTitle || defaultSettings.dynamicTitle),
     dark: ref<boolean>(storageSetting.dark || defaultSettings.dark),
     menuLayout: ref<boolean>(storageSetting.menuLayout || defaultSettings.menuLayout),
+    menuLone: ref<boolean>(storageSetting.menuLone || defaultSettings.menuLone),
+    menuContent: ref<boolean>(storageSetting.menuContent || defaultSettings.menuContent),
   }
 
-  const { title, appTitle, theme, tagsView, sidebarLogo, layoutSize, language, dynamicTitle, dark, menuLayout } = prop
+  const {
+    title,
+    appTitle,
+    theme,
+    tagsView,
+    sidebarLogo,
+    layoutSize,
+    language,
+    dynamicTitle,
+    dark,
+    menuLayout,
+    menuLone,
+    menuContent,
+  } = prop
 
   // actions
   const changeSetting = (param: { key: SettingTypeEnum; value: any }) => {
@@ -44,6 +59,8 @@ export const useSettingsStore = defineStore('setting', () => {
     dynamicTitle,
     dark,
     menuLayout,
+    menuLone,
+    menuContent,
     changeSetting,
     setTitle,
   }

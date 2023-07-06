@@ -127,6 +127,16 @@ const handleDynamicTitle = (show: boolean) => {
   settingsStore.changeSetting({ key: SettingTypeEnum.DYNAMIC_TITLE, value: show })
   settingsStore.setTitle(settingsStore.title)
 }
+// 菜单是否独占一行
+const showMenuLone = ref(settingsStore.menuLone)
+const handleMenuLone = (show: boolean) => {
+  settingsStore.changeSetting({ key: SettingTypeEnum.MENU_LONE, value: show })
+}
+// 菜单位置
+const showMenuContent = ref(settingsStore.menuContent)
+const handleMenuContent = (show: boolean) => {
+  settingsStore.changeSetting({ key: SettingTypeEnum.MENU_CONTENT, value: show })
+}
 </script>
 
 <template>
@@ -163,7 +173,7 @@ const handleDynamicTitle = (show: boolean) => {
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <el-drawer v-model="isDrawer" title="个人设置" size="300">
+    <el-drawer v-model="isDrawer" title="个人设置" size="400">
       <el-form label-position="left" label-width="auto">
         <el-form-item label="暗黑模式">
           <DarkSwitch @click="changeDark" />
@@ -187,14 +197,26 @@ const handleDynamicTitle = (show: boolean) => {
             <el-option label="稍小" value="small" />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否显示多标签导航">
-          <el-switch v-model="showTagsView" @change="handleTagsView" />
-        </el-form-item>
         <el-form-item label="是否显示Logo">
           <el-switch v-model="showSidebarLogo" @change="handleSidebarLogo" />
         </el-form-item>
         <el-form-item label="是否显示动态标题">
           <el-switch v-model="showDynamicTitle" @change="handleDynamicTitle" />
+        </el-form-item>
+        <el-divider>垂直菜单</el-divider>
+        <el-form-item label="是否显示多标签导航">
+          <el-switch v-model="showTagsView" @change="handleTagsView" />
+        </el-form-item>
+        <el-divider>水平菜单</el-divider>
+        <el-form-item label="是否菜单独占一行">
+          <el-switch v-model="showMenuLone" @change="handleMenuLone" />
+        </el-form-item>
+        <el-form-item label="菜单位置">
+          <el-select v-model="showMenuContent" @change="handleMenuContent">
+            <el-option label="左" value="left" />
+            <el-option label="中" value="center" />
+            <el-option label="右" value="right" />
+          </el-select>
         </el-form-item>
       </el-form>
     </el-drawer>

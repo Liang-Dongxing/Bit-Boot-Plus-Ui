@@ -9,4 +9,6 @@ export enum SettingTypeEnum {
   LAYOUT = 'layout',
   DARK = 'dark',
   MENU_LAYOUT = 'menuLayout',
+  MENU_LONE = 'menuLone',
+  MENU_CONTENT = 'menuContent',
 }

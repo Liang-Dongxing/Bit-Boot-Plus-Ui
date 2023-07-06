@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import AppMain from '@/layout/AppMain/index.vue'
 import Topbar from './Topbar/index.vue'
+import { useSettingsStore } from '@/store/modules/settings'
+
+const settingsStore = useSettingsStore()
 </script>
 
 <template>
   <el-container>
-    <el-header>
+    <el-header :height="settingsStore.menuLone ? '120px' : '60px'">
       <topbar />
     </el-header>
     <el-main>

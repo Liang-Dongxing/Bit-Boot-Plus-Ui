@@ -35,6 +35,16 @@ declare type DefaultSettings = {
   layoutSize?: string
 
   /**
+   * 菜单是否独占一行
+   */
+  menuLone?: boolean
+
+  /**
+   * 菜单内容
+   */
+  menuContent?: string
+
+  /**
    * 语言
    */
   language?: string

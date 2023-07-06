@@ -18,21 +18,46 @@ const activeMenu = computed(() => {
 
 <template>
   <div class="Topbar">
-    <logo v-if="settingsStore.sidebarLogo" />
-    <el-menu :default-active="activeMenu as string" :router="true" mode="horizontal">
+    <div class="MenuLone">
+      <logo v-if="settingsStore.sidebarLogo" />
+      <el-menu
+        v-if="!settingsStore.menuLone"
+        :class="settingsStore.menuContent"
+        :default-active="activeMenu as string"
+        :router="true"
+        mode="horizontal">
+        <MenuItem v-for="item in sidebarRouters" :key="item.path as string || item.redirect as string" :item="item" />
+      </el-menu>
+      <PersonalView />
+    </div>
+    <el-menu
+      v-if="settingsStore.menuLone"
+      :class="settingsStore.menuContent"
+      :default-active="activeMenu as string"
+      :router="true"
+      mode="horizontal">
       <MenuItem v-for="item in sidebarRouters" :key="item.path as string || item.redirect as string" :item="item" />
     </el-menu>
-    <PersonalView />
   </div>
 </template>
 
 <style scoped lang="scss">
 .Topbar {
-  display: flex;
-  padding: 0 6px;
-  justify-content: space-between;
+  .MenuLone {
+    margin: 0 20px;
+    display: flex;
+    justify-content: space-between;
+  }
   .el-menu {
     flex: 1;
+  }
+  .el-menu.left {
+    justify-content: left;
+  }
+  .el-menu.right {
+    justify-content: right;
+  }
+  .el-menu.center {
     justify-content: center;
   }
 }

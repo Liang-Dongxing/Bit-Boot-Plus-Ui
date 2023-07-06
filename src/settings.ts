@@ -22,6 +22,16 @@ const setting: DefaultSettings = {
   layoutSize: 'default',
 
   /**
+   * 菜单是否独占一行
+   */
+  menuLone: false,
+
+  /**
+   * 菜单内容
+   */
+  menuContent: 'left',
+
+  /**
    * 语言
    */
   language: 'zh_CN',
