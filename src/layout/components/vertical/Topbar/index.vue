@@ -35,5 +35,8 @@ const settingsStore = useSettingsStore()
       border-radius: unset;
     }
   }
+  :deep(.PersonalView) {
+    margin-right: 20px;
+  }
 }
 </style>

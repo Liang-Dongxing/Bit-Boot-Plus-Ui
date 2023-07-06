@@ -21,7 +21,7 @@ const tenantList = ref<TenantVO[]>([])
 const dynamic = ref(false)
 // 租户开关
 const tenantEnabled = ref(true)
-const isDrawer = ref(true)
+const isDrawer = ref(false)
 
 onMounted(() => {
   initTenantList()
@@ -228,8 +228,6 @@ const handleMenuContent = (show: boolean) => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0 6px;
-  width: 400px;
   .item {
     padding: 0 6px;
     font-size: 20px;
@@ -243,7 +241,6 @@ const handleMenuContent = (show: boolean) => {
     background-color: var(--el-color-primary-light-9);
   }
   .el-avatar {
-    background: #ffffff;
     cursor: pointer;
     border: 2px solid var(--el-color-white);
     :deep(img) {

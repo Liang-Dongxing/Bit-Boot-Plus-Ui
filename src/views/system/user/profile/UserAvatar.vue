@@ -1,8 +1,8 @@
 <template>
   <div class="UserAvatar">
-    <div class="user-info-head" @click="editCropper()">
-      <img :src="options.img as string" title="点击上传头像" class="img-circle img-lg" />
-    </div>
+    <el-avatar class="user-info-head" shape="circle" :size="120" :src="options.img" @click="editCropper">
+      <img :src="defAva" />
+    </el-avatar>
     <el-dialog v-model="open" :title="title" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
@@ -60,6 +60,7 @@ import { VueCropper } from 'vue-cropper'
 import { uploadAvatar } from '@/api/system/user'
 import useUserStore from '@/store/modules/user'
 import { ComponentInternalInstance } from 'vue'
+import defAva from "@/assets/images/avatar.png";
 
 interface Options {
   img: string | ArrayBuffer | null // 裁剪图片的地址
@@ -160,14 +161,10 @@ const closeDialog = () => {
   justify-content: center;
 }
 .user-info-head {
-  width: 120px;
-  height: 120px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  img {
-    width: 100%;
-  }
+  border: 2px solid var(--el-color-white);
 }
 .user-info-head:hover {
   border: 2px solid var(--el-color-primary-light-9);
