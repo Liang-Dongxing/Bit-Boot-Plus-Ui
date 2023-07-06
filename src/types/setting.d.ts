@@ -8,14 +8,22 @@ declare type DefaultSettings = {
    * 是否显示多标签导航
    */
   tagsView?: boolean
+
   /**
    * 是否显示侧边栏Logo
    */
   sidebarLogo?: boolean
+
+  /**
+   * 菜单布局
+   */
+  menuLayout?: string
+
   /**
    * 导航栏布局
    */
   layout?: string
+
   /**
    * 主题模式
    */

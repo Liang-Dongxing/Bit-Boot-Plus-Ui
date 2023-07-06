@@ -3,10 +3,10 @@ import usePermissionStore from '@/store/modules/permission'
 import MenuItem from './MenuItem.vue'
 import Logo from './Logo.vue'
 import PersonalView from '@/components/PersonalView/index.vue'
+import { useSettingsStore } from '@/store/modules/settings'
 
 const route = useRoute()
 const permissionStore = usePermissionStore()
-import { useSettingsStore } from '@/store/modules/settings'
 
 const settingsStore = useSettingsStore()
 const sidebarRouters = computed(() => permissionStore.sidebarRouters.filter((item) => !item.hidden))

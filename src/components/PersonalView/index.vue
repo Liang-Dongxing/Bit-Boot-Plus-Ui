@@ -77,6 +77,11 @@ const handleCommand = (command: string) => {
 }
 // 全屏切换
 const { isFullscreen, toggle } = useFullscreen()
+// 菜单布局
+const showMenuLayout = ref(settingsStore.menuLayout)
+const handleMenuLayout = (show: boolean) => {
+  settingsStore.changeSetting({ key: SettingTypeEnum.MENU_LAYOUT, value: show })
+}
 // 暗黑切换
 import { useDark, useToggle } from '@vueuse/core'
 
@@ -103,17 +108,9 @@ const avatarClick = () => {
 }
 // 布局大小
 const layoutSize = computed(() => settingsStore.layoutSize)
-
-const sizeOptions = ref([
-  { label: '较大', value: 'large' },
-  { label: '默认', value: 'default' },
-  { label: '稍小', value: 'small' },
-])
-
 const handleSetSize = (size: string) => {
   settingsStore.changeSetting({ key: SettingTypeEnum.LAYOUT_SIZE, value: size })
 }
-
 // 是否显示多标签导航
 const showTagsView = ref(settingsStore.tagsView)
 const handleTagsView = (show: boolean) => {
@@ -171,6 +168,12 @@ const handleDynamicTitle = (show: boolean) => {
         <el-form-item label="暗黑模式">
           <DarkSwitch @click="changeDark" />
         </el-form-item>
+        <el-form-item label="菜单布局">
+          <el-select v-model="showMenuLayout" @change="handleMenuLayout">
+            <el-option label="垂直" value="vertical" />
+            <el-option label="水平" value="horizontal" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="语言切换">
           <el-select v-model="locale" @change="handleLanguageChange">
             <el-option label="中文" value="zh_CN" />
@@ -179,7 +182,9 @@ const handleDynamicTitle = (show: boolean) => {
         </el-form-item>
         <el-form-item label="布局大小">
           <el-select v-model="layoutSize" @change="handleSetSize">
-            <el-option v-for="item of sizeOptions" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option label="较大" value="large" />
+            <el-option label="默认" value="default" />
+            <el-option label="稍小" value="small" />
           </el-select>
         </el-form-item>
         <el-form-item label="是否显示多标签导航">

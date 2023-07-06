@@ -8,6 +8,5 @@ export enum SettingTypeEnum {
   DYNAMIC_TITLE = 'dynamicTitle',
   LAYOUT = 'layout',
   DARK = 'dark',
-
-  LAYOUT_SETTING = 'layout-setting',
+  MENU_LAYOUT = 'menuLayout',
 }

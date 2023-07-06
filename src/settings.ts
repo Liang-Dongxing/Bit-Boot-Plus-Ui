@@ -12,6 +12,11 @@ const setting: DefaultSettings = {
   sidebarLogo: true,
 
   /**
+   * 菜单布局
+   */
+  menuLayout: 'vertical',
+
+  /**
    * 布局大小
    */
   layoutSize: 'default',
@@ -34,6 +39,9 @@ const setting: DefaultSettings = {
    */
   errorLog: 'production',
 
+  /**
+   * 是否启用暗黑模式
+   */
   dark: false,
 }
 export default setting

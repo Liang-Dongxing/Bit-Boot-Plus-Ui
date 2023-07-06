@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Topbar, AppMain } from './components'
+import AppMain from '@/layout/AppMain/index.vue'
+import Topbar from './Topbar/index.vue'
 </script>
 
 <template>
