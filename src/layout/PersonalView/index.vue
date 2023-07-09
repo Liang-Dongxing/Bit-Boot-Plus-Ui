@@ -173,46 +173,48 @@ const handleColorInfo = () => {
 
 <template>
   <div ref="personalView" class="PersonalView">
-    <el-select
-      v-if="userId === 1 && tenantEnabled"
-      v-model="companyName"
-      clearable
-      filterable
-      reserve-keyword
-      :placeholder="$t('navbar.selectTenant')"
-      @change="dynamicTenantEvent"
-      @clear="dynamicClearEvent">
-      <template #prefix><icon-park type="city-one" /></template>
-      <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId" />
-    </el-select>
+    <el-space wrap>
+      <el-select
+        v-if="userId === 1 && tenantEnabled"
+        v-model="companyName"
+        clearable
+        filterable
+        reserve-keyword
+        :placeholder="$t('navbar.selectTenant')"
+        @change="dynamicTenantEvent"
+        @clear="dynamicClearEvent">
+        <template #prefix><icon-park type="city-one" /></template>
+        <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId" />
+      </el-select>
 
-    <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-      <icon-park v-if="isFullscreen" type="off-screen-one" size="20" class="item" @click="toggle" />
-      <icon-park v-else type="full-screen-one" size="20" class="item" @click="toggle" />
-    </el-tooltip>
-    <el-dropdown trigger="hover" @command="handleCommand">
-      <el-avatar shape="circle" :size="40" :src="userStore.avatar" @click="avatarClick">
-        <img :src="defAva" />
-      </el-avatar>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item v-if="!dynamic" command="profile">
-            {{ $t('navbar.personalCenter') }}
-          </el-dropdown-item>
-          <el-dropdown-item divided command="logout">
-            {{ $t('navbar.logout') }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+      <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
+        <icon-park v-if="isFullscreen" type="off-screen-one" size="20" class="item" @click="toggle" />
+        <icon-park v-else type="full-screen-one" size="20" class="item" @click="toggle" />
+      </el-tooltip>
+      <el-dropdown trigger="hover" @command="handleCommand">
+        <el-avatar shape="circle" :size="40" :src="userStore.avatar" @click="avatarClick">
+          <img :src="defAva" />
+        </el-avatar>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-if="!dynamic" command="profile">
+              {{ $t('navbar.personalCenter') }}
+            </el-dropdown-item>
+            <el-dropdown-item divided command="logout">
+              {{ $t('navbar.logout') }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </el-space>
     <el-drawer v-model="isDrawer" title="个人设置" size="400">
       <template #header>
-        <div class="header">
+        <el-space wrap class="header">
           <el-avatar shape="circle" :size="40" :src="userStore.avatar" @click="avatarClick">
             <img :src="defAva" />
           </el-avatar>
           <el-text tag="b">{{ userStore.nickname }}</el-text>
-        </div>
+        </el-space>
       </template>
       <el-form label-position="left" label-width="auto">
         <el-form-item label="暗黑模式">
@@ -278,16 +280,7 @@ const handleColorInfo = () => {
   align-items: center;
   justify-content: flex-end;
   .item {
-    padding: 0 6px;
-    font-size: 20px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    color: var(--el-text-color-primary);
     cursor: pointer;
-  }
-  .item:hover {
-    background-color: var(--el-color-primary-light-9);
   }
   .el-avatar {
     cursor: pointer;
