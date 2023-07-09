@@ -8,6 +8,7 @@ import { SettingTypeEnum } from '@/enums/SettingTypeEnum'
 import { dynamicClear, dynamicTenant } from '@/api/system/tenant'
 import { TenantVO } from '@/api/types'
 import { getTenantList } from '@/api/login'
+import { handleThemeStyle } from '@/utils/theme'
 
 const settingsStore = useSettingsStore()
 const userStore = useUserStore()
@@ -89,6 +90,11 @@ const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const changeDark = () => {
   toggleDark()
+  handleColorPrimary()
+  handleColorSuccess()
+  handleColorWarning()
+  handleColorDanger()
+  handleColorInfo()
   settingsStore.changeSetting({ key: SettingTypeEnum.DARK, value: isDark.value })
 }
 
@@ -137,6 +143,31 @@ const showMenuContent = ref(settingsStore.menuContent)
 const handleMenuContent = (show: boolean) => {
   settingsStore.changeSetting({ key: SettingTypeEnum.MENU_CONTENT, value: show })
 }
+//
+const color = ref(settingsStore.color)
+const predefine = ['#FF4500', '#FF8C00', '#FFD700', '#90EE90', '#00CED1', '#1E90FF', '#C71585']
+const colors = ref({
+  primary: ['#409EFF', ...predefine],
+  success: ['#67C23A', ...predefine],
+  warning: ['#E6A23C', ...predefine],
+  danger: ['#F56C6C', ...predefine],
+  info: ['#909399', ...predefine],
+})
+const handleColorPrimary = () => {
+  handleThemeStyle('--el-color-primary', color.value.primary, isDark.value)
+}
+const handleColorSuccess = () => {
+  handleThemeStyle('--el-color-success', color.value.success, isDark.value)
+}
+const handleColorWarning = () => {
+  handleThemeStyle('--el-color-warning', color.value.warning, isDark.value)
+}
+const handleColorDanger = () => {
+  handleThemeStyle('--el-color-danger', color.value.danger, isDark.value)
+}
+const handleColorInfo = () => {
+  handleThemeStyle('--el-color-info', color.value.info, isDark.value)
+}
 </script>
 
 <template>
@@ -174,9 +205,26 @@ const handleMenuContent = (show: boolean) => {
       </template>
     </el-dropdown>
     <el-drawer v-model="isDrawer" title="个人设置" size="400">
+      <template #header>
+        <div class="header">
+          <el-avatar shape="circle" :size="40" :src="userStore.avatar" @click="avatarClick">
+            <img :src="defAva" />
+          </el-avatar>
+          <el-text tag="b">{{ userStore.nickname }}</el-text>
+        </div>
+      </template>
       <el-form label-position="left" label-width="auto">
         <el-form-item label="暗黑模式">
           <DarkSwitch @click="changeDark" />
+        </el-form-item>
+        <el-form-item label="主色">
+          <el-color-picker v-model="color.primary" :predefine="colors.primary" @change="handleColorPrimary" />
+        </el-form-item>
+        <el-form-item label="辅助色">
+          <el-color-picker v-model="color.success" :predefine="colors.success" @change="handleColorSuccess" />
+          <el-color-picker v-model="color.warning" :predefine="colors.warning" @change="handleColorWarning" />
+          <el-color-picker v-model="color.danger" :predefine="colors.danger" @change="handleColorDanger" />
+          <el-color-picker v-model="color.info" :predefine="colors.info" @change="handleColorInfo" />
         </el-form-item>
         <el-form-item label="菜单布局">
           <el-select v-model="showMenuLayout" @change="handleMenuLayout">
@@ -250,6 +298,11 @@ const handleMenuContent = (show: boolean) => {
   }
   .el-avatar:hover {
     border: 2px solid var(--el-color-primary-light-9);
+  }
+  .el-drawer{
+    .header{
+      display: flex;
+    }
   }
 }
 </style>

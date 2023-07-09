@@ -55,6 +55,18 @@ declare type DefaultSettings = {
   dynamicTitle?: boolean
 
   /**
+   * 主色
+   * 辅助色
+   */
+  color?: {
+    primary?: string
+    success?: string
+    warning?: string
+    danger?: string
+    info?: string
+  }
+
+  /**
    *  是否启用暗黑模式
    *
    * true:暗黑模式

@@ -42,16 +42,28 @@ const setting: DefaultSettings = {
   dynamicTitle: false,
 
   /**
+   * 主色
+   * 辅助色
+   */
+  color: {
+    primary: '#409EFF',
+    success: '#67C23A',
+    warning: '#E6A23C',
+    danger: '#F56C6C',
+    info: '#909399',
+  },
+
+  /**
+   * 是否启用暗黑模式
+   */
+  dark: false,
+
+  /**
    * @type {string | array} 'production' | ['production', 'development']
    * @description Need show err logs component.
    * The default is only used in the production env
    * If you want to also use it in dev, you can pass ['production', 'development']
    */
   errorLog: 'production',
-
-  /**
-   * 是否启用暗黑模式
-   */
-  dark: false,
 }
 export default setting

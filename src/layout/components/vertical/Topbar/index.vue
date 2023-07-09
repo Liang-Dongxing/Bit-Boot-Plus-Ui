@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TagsView from '../TagsView/index.vue'
-import PersonalView from '@/components/PersonalView/index.vue'
+import PersonalView from '@/layout/PersonalView/index.vue'
 import { useSettingsStore } from '@/store/modules/settings'
 
 const settingsStore = useSettingsStore()

@@ -20,6 +20,7 @@ export const useSettingsStore = defineStore('setting', () => {
     menuLayout: ref<boolean>(storageSetting.menuLayout || defaultSettings.menuLayout),
     menuLone: ref<boolean>(storageSetting.menuLone || defaultSettings.menuLone),
     menuContent: ref<boolean>(storageSetting.menuContent || defaultSettings.menuContent),
+    color: ref<any>(storageSetting.color || defaultSettings.color),
   }
 
   const {
@@ -35,6 +36,7 @@ export const useSettingsStore = defineStore('setting', () => {
     menuLayout,
     menuLone,
     menuContent,
+    color,
   } = prop
 
   // actions
@@ -61,6 +63,7 @@ export const useSettingsStore = defineStore('setting', () => {
     menuLayout,
     menuLone,
     menuContent,
+    color,
     changeSetting,
     setTitle,
   }

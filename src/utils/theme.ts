@@ -1,11 +1,14 @@
 // 处理主题样式
-export const handleThemeStyle = (theme: string) => {
-  document.documentElement.style.setProperty('--el-color-primary', theme)
+
+export const handleThemeStyle = (prefix: string, theme: string, isDark: boolean) => {
+  document.documentElement.style.setProperty(prefix, theme)
   for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(theme, i / 10)}`)
+    const type = isDark ? 'dark' : 'light'
+    document.documentElement.style.setProperty(`${prefix}-${type}-${i}`, `${getLightColor(theme, i / 10)}`)
   }
   for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, `${getDarkColor(theme, i / 10)}`)
+    const type = isDark ? 'light' : 'dark'
+    document.documentElement.style.setProperty(`${prefix}-${type}-${i}`, `${getDarkColor(theme, i / 10)}`)
   }
 }
 
