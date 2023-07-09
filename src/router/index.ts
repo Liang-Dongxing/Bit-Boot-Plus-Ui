@@ -40,7 +40,7 @@ export const constantRoutes: RouteOption[] = [
   {
     path: '/social-callback',
     hidden: true,
-    component: () => import('@/layout/components/SocialCallback/index.vue'),
+    component: () => import('@/components/SocialCallback/index.vue'),
   },
   {
     path: '/login',
