@@ -8,7 +8,7 @@ import { SettingTypeEnum } from '@/enums/SettingTypeEnum'
 import { dynamicClear, dynamicTenant } from '@/api/system/tenant'
 import { TenantVO } from '@/api/types'
 import { getTenantList } from '@/api/login'
-import { handleThemeStyle } from '@/utils/theme'
+import { handleThemeStyle, clearThemeStyle } from '@/utils/theme'
 
 const settingsStore = useSettingsStore()
 const userStore = useUserStore()
@@ -90,6 +90,7 @@ const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const changeDark = () => {
   toggleDark()
+  clearThemeStyle()
   handleColorPrimary()
   handleColorSuccess()
   handleColorWarning()

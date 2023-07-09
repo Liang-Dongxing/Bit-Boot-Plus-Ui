@@ -1,17 +1,20 @@
 // 处理主题样式
-
+const lights = [3, 5, 7, 8, 9]
+const darks = [2]
 export const handleThemeStyle = (prefix: string, theme: string, isDark: boolean) => {
   document.documentElement.style.setProperty(prefix, theme)
-  for (let i = 1; i <= 9; i++) {
-    const type = isDark ? 'dark' : 'light'
-    document.documentElement.style.setProperty(`${prefix}-${type}-${i}`, `${getLightColor(theme, i / 10)}`)
+  for (let i = 0; i < lights.length; i++) {
+    const color = isDark ? getDarkColor(theme, lights[i] / 10) : getLightColor(theme, lights[i] / 10)
+    document.documentElement.style.setProperty(`${prefix}-light-${lights[i]}`, `${color}`)
   }
-  for (let i = 1; i <= 9; i++) {
-    const type = isDark ? 'light' : 'dark'
-    document.documentElement.style.setProperty(`${prefix}-${type}-${i}`, `${getDarkColor(theme, i / 10)}`)
+  for (let i = 0; i < darks.length; i++) {
+    const color = isDark ? getLightColor(theme, darks[i] / 10) : getDarkColor(theme, darks[i] / 10)
+    document.documentElement.style.setProperty(`${prefix}-dark-${darks[i]}`, `${color}`)
   }
 }
-
+export const clearThemeStyle = () => {
+  document.documentElement.style = ''
+}
 // hex颜色转rgb颜色
 export const hexToRgb = (str: string): string[] => {
   str = str.replace('#', '')
