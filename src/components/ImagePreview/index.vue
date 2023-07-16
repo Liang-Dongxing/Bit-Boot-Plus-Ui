@@ -14,11 +14,10 @@
 </template>
 
 <script setup lang="ts">
+import { propTypes } from '@/utils/propTypes'
+
 const props = defineProps({
-  src: {
-    type: String,
-    default: '',
-  },
+  src: propTypes.string.def(''),
   width: {
     type: [Number, String],
     default: '',
@@ -59,13 +58,16 @@ const realHeight = computed(() => (typeof props.height == 'string' ? props.heigh
   border-radius: 5px;
   background-color: #ebeef5;
   box-shadow: 0 0 5px 1px #ccc;
+
   :deep(.el-image__inner) {
     transition: all 0.3s;
     cursor: pointer;
+
     &:hover {
       transform: scale(1.2);
     }
   }
+
   :deep(.image-slot) {
     display: flex;
     justify-content: center;

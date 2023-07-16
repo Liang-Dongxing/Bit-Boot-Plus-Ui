@@ -36,19 +36,11 @@
 
 <script setup lang="ts">
 import icons from '@/components/IconSelect/requireIcons'
-import { getCurrentInstance } from 'vue'
-import { ComponentInternalInstance } from 'vue/dist/vue'
+import { propTypes } from '@/utils/propTypes'
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    require: true,
-  },
-  width: {
-    type: String,
-    require: false,
-    default: '400px',
-  },
+  modelValue: propTypes.string.isRequired,
+  width: propTypes.string.def('400px'),
 })
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -100,15 +92,14 @@ const selectedIcon = (iconName: string) => {
     width: 28px;
     height: 28px;
     cursor: pointer;
-    margin: 5px;
-    padding: 5px;
+    margin: 4px;
+    padding: 4px;
     border: 1px solid #ccc;
     font-size: 16px;
     &:hover {
       border-color: var(--el-color-primary);
       color: var(--el-color-primary);
       transition: all 0.2s;
-      transform: scaleX(1.1);
     }
   }
   .active {

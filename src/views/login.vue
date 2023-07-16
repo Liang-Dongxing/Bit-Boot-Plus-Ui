@@ -30,43 +30,50 @@
           </el-input>
         </el-form-item>
         <el-form-item v-if="captchaEnabled" prop="code">
-          <el-input
-            v-model="loginForm.code"
-            size="large"
-            auto-complete="off"
-            placeholder="验证码"
-            style="width: 63%"
-            @keyup.enter="handleLogin">
-            <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
-          </el-input>
-          <div class="login-code">
-            <img :src="codeUrl" class="login-code-img" @click="getCode" />
-          </div>
+          <el-row :gutter="20">
+            <el-col :span="15">
+              <el-input
+                v-model="loginForm.code"
+                size="large"
+                auto-complete="off"
+                placeholder="验证码"
+                @keyup.enter="handleLogin">
+                <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
+              </el-input>
+            </el-col>
+            <el-col :span="9" class="login-code">
+              <img :src="codeUrl" class="login-code-img" @click="getCode" />
+            </el-col>
+          </el-row>
         </el-form-item>
-        <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px">记住密码</el-checkbox>
-        <el-form-item style="width: 100%">
-          <el-button :loading="loading" size="large" type="primary" style="width: 100%" @click.prevent="handleLogin">
+        <el-form-item>
+          <el-col :span="12">
+            <el-checkbox v-model="loginForm.rememberMe" style="width: 100%">记住密码</el-checkbox>
+          </el-col>
+          <el-col :span="12">
+            <el-button circle @click="doSocialLogin('wechat')">
+              <icon-park type="wechat" />
+            </el-button>
+            <el-button circle @click="doSocialLogin('maxkey')">
+              <icon-park type="tencent-qq" />
+            </el-button>
+            <el-button circle @click="doSocialLogin('gitee')">
+              <icon-park type="gitee" />
+            </el-button>
+            <el-button circle @click="doSocialLogin('github')">
+              <icon-park type="github" />
+            </el-button>
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-button :loading="loading" type="primary" class="loading-button" @click.prevent="handleLogin">
             <span v-if="!loading">登 录</span>
             <span v-else>登 录 中...</span>
           </el-button>
-          <div v-if="register" style="float: right">
-            <router-link class="router-link" :to="'/register'">立即注册</router-link>
-          </div>
         </el-form-item>
-        <div style="display: flex; justify-content: flex-end; flex-direction: row">
-          <el-button circle @click="doSocialLogin('qq')">
-            <icon-park type="tencent-qq" />
-          </el-button>
-          <el-button circle @click="doSocialLogin('wechat')">
-            <icon-park type="wechat" />
-          </el-button>
-          <el-button circle @click="doSocialLogin('gitee')">
-            <icon-park type="gitee" />
-          </el-button>
-          <el-button circle @click="doSocialLogin('github')">
-            <icon-park type="github" />
-          </el-button>
-        </div>
+        <el-form-item v-if="register">
+          <router-link class="router-link" :to="'/register'">立即注册</router-link>
+        </el-form-item>
       </el-form>
     </el-main>
     <!--  底部  -->
@@ -80,12 +87,11 @@
 import { getCodeImg, getTenantList } from '@/api/login'
 import { authBinding } from '@/api/system/social/auth'
 import Cookies from 'js-cookie'
-import { encrypt, decrypt } from '@/utils/jsencrypt'
 import { useUserStore } from '@/store/modules/user'
 import { LoginData, TenantVO } from '@/api/types'
-import { ElForm, FormRules } from 'element-plus'
 import { to } from 'await-to-js'
-import useSettingsStore from '@/store/modules/settings'
+import { HttpStatus } from '@/enums/RespEnum'
+import { useSettingsStore } from '@/store/modules/settings'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -98,9 +104,9 @@ const loginForm = ref<LoginData>({
   rememberMe: false,
   code: '',
   uuid: '',
-})
+} as LoginData)
 
-const loginRules: FormRules = {
+const loginRules: ElFormRules = {
   tenantId: [{ required: true, trigger: 'blur', message: '请输入您的租户编号' }],
   username: [{ required: true, trigger: 'blur', message: '请输入您的账号' }],
   password: [{ required: true, trigger: 'blur', message: '请输入您的密码' }],
@@ -115,21 +121,21 @@ const captchaEnabled = ref(true)
 const tenantEnabled = ref(true)
 
 // 注册开关
-const register = ref(false)
+const register = ref(true)
 const redirect = ref(undefined)
-const loginRef = ref(ElForm)
+const loginRef = ref<ElFormInstance>()
 // 租户列表
 const tenantList = ref<TenantVO[]>([])
 
 const handleLogin = () => {
-  loginRef.value.validate(async (valid: boolean, fields: any) => {
+  loginRef.value?.validate(async (valid: boolean, fields: any) => {
     if (valid) {
       loading.value = true
       // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码
       if (loginForm.value.rememberMe) {
-        Cookies.set('tenantId', loginForm.value.tenantId, { expires: 30 })
-        Cookies.set('username', loginForm.value.username, { expires: 30 })
-        Cookies.set('password', String(encrypt(loginForm.value.password)), { expires: 30 })
+        Cookies.set('tenantId', String(loginForm.value.tenantId), { expires: 30 })
+        Cookies.set('username', String(loginForm.value.username), { expires: 30 })
+        Cookies.set('password', String(loginForm.value.password), { expires: 30 })
         Cookies.set('rememberMe', String(loginForm.value.rememberMe), { expires: 30 })
       } else {
         // 否则移除
@@ -139,7 +145,6 @@ const handleLogin = () => {
         Cookies.remove('rememberMe')
       }
       // 调用action的登录方法
-      // prittier-ignore
       const [err] = await to(userStore.login(loginForm.value))
       if (!err) {
         await router.push({ path: redirect.value || '/' })
@@ -175,11 +180,11 @@ const getCookie = () => {
   const password = Cookies.get('password')
   const rememberMe = Cookies.get('rememberMe')
   loginForm.value = {
-    tenantId: tenantId === undefined ? loginForm.value.tenantId : tenantId,
-    username: username === undefined ? loginForm.value.username : username,
-    password: password === undefined ? loginForm.value.password : (decrypt(password) as string),
+    tenantId: tenantId === undefined ? String(loginForm.value.tenantId) : tenantId,
+    username: username === undefined ? String(loginForm.value.username) : username,
+    password: password === undefined ? String(loginForm.value.password) : String(password),
     rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
-  }
+  } as LoginData
 }
 
 /**
@@ -199,8 +204,8 @@ const initTenantList = async () => {
 //检测租户选择框的变化
 watch(
   () => loginForm.value.tenantId,
-  (val: string) => {
-    Cookies.set('tenantId', loginForm.value.tenantId, { expires: 30 })
+  () => {
+    Cookies.set('tenantId', String(loginForm.value.tenantId), { expires: 30 })
   }
 )
 
@@ -210,7 +215,7 @@ watch(
  */
 const doSocialLogin = (type: string) => {
   authBinding(type).then((res: any) => {
-    if (res.code === 200) {
+    if (res.code === HttpStatus.SUCCESS) {
       // 获取授权地址跳转
       window.location.href = res.data
     } else {

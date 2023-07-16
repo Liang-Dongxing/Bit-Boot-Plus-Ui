@@ -27,8 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElTreeSelect } from 'element-plus'
-
 const props = defineProps({
   /* 配置项 */
   objMap: {
@@ -67,6 +65,8 @@ const props = defineProps({
 
 const selectTree = ref(ElTreeSelect)
 
+const selectTree = ref<ElTreeSelectInstance>()
+
 const emit = defineEmits(['update:value'])
 
 const valueId = computed({
@@ -78,14 +78,14 @@ const valueId = computed({
 const valueTitle = ref('')
 const defaultExpandedKey = ref<any[]>([])
 
-function initHandle() {
+const initHandle = () => {
   nextTick(() => {
     const selectedValue = valueId.value
     if (selectedValue !== null && typeof selectedValue !== 'undefined') {
-      const node = selectTree.value.getNode(selectedValue)
+      const node = selectTree.value?.getNode(selectedValue)
       if (node) {
         valueTitle.value = node.data[props.objMap.label]
-        selectTree.value.setCurrentKey(selectedValue) // 设置默认选中
+        selectTree.value?.setCurrentKey(selectedValue) // 设置默认选中
         defaultExpandedKey.value = [selectedValue] // 设置默认展开
       }
     } else {
@@ -93,27 +93,27 @@ function initHandle() {
     }
   })
 }
-function handleNodeClick(node: any) {
+const handleNodeClick = (node: any) => {
   valueTitle.value = node[props.objMap.label]
   valueId.value = node[props.objMap.value]
   defaultExpandedKey.value = []
-  selectTree.value.blur()
+  selectTree.value?.blur()
   selectFilterData('')
 }
-function selectFilterData(val: any) {
-  selectTree.value.filter(val)
+const selectFilterData = (val: any) => {
+  selectTree.value?.filter(val)
 }
-function filterNode(value: any, data: any) {
+const filterNode = (value: any, data: any) => {
   if (!value) return true
   return data[props.objMap['label']].indexOf(value) !== -1
 }
-function clearHandle() {
+const clearHandle = () => {
   valueTitle.value = ''
   valueId.value = ''
   defaultExpandedKey.value = []
   clearSelected()
 }
-function clearSelected() {
+const clearSelected = () => {
   const allNode = document.querySelectorAll('#tree-option .el-tree-node')
   allNode.forEach((element) => element.classList.remove('is-current'))
 }

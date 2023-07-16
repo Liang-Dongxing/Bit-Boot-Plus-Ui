@@ -293,8 +293,8 @@ const handleColorInfo = () => {
   .el-avatar:hover {
     border: 2px solid var(--el-color-primary-light-9);
   }
-  .el-drawer{
-    .header{
+  .el-drawer {
+    .header {
       display: flex;
     }
   }

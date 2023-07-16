@@ -15,7 +15,7 @@
             :filter-node-method="filterNode"
             highlight-current
             default-expand-all
-            @node-click="handleNodeClick"></el-tree>
+            @node-click="handleNodeClick" />
         </el-card>
       </el-col>
       <el-col :lg="20" :xs="24">
@@ -371,25 +371,15 @@
 </template>
 
 <script setup name="User" lang="ts">
-import {
-  changeUserStatus,
-  listUser,
-  resetUserPwd,
-  delUser,
-  getUser,
-  updateUser,
-  addUser,
-  deptTreeSelect,
-} from '@/api/system/user'
+import api from '@/api/system/user'
 import { UserForm, UserQuery, UserVO } from '@/api/system/user/types'
-import { ComponentInternalInstance } from 'vue'
 import { getToken } from '@/utils/auth'
 import { treeselect } from '@/api/system/dept'
 import { DeptVO } from '@/api/system/dept/types'
 import { RoleVO } from '@/api/system/role/types'
 import { PostVO } from '@/api/system/post/types'
-import { DateModelType, ElTree, ElUpload, UploadFile, ElForm } from 'element-plus'
 import { to } from 'await-to-js'
+
 const router = useRouter()
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const { sys_normal_disable, sys_user_sex } = toRefs<any>(proxy?.useDict('sys_normal_disable', 'sys_user_sex'))
@@ -433,10 +423,10 @@ const columns = ref<FieldOption[]>([
   { key: 6, label: `创建时间`, visible: true },
 ])
 
-const deptTreeRef = ref(ElTree)
-const queryFormRef = ref(ElForm)
-const userFormRef = ref(ElForm)
-const uploadRef = ref(ElUpload)
+const deptTreeRef = ref<ElTreeInstance>()
+const queryFormRef = ref<ElFormInstance>()
+const userFormRef = ref<ElFormInstance>()
+const uploadRef = ref<ElUploadInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -492,7 +482,7 @@ const filterNode = (value: string, data: any) => {
 /** 根据名称筛选部门树 */
 watchEffect(
   () => {
-    deptTreeRef.value.filter(deptName.value)
+    deptTreeRef.value?.filter(deptName.value)
   },
   {
     flush: 'post', // watchEffect会在DOM挂载或者更新之前就会触发，此属性控制在DOM元素更新后运行
@@ -501,14 +491,14 @@ watchEffect(
 
 /** 查询部门下拉树结构 */
 const getTreeSelect = async () => {
-  const res = await deptTreeSelect()
+  const res = await api.deptTreeSelect()
   deptOptions.value = res.data
 }
 
 /** 查询用户列表 */
 const getList = async () => {
   loading.value = true
-  const res = await listUser(proxy?.addDateRange(queryParams.value, dateRange.value))
+  const res = await api.listUser(proxy?.addDateRange(queryParams.value, dateRange.value))
   loading.value = false
   userList.value = res.rows
   total.value = res.total
@@ -528,10 +518,10 @@ const handleQuery = () => {
 /** 重置按钮操作 */
 const resetQuery = () => {
   dateRange.value = ['', '']
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   queryParams.value.pageNum = 1
   queryParams.value.deptId = undefined
-  deptTreeRef.value.setCurrentKey(null)
+  deptTreeRef.value?.setCurrentKey(undefined)
   handleQuery()
 }
 
@@ -540,7 +530,7 @@ const handleDelete = async (row?: UserVO) => {
   const userIds = row?.userId || ids.value
   const [err] = await to(proxy?.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？') as any)
   if (!err) {
-    await delUser(userIds)
+    await api.delUser(userIds)
     await getList()
     proxy?.$modal.msgSuccess('删除成功')
   }
@@ -551,7 +541,7 @@ const handleStatusChange = async (row: UserVO) => {
   let text = row.status === '0' ? '启用' : '停用'
   try {
     await proxy?.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗?')
-    await changeUserStatus(row.userId, row.status)
+    await api.changeUserStatus(row.userId, row.status)
     proxy?.$modal.msgSuccess(text + '成功')
   } catch (err) {
     row.status = row.status === '0' ? '1' : '0'
@@ -575,7 +565,7 @@ const handleResetPwd = async (row: UserVO) => {
     })
   )
   if (!err) {
-    await resetUserPwd(row.userId, res.value)
+    await api.resetUserPwd(row.userId, res.value)
     proxy?.$modal.msgSuccess('修改成功，新密码是：' + res.value)
   }
 }
@@ -615,7 +605,7 @@ const handleFileUploadProgress = () => {
 const handleFileSuccess = (response: any, file: UploadFile) => {
   upload.open = false
   upload.isUploading = false
-  uploadRef.value.handleRemove(file)
+  uploadRef.value?.handleRemove(file)
   ElMessageBox.alert(
     "<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + '</div>',
     '导入结果',
@@ -626,7 +616,7 @@ const handleFileSuccess = (response: any, file: UploadFile) => {
 
 /** 提交上传文件 */
 function submitFileForm() {
-  uploadRef.value.submit()
+  uploadRef.value?.submit()
 }
 
 /** 初始化部门数据 */
@@ -641,7 +631,7 @@ const initTreeData = async () => {
 /** 重置操作表单 */
 const reset = () => {
   form.value = { ...initFormData }
-  userFormRef.value.resetFields()
+  userFormRef.value?.resetFields()
 }
 /** 取消按钮 */
 const cancel = () => {
@@ -656,7 +646,7 @@ const handleAdd = () => {
   nextTick(async () => {
     reset()
     await initTreeData()
-    const { data } = await getUser()
+    const { data } = await api.getUser()
     postOptions.value = data.posts
     roleOptions.value = data.roles
     form.value.password = initPassword.value
@@ -670,7 +660,7 @@ const handleUpdate = (row?: UserForm) => {
     reset()
     await initTreeData()
     const userId = row?.userId || ids.value[0]
-    const { data } = await getUser(userId)
+    const { data } = await api.getUser(userId)
     Object.assign(form.value, data.user)
     postOptions.value = data.posts
     roleOptions.value = data.roles
@@ -682,9 +672,9 @@ const handleUpdate = (row?: UserForm) => {
 
 /** 提交按钮 */
 const submitForm = () => {
-  userFormRef.value.validate(async (valid: boolean) => {
+  userFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
-      form.value.userId ? await updateUser(form.value) : await addUser(form.value)
+      form.value.userId ? await api.updateUser(form.value) : await api.addUser(form.value)
       proxy?.$modal.msgSuccess('操作成功')
       dialog.visible = false
       await getList()
@@ -704,8 +694,8 @@ const closeDialog = () => {
  * 重置表单
  */
 const resetForm = () => {
-  userFormRef.value.resetFields()
-  userFormRef.value.clearValidate()
+  userFormRef.value?.resetFields()
+  userFormRef.value?.clearValidate()
 
   form.value.id = undefined
   form.value.status = '1'

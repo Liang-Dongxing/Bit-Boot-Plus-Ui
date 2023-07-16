@@ -17,7 +17,7 @@ const activeMenu = computed(() => {
 <template>
   <logo v-if="settingsStore.sidebarLogo" />
   <el-menu :default-active="activeMenu as string" :router="true">
-    <MenuItem v-for="item in sidebarRouters" :key="item.path as string || item.redirect as string" :item="item" />
+    <MenuItem v-for="item in sidebarRouters" :key="(item.path as string) || (item.redirect as string)" :item="item" />
   </el-menu>
 </template>
 

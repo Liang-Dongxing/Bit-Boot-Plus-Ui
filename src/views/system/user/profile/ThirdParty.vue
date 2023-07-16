@@ -20,32 +20,32 @@
     <div id="git-user-binding">
       <h4 class="provider-desc">你可以绑定以下第三方帐号</h4>
       <div id="authlist" class="user-bind">
-        <a class="third-app" href="#" title="使用 Gitee 账号授权登录" @click="authUrl('gitee')">
-          <div class="git-other-login-icon">
-            <svg-icon icon-class="gitee" />
-          </div>
-          <span class="app-name">Gitee</span>
-        </a>
-
-        <a class="third-app" href="#" title="使用 GitHub 账号授权登录" @click="authUrl('github')">
-          <div class="git-other-login-icon">
-            <svg-icon icon-class="github" />
-          </div>
-          <span class="app-name">Github</span>
-        </a>
-
-        <a class="third-app" href="#" title="使用 微信 账号授权登录" @click="authUrl('wechar')">
+        <a class="third-app" href="#" title="使用 Gitee 账号授权登录" @click="authUrl('wechar')">
           <div class="git-other-login-icon">
             <svg-icon icon-class="wechat" />
           </div>
           <span class="app-name">WeiXin</span>
         </a>
 
-        <a class="third-app" href="#" title="使用 QQ 账号授权登录" @click="authUrl('qq')">
+        <a class="third-app" href="#" title="使用 GitHub 账号授权登录" @click="authUrl('maxkey')">
           <div class="git-other-login-icon">
-            <svg-icon icon-class="qq" />
+            <svg-icon icon-class="maxkey" />
           </div>
-          <span class="app-name">QQ</span>
+          <span class="app-name">MaxKey</span>
+        </a>
+
+        <a class="third-app" href="#" title="使用 微信 账号授权登录" @click="authUrl('gitee')">
+          <div class="git-other-login-icon">
+            <svg-icon icon-class="gitee" />
+          </div>
+          <span class="app-name">Gitee</span>
+        </a>
+
+        <a class="third-app" href="#" title="使用 QQ 账号授权登录" @click="authUrl('github')">
+          <div class="git-other-login-icon">
+            <svg-icon icon-class="github" />
+          </div>
+          <span class="app-name">Github</span>
         </a>
       </div>
     </div>
@@ -55,6 +55,8 @@
 <script lang="ts" setup>
 import { authUnlock, authBinding } from '@/api/system/social/auth'
 import { PropType } from 'vue'
+
+const { proxy } = getCurrentInstance() as ComponentInternalInstance
 
 const props = defineProps({
   auths: {
@@ -70,9 +72,10 @@ const unlockAuth = (row: any) => {
     })
     .then((res: any) => {
       if (res.code === 200) {
-        ElMessage.success('解绑成功')
+        proxy?.$modal.msgSuccess('解绑成功')
+        proxy?.$tab.refreshPage()
       } else {
-        ElMessage.error(res.msg)
+        proxy?.$modal.msgError(res.msg)
       }
     })
     .catch(() => {})
@@ -83,7 +86,7 @@ const authUrl = (source: string) => {
     if (res.code === 200) {
       window.location.href = res.data
     } else {
-      ElMessage.error(res.msg)
+      proxy?.$modal.msgError(res.msg)
     }
   })
 }

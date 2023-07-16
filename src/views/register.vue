@@ -38,21 +38,24 @@
           </el-input>
         </el-form-item>
         <el-form-item v-if="captchaEnabled" prop="code">
-          <el-input
-            v-model="registerForm.code"
-            size="large"
-            auto-complete="off"
-            placeholder="验证码"
-            style="width: 63%"
-            @keyup.enter="handleRegister">
-            <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
-          </el-input>
-          <div class="register-code">
-            <img :src="codeUrl" class="register-code-img" @click="getCode" />
-          </div>
+          <el-row :gutter="20">
+            <el-col :span="15">
+              <el-input
+                v-model="registerForm.code"
+                size="large"
+                auto-complete="off"
+                placeholder="验证码"
+                @keyup.enter="handleRegister">
+                <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
+              </el-input>
+            </el-col>
+            <el-col :span="9" class="register-code">
+              <img :src="codeUrl" class="register-code-img" @click="getCode" />
+            </el-col>
+          </el-row>
         </el-form-item>
         <el-form-item style="width: 100%">
-          <el-button :loading="loading" size="large" type="primary" style="width: 100%" @click.prevent="handleRegister">
+          <el-button :loading="loading" type="primary" class="loading-button" @click.prevent="handleRegister">
             <span v-if="!loading">注 册</span>
             <span v-else>注 册 中...</span>
           </el-button>
@@ -72,9 +75,8 @@
 <script setup lang="ts">
 import { getCodeImg, register, getTenantList } from '@/api/login'
 import { RegisterForm, TenantVO } from '@/api/types'
-import { FormRules } from 'element-plus'
 import { to } from 'await-to-js'
-import useSettingsStore from '@/store/modules/settings'
+import { useSettingsStore } from '@/store/modules/settings'
 
 const router = useRouter()
 const appTitle = useSettingsStore().appTitle
@@ -100,7 +102,7 @@ const equalToPassword = (rule: any, value: string, callback: any) => {
   }
 }
 
-const registerRules: FormRules = {
+const registerRules: ElFormRules = {
   tenantId: [{ required: true, trigger: 'blur', message: '请输入您的租户编号' }],
   username: [
     { required: true, trigger: 'blur', message: '请输入您的账号' },

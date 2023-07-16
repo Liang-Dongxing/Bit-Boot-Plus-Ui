@@ -163,9 +163,7 @@
 
 <script setup name="Notice" lang="ts">
 import { listNotice, getNotice, delNotice, addNotice, updateNotice } from '@/api/system/notice'
-import { ComponentInternalInstance } from 'vue'
 import { NoticeForm, NoticeQuery, NoticeVO } from '@/api/system/notice/types'
-import { ElForm } from 'element-plus'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const { sys_notice_status, sys_notice_type } = toRefs<any>(proxy?.useDict('sys_notice_status', 'sys_notice_type'))
@@ -178,8 +176,8 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 
-const queryFormRef = ref(ElForm)
-const noticeFormRef = ref(ElForm)
+const queryFormRef = ref<ElFormInstance>()
+const noticeFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -229,7 +227,7 @@ const cancel = () => {
 /** 表单重置 */
 const reset = () => {
   form.value = { ...initFormData }
-  noticeFormRef.value.resetFields()
+  noticeFormRef.value?.resetFields()
 }
 /** 搜索按钮操作 */
 const handleQuery = () => {
@@ -238,7 +236,7 @@ const handleQuery = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 /** 多选框选中数据 */
@@ -268,12 +266,12 @@ const handleUpdate = (row?: NoticeVO) => {
 }
 /** 提交按钮 */
 const submitForm = () => {
-  noticeFormRef.value.validate(async (valid: boolean) => {
+  noticeFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       form.value.noticeId ? await updateNotice(form.value) : await addNotice(form.value)
       proxy?.$modal.msgSuccess('修改成功')
       dialog.visible = false
-      getList()
+      await getList()
     }
   })
 }
@@ -282,7 +280,7 @@ const handleDelete = async (row?: NoticeVO) => {
   const noticeIds = row?.noticeId || ids.value
   await proxy?.$modal.confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项？')
   await delNotice(noticeIds)
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('删除成功')
 }
 

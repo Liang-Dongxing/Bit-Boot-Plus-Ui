@@ -26,7 +26,10 @@ const activeMenu = computed(() => {
         :default-active="activeMenu as string"
         :router="true"
         mode="horizontal">
-        <MenuItem v-for="item in sidebarRouters" :key="item.path as string || item.redirect as string" :item="item" />
+        <MenuItem
+          v-for="item in sidebarRouters"
+          :key="(item.path as string) || (item.redirect as string)"
+          :item="item" />
       </el-menu>
       <PersonalView />
     </div>
@@ -36,7 +39,7 @@ const activeMenu = computed(() => {
       :default-active="activeMenu as string"
       :router="true"
       mode="horizontal">
-      <MenuItem v-for="item in sidebarRouters" :key="item.path as string || item.redirect as string" :item="item" />
+      <MenuItem v-for="item in sidebarRouters" :key="(item.path as string) || (item.redirect as string)" :item="item" />
     </el-menu>
   </div>
 </template>

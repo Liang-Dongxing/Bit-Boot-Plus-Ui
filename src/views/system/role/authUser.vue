@@ -96,10 +96,8 @@
 <script setup name="AuthUser" lang="ts">
 import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role'
 import { UserQuery } from '@/api/system/user/types'
-import { ComponentInternalInstance } from 'vue'
 import { UserVO } from '@/api/system/user/types'
 import SelectUser from './selectUser.vue'
-// import { ElForm, ElSelect} from 'element-plus';
 
 const route = useRoute()
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -112,8 +110,8 @@ const multiple = ref(true)
 const total = ref(0)
 const userIds = ref<Array<string | number>>([])
 
-const queryFormRef = ref(ElForm)
-const selectRef = ref(SelectUser)
+const queryFormRef = ref<ElFormInstance>()
+const selectRef = ref<InstanceType<typeof SelectUser>>()
 
 const queryParams = reactive<UserQuery>({
   pageNum: 1,
@@ -143,7 +141,7 @@ const handleQuery = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 // 多选框选中数据
@@ -153,13 +151,13 @@ const handleSelectionChange = (selection: UserVO[]) => {
 }
 /** 打开授权用户表弹窗 */
 const openSelectUser = () => {
-  selectRef.value.show()
+  selectRef.value?.show()
 }
 /** 取消授权按钮操作 */
 const cancelAuthUser = async (row: UserVO) => {
   await proxy?.$modal.confirm('确认要取消该用户"' + row.userName + '"角色吗？')
   await authUserCancel({ userId: row.userId, roleId: queryParams.roleId })
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('取消授权成功')
 }
 /** 批量取消授权按钮操作 */
@@ -168,7 +166,7 @@ const cancelAuthUserAll = async () => {
   const uIds = userIds.value.join(',')
   await proxy?.$modal.confirm('是否取消选中用户授权数据项?')
   await authUserCancelAll({ roleId: roleId, userIds: uIds })
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('取消授权成功')
 }
 

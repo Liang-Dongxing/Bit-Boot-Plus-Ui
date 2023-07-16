@@ -165,9 +165,9 @@
             v-copyText:callback="copyTextSuccess"
             :underline="false"
             icon="DocumentCopy"
-            style="float: right"
-            >&nbsp;复制</el-link
-          >
+            style="float: right">
+            &nbsp;复制
+          </el-link>
           <pre>{{ value }}</pre>
         </el-tab-pane>
       </el-tabs>
@@ -180,9 +180,7 @@
 import { listTable, previewTable, delTable, genCode, synchDb, getDataNames } from '@/api/tool/gen'
 import { TableQuery, TableVO } from '@/api/tool/gen/types'
 import router from '@/router'
-import importTable from './importTable.vue'
-import { ComponentInternalInstance } from 'vue'
-import { ElForm, DateModelType } from 'element-plus'
+import ImportTable from './importTable.vue'
 
 const route = useRoute()
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -198,8 +196,8 @@ const dateRange = ref<[DateModelType, DateModelType]>(['', ''])
 const uniqueId = ref('')
 const dataNameList = ref<Array<string>>([])
 
-const queryFormRef = ref(ElForm)
-const importRef = ref(importTable)
+const queryFormRef = ref<ElFormInstance>()
+const importRef = ref<InstanceType<typeof ImportTable>>()
 
 const queryParams = ref<TableQuery>({
   pageNum: 1,
@@ -224,7 +222,7 @@ onActivated(() => {
     uniqueId.value = time as string
     queryParams.value.pageNum = Number(route.query.pageNum)
     dateRange.value = ['', '']
-    queryFormRef.value.resetFields()
+    queryFormRef.value?.resetFields()
     getList()
   }
 })
@@ -271,12 +269,12 @@ const handleSynchDb = async (row: TableVO) => {
 }
 /** 打开导入表弹窗 */
 const openImportTable = () => {
-  importRef.value.show(queryParams.value.dataName)
+  importRef.value?.show(queryParams.value.dataName)
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
   dateRange.value = ['', '']
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 /** 预览按钮 */

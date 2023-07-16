@@ -178,9 +178,7 @@ import useDictStore from '@/store/modules/dict'
 import { optionselect as getDictOptionselect, getType } from '@/api/system/dict/type'
 import { listData, getData, delData, addData, updateData } from '@/api/system/dict/data'
 import { DictTypeVO } from '@/api/system/dict/type/types'
-import { ComponentInternalInstance } from 'vue'
 import { DictDataForm, DictDataQuery, DictDataVO } from '@/api/system/dict/data/types'
-import { ElForm } from 'element-plus'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const { sys_normal_disable } = toRefs<any>(proxy?.useDict('sys_normal_disable'))
@@ -196,8 +194,8 @@ const total = ref(0)
 const defaultDictType = ref('')
 const typeOptions = ref<DictTypeVO[]>([])
 
-const dataFormRef = ref(ElForm)
-const queryFormRef = ref(ElForm)
+const dataFormRef = ref<ElFormInstance>()
+const queryFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -272,7 +270,7 @@ const cancel = () => {
 /** 表单重置 */
 const reset = () => {
   form.value = { ...initFormData }
-  dataFormRef.value.resetFields()
+  dataFormRef.value?.resetFields()
 }
 /** 搜索按钮操作 */
 const handleQuery = () => {
@@ -286,7 +284,7 @@ const handleClose = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   queryParams.value.dictType = defaultDictType.value
   handleQuery()
 }
@@ -318,13 +316,13 @@ const handleUpdate = (row?: DictDataVO) => {
 }
 /** 提交按钮 */
 const submitForm = () => {
-  dataFormRef.value.validate(async (valid: boolean) => {
+  dataFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       form.value.dictCode ? await updateData(form.value) : await addData(form.value)
       useDictStore().removeDict(queryParams.value.dictType)
       proxy?.$modal.msgSuccess('操作成功')
       dialog.visible = false
-      getList()
+      await getList()
     }
   })
 }
@@ -333,7 +331,7 @@ const handleDelete = async (row?: DictDataVO) => {
   const dictCodes = row?.dictCode || ids.value
   await proxy?.$modal.confirm('是否确认删除字典编码为"' + dictCodes + '"的数据项？')
   await delData(dictCodes)
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('删除成功')
   useDictStore().removeDict(queryParams.value.dictType)
 }

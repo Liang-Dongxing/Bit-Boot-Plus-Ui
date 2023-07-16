@@ -183,9 +183,7 @@ import {
   updateOssConfig,
   changeOssConfigStatus,
 } from '@/api/system/ossConfig'
-import { ComponentInternalInstance } from 'vue'
 import { OssConfigForm, OssConfigQuery, OssConfigVO } from '@/api/system/ossConfig/types'
-import { ElForm } from 'element-plus'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const { sys_yes_no } = toRefs<any>(proxy?.useDict('sys_yes_no'))
@@ -199,8 +197,8 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 
-const queryFormRef = ref(ElForm)
-const ossConfigFormRef = ref(ElForm)
+const queryFormRef = ref<ElFormInstance>()
+const ossConfigFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -305,7 +303,7 @@ const cancel = () => {
 /** 表单重置 */
 const reset = () => {
   form.value = { ...initFormData }
-  ossConfigFormRef.value.resetFields()
+  ossConfigFormRef.value?.resetFields()
 }
 /** 搜索按钮操作 */
 const handleQuery = () => {
@@ -314,7 +312,7 @@ const handleQuery = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 /** 选择条数  */
@@ -346,7 +344,7 @@ const handleUpdate = (row?: OssConfigVO) => {
 }
 /** 提交按钮 */
 const submitForm = () => {
-  ossConfigFormRef.value.validate(async (valid: boolean) => {
+  ossConfigFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true
       if (form.value.ossConfigId) {

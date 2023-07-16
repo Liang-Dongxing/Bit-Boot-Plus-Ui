@@ -44,31 +44,18 @@
 <script setup lang="ts">
 import { getToken } from '@/utils/auth'
 import { listByIds, delOss } from '@/api/system/oss'
-import { ComponentInternalInstance } from 'vue'
-import { ElUpload, UploadFile } from 'element-plus'
+import { propTypes } from '@/utils/propTypes'
 
 const props = defineProps({
   modelValue: [String, Object, Array],
   // 数量限制
-  limit: {
-    type: Number,
-    default: 5,
-  },
+  limit: propTypes.number.def(5),
   // 大小限制(MB)
-  fileSize: {
-    type: Number,
-    default: 5,
-  },
+  fileSize: propTypes.number.def(5),
   // 文件类型, 例如['png', 'jpg', 'jpeg']
-  fileType: {
-    type: Array,
-    default: () => ['doc', 'xls', 'ppt', 'txt', 'pdf'],
-  },
+  fileType: propTypes.array.def(['doc', 'xls', 'ppt', 'txt', 'pdf']),
   // 是否显示提示
-  isShowTip: {
-    type: Boolean,
-    default: true,
-  },
+  isShowTip: propTypes.bool.def(true),
 })
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -83,7 +70,7 @@ const headers = ref({ Authorization: 'Bearer ' + getToken() })
 const fileList = ref<any[]>([])
 const showTip = computed(() => props.isShowTip && (props.fileType || props.fileSize))
 
-const fileUploadRef = ref(ElUpload)
+const fileUploadRef = ref<ElUploadInstance>()
 
 watch(
   () => props.modelValue,
@@ -159,7 +146,7 @@ const handleUploadSuccess = (res: any, file: UploadFile) => {
     number.value--
     proxy?.$modal.closeLoading()
     proxy?.$modal.msgError(res.msg)
-    fileUploadRef.value.handleRemove(file)
+    fileUploadRef.value?.handleRemove(file)
     uploadedSuccessfully()
   }
 }
@@ -210,18 +197,21 @@ const listToString = (list: any[], separator?: string) => {
 .upload-file-uploader {
   margin-bottom: 5px;
 }
+
 .upload-file-list .el-upload-list__item {
   border: 1px solid #e4e7ed;
   line-height: 2;
   margin-bottom: 10px;
   position: relative;
 }
+
 .upload-file-list .ele-upload-list__item-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: inherit;
 }
+
 .ele-upload-list__item-content-action .el-link {
   margin-right: 10px;
 }

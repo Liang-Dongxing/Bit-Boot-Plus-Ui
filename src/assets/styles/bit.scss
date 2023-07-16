@@ -41,20 +41,19 @@
 
   .login-code,
   .register-code {
-    width: 33%;
-    height: 40px;
-    float: right;
-
-    img {
-      cursor: pointer;
-      vertical-align: middle;
-    }
   }
 
   .login-code-img,
   .register-code-img {
+    width: 100%;
     height: 40px;
-    padding-left: 12px;
+    cursor: pointer;
+    vertical-align: middle;
+    float: right;
+  }
+
+  .loading-button{
+    width: 100%;
   }
 }
 

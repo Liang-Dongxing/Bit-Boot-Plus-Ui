@@ -1,5 +1,5 @@
 <template>
-  <div class="AppMain">
+  <div class="p-2">
     <transition name="el-zoom-in-top" mode="out-in">
       <el-card v-show="showSearch" shadow="never" class="search">
         <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
@@ -134,8 +134,6 @@
 <script setup name="Demo" lang="ts">
 import { listDemo, getDemo, delDemo, addDemo, updateDemo } from '@/api/demo/demo'
 import { DemoVO, DemoQuery, DemoForm } from '@/api/demo/demo/types'
-import { ComponentInternalInstance } from 'vue'
-import { ElForm } from 'element-plus'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 
@@ -148,8 +146,8 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 
-const queryFormRef = ref(ElForm)
-const demoFormRef = ref(ElForm)
+const queryFormRef = ref<ElFormInstance>()
+const demoFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -205,7 +203,7 @@ const cancel = () => {
 /** 表单重置 */
 const reset = () => {
   form.value = { ...initFormData }
-  demoFormRef.value.resetFields()
+  demoFormRef.value?.resetFields()
 }
 
 /** 搜索按钮操作 */
@@ -216,7 +214,7 @@ const handleQuery = () => {
 
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 
@@ -252,7 +250,7 @@ const handleUpdate = (row?: DemoVO) => {
 
 /** 提交按钮 */
 const submitForm = () => {
-  demoFormRef.value.validate(async (valid: boolean) => {
+  demoFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true
       if (form.value.id) {

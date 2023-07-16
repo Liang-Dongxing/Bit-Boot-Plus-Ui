@@ -221,8 +221,6 @@ import {
 import { selectTenantPackage } from '@/api/system/tenantPackage'
 import { TenantForm, TenantQuery, TenantVO } from '@/api/system/tenant/types'
 import { TenantPkgVO } from '@/api/system/tenantPackage/types'
-import { ComponentInternalInstance } from 'vue'
-import { ElForm } from 'element-plus'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 
@@ -236,8 +234,8 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 
-const queryFormRef = ref(ElForm)
-const tenantFormRef = ref(ElForm)
+const queryFormRef = ref<ElFormInstance>()
+const tenantFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -327,7 +325,7 @@ const cancel = () => {
 // 表单重置
 const reset = () => {
   form.value = { ...initFormData }
-  tenantFormRef.value.resetFields()
+  tenantFormRef.value?.resetFields()
 }
 
 /** 搜索按钮操作 */
@@ -338,7 +336,7 @@ const handleQuery = () => {
 
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 
@@ -366,7 +364,7 @@ const handleUpdate = (row?: TenantVO) => {
   dialog.title = '修改租户'
   nextTick(async () => {
     reset()
-    getTenantPackage()
+    await getTenantPackage()
     const _id = row?.id || ids.value[0]
     const res = await getTenant(_id)
     loading.value = false
@@ -376,7 +374,7 @@ const handleUpdate = (row?: TenantVO) => {
 
 /** 提交按钮 */
 const submitForm = () => {
-  tenantFormRef.value.validate(async (valid: boolean) => {
+  tenantFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true
       if (form.value.id) {
@@ -397,7 +395,7 @@ const handleDelete = async (row?: TenantVO) => {
   await proxy?.$modal.confirm('是否确认删除租户编号为"' + _ids + '"的数据项？')
   loading.value = true
   await delTenant(_ids).finally(() => (loading.value = false))
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('删除成功')
 }
 
@@ -407,7 +405,7 @@ const handleSyncTenantPackage = async (row: TenantVO) => {
     await proxy?.$modal.confirm('是否确认同步租户套餐租户编号为"' + row.tenantId + '"的数据项？')
     loading.value = true
     await syncTenantPackage(row.tenantId, row.packageId)
-    getList()
+    await getList()
     proxy?.$modal.msgSuccess('同步成功')
   } catch {
     return

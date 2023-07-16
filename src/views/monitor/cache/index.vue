@@ -132,7 +132,6 @@
 <script setup name="Cache" lang="ts">
 import { getCache } from '@/api/monitor/cache'
 import * as echarts from 'echarts'
-import { ComponentInternalInstance } from 'vue'
 
 const cache = ref<any>({})
 const commandstats = ref()
@@ -163,7 +162,6 @@ const getList = async () => {
       },
     ],
   })
-
   const usedmemoryInstance = echarts.init(usedmemory.value, 'macarons')
   usedmemoryInstance.setOption({
     tooltip: {
@@ -186,6 +184,10 @@ const getList = async () => {
         ],
       },
     ],
+  })
+  window.addEventListener('resize', () => {
+    commandstatsIntance.resize()
+    usedmemoryInstance.resize()
   })
 }
 

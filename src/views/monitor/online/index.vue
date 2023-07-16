@@ -1,6 +1,6 @@
 <template>
   <div class="AppMain">
-    <el-card class="search" shadow="never">
+    <el-card shadow="never" class="search">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
         <el-form-item label="登录地址" prop="ipaddr">
           <el-input
@@ -24,7 +24,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card class="panel" shadow="never">
+    <el-card shadow="never">
       <el-table
         v-loading="loading"
         :data="
@@ -74,7 +74,6 @@
 
 <script setup name="Online" lang="ts">
 import { forceLogout, list as initData } from '@/api/monitor/online'
-import { ComponentInternalInstance } from 'vue'
 import { OnlineQuery, OnlineVO } from '@/api/monitor/online/types'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -83,7 +82,7 @@ const onlineList = ref<OnlineVO[]>([])
 const loading = ref(true)
 const total = ref(0)
 
-const queryFormRef = ref(ElForm)
+const queryFormRef = ref<ElFormInstance>()
 
 const queryParams = ref<OnlineQuery>({
   pageNum: 1,
@@ -107,7 +106,7 @@ const handleQuery = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 /** 强退按钮操作 */

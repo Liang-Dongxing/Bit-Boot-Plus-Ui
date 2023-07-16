@@ -9,7 +9,7 @@ import { parseStrEmpty } from '@/utils/bit'
  * 查询用户列表
  * @param query
  */
-export function listUser(query: UserQuery): AxiosPromise<UserVO[]> {
+export const listUser = (query: UserQuery): AxiosPromise<UserVO[]> => {
   return request({
     url: '/system/user/list',
     method: 'get',
@@ -21,7 +21,7 @@ export function listUser(query: UserQuery): AxiosPromise<UserVO[]> {
  * 获取用户详情
  * @param userId
  */
-export function getUser(userId?: string | number): AxiosPromise<UserInfoVO> {
+export const getUser = (userId?: string | number): AxiosPromise<UserInfoVO> => {
   return request({
     url: '/system/user/' + parseStrEmpty(userId),
     method: 'get',
@@ -31,7 +31,7 @@ export function getUser(userId?: string | number): AxiosPromise<UserInfoVO> {
 /**
  * 新增用户
  */
-export function addUser(data: UserForm) {
+export const addUser = (data: UserForm) => {
   return request({
     url: '/system/user',
     method: 'post',
@@ -42,7 +42,7 @@ export function addUser(data: UserForm) {
 /**
  * 修改用户
  */
-export function updateUser(data: UserForm) {
+export const updateUser = (data: UserForm) => {
   return request({
     url: '/system/user',
     method: 'put',
@@ -54,7 +54,7 @@ export function updateUser(data: UserForm) {
  * 删除用户
  * @param userId 用户ID
  */
-export function delUser(userId: Array<string | number> | string | number) {
+export const delUser = (userId: Array<string | number> | string | number) => {
   return request({
     url: '/system/user/' + userId,
     method: 'delete',
@@ -66,7 +66,7 @@ export function delUser(userId: Array<string | number> | string | number) {
  * @param userId 用户ID
  * @param password 密码
  */
-export function resetUserPwd(userId: string | number, password: string) {
+export const resetUserPwd = (userId: string | number, password: string) => {
   const data = {
     userId,
     password,
@@ -83,7 +83,7 @@ export function resetUserPwd(userId: string | number, password: string) {
  * @param userId 用户ID
  * @param status 用户状态
  */
-export function changeUserStatus(userId: number | string, status: string) {
+export const changeUserStatus = (userId: number | string, status: string) => {
   const data = {
     userId,
     status,
@@ -98,7 +98,7 @@ export function changeUserStatus(userId: number | string, status: string) {
 /**
  * 查询用户个人信息
  */
-export function getUserProfile(): AxiosPromise<UserInfoVO> {
+export const getUserProfile = (): AxiosPromise<UserInfoVO> => {
   return request({
     url: '/system/user/profile',
     method: 'get',
@@ -109,7 +109,7 @@ export function getUserProfile(): AxiosPromise<UserInfoVO> {
  * 修改用户个人信息
  * @param data 用户信息
  */
-export function updateUserProfile(data: UserForm) {
+export const updateUserProfile = (data: UserForm) => {
   return request({
     url: '/system/user/profile',
     method: 'put',
@@ -122,7 +122,7 @@ export function updateUserProfile(data: UserForm) {
  * @param oldPassword 旧密码
  * @param newPassword 新密码
  */
-export function updateUserPwd(oldPassword: string, newPassword: string) {
+export const updateUserPwd = (oldPassword: string, newPassword: string) => {
   const data = {
     oldPassword,
     newPassword,
@@ -138,7 +138,7 @@ export function updateUserPwd(oldPassword: string, newPassword: string) {
  * 用户头像上传
  * @param data 头像文件
  */
-export function uploadAvatar(data: FormData) {
+export const uploadAvatar = (data: FormData) => {
   return request({
     url: '/system/user/profile/avatar',
     method: 'post',
@@ -150,7 +150,7 @@ export function uploadAvatar(data: FormData) {
  * 查询授权角色
  * @param userId 用户ID
  */
-export function getAuthRole(userId: string | number): AxiosPromise<{ user: UserVO; roles: RoleVO[] }> {
+export const getAuthRole = (userId: string | number): AxiosPromise<{ user: UserVO; roles: RoleVO[] }> => {
   return request({
     url: '/system/user/authRole/' + userId,
     method: 'get',
@@ -161,7 +161,7 @@ export function getAuthRole(userId: string | number): AxiosPromise<{ user: UserV
  * 保存授权角色
  * @param data 用户ID
  */
-export function updateAuthRole(data: { userId: string; roleIds: string }) {
+export const updateAuthRole = (data: { userId: string; roleIds: string }) => {
   return request({
     url: '/system/user/authRole',
     method: 'put',
@@ -172,9 +172,26 @@ export function updateAuthRole(data: { userId: string; roleIds: string }) {
 /**
  * 查询部门下拉树结构
  */
-export function deptTreeSelect(): AxiosPromise<DeptVO[]> {
+export const deptTreeSelect = (): AxiosPromise<DeptVO[]> => {
   return request({
     url: '/system/user/deptTree',
     method: 'get',
   })
+}
+
+export default {
+  listUser,
+  getUser,
+  addUser,
+  updateUser,
+  delUser,
+  resetUserPwd,
+  changeUserStatus,
+  getUserProfile,
+  updateUserProfile,
+  updateUserPwd,
+  uploadAvatar,
+  getAuthRole,
+  updateAuthRole,
+  deptTreeSelect,
 }

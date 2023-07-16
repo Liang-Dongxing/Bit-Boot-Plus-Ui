@@ -150,7 +150,6 @@
 
 <script setup name="Dept" lang="ts">
 import { listDept, getDept, delDept, addDept, updateDept, listDeptExcludeChild } from '@/api/system/dept'
-import { ComponentInternalInstance } from 'vue'
 import { DeptForm, DeptQuery, DeptVO } from '@/api/system/dept/types'
 
 interface DeptOptionsType {
@@ -173,9 +172,9 @@ const dialog = reactive<DialogOption>({
   title: '',
 })
 
-const deptTableRef = ref(ElTable)
-const queryFormRef = ref(ElForm)
-const deptFormRef = ref(ElForm)
+const deptTableRef = ref<ElTableInstance>()
+const queryFormRef = ref<ElFormInstance>()
+const deptFormRef = ref<ElFormInstance>()
 
 const initFormData: DeptForm = {
   deptId: undefined,
@@ -224,7 +223,7 @@ const cancel = () => {
 /** 表单重置 */
 const reset = () => {
   form.value = { ...initFormData }
-  deptFormRef.value.resetFields()
+  deptFormRef.value?.resetFields()
 }
 
 /** 搜索按钮操作 */
@@ -233,7 +232,7 @@ const handleQuery = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 /** 新增按钮操作 */
@@ -261,7 +260,7 @@ const handleToggleExpandAll = () => {
 /** 展开/折叠所有 */
 const toggleExpandAll = (data: DeptVO[], status: boolean) => {
   data.forEach((item) => {
-    deptTableRef.value.toggleRowExpansion(item, status)
+    deptTableRef.value?.toggleRowExpansion(item, status)
     if (item.children && item.children.length > 0) toggleExpandAll(item.children, status)
   })
 }
@@ -271,7 +270,7 @@ const handleUpdate = async (row: DeptVO) => {
   const res = await getDept(row.deptId)
   dialog.visible = true
   dialog.title = '修改部门'
-  nextTick(async () => {
+  awaitnextTick(async () => {
     reset()
     form.value = res.data
     const response = await listDeptExcludeChild(row.deptId)
@@ -291,12 +290,12 @@ const handleUpdate = async (row: DeptVO) => {
 }
 /** 提交按钮 */
 const submitForm = () => {
-  deptFormRef.value.validate(async (valid: boolean) => {
+  deptFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       form.value.deptId ? await updateDept(form.value) : await addDept(form.value)
       proxy?.$modal.msgSuccess('操作成功')
       dialog.visible = false
-      getList()
+      await getList()
     }
   })
 }
@@ -304,7 +303,7 @@ const submitForm = () => {
 const handleDelete = async (row: DeptVO) => {
   await proxy?.$modal.confirm('是否确认删除名称为"' + row.deptName + '"的数据项?')
   await delDept(row.deptId)
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('删除成功')
 }
 

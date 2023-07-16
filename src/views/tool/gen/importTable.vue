@@ -50,8 +50,6 @@
 <script setup lang="ts">
 import { listDbTable, importTable, getDataNames } from '@/api/tool/gen'
 import { DbTableQuery, DbTableVO } from '@/api/tool/gen/types'
-import { ComponentInternalInstance } from 'vue'
-import { ElTable, ElForm } from 'element-plus'
 
 const total = ref(0)
 const visible = ref(false)
@@ -59,8 +57,8 @@ const tables = ref<Array<string>>([])
 const dbTableList = ref<Array<DbTableVO>>([])
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 
-const tableRef = ref(ElTable)
-const queryFormRef = ref(ElForm)
+const tableRef = ref<ElTableInstance>()
+const queryFormRef = ref<ElFormInstance>()
 
 const queryParams = reactive<DbTableQuery>({
   pageNum: 1,
@@ -86,7 +84,8 @@ const show = (dataName: string) => {
 }
 /** 单击选择行 */
 const clickRow = (row: DbTableVO) => {
-  tableRef.value.toggleRowSelection(row)
+  // ele bug
+  tableRef.value?.toggleRowSelection(row, false)
 }
 /** 多选框选中数据 */
 const handleSelectionChange = (selection: DbTableVO[]) => {
@@ -105,7 +104,7 @@ const handleQuery = () => {
 }
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 /** 导入按钮操作 */

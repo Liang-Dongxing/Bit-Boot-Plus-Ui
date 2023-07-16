@@ -1,5 +1,5 @@
 <template>
-  <div class="AppMain">
+  <div class="p-2">
     <transition name="el-zoom-in-top" mode="out-in">
       <el-card v-show="showSearch" shadow="never" class="search">
         <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-width="68px">
@@ -103,8 +103,6 @@
 <script setup name="Tree" lang="ts">
 import { listTree, getTree, delTree, addTree, updateTree } from '@/api/demo/tree'
 import { TreeVO, TreeQuery, TreeForm } from '@/api/demo/tree/types'
-import { ComponentInternalInstance } from 'vue'
-import { ElForm, ElTable } from 'element-plus'
 
 type TreeOption = {
   id: number
@@ -121,9 +119,9 @@ const showSearch = ref(true)
 const isExpandAll = ref(true)
 const loading = ref(false)
 
-const queryFormRef = ref(ElForm)
-const treeFormRef = ref(ElForm)
-const treeTableRef = ref(ElTable)
+const queryFormRef = ref<ElFormInstance>()
+const treeFormRef = ref<ElFormInstance>()
+const treeTableRef = ref<ElTableInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -186,7 +184,7 @@ const cancel = () => {
 // 表单重置
 const reset = () => {
   form.value = { ...initFormData }
-  treeFormRef.value.resetFields()
+  treeFormRef.value?.resetFields()
 }
 
 /** 搜索按钮操作 */
@@ -196,7 +194,7 @@ const handleQuery = () => {
 
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 
@@ -224,7 +222,7 @@ const handleToggleExpandAll = () => {
 /** 展开/折叠操作 */
 const toggleExpandAll = (data: TreeVO[], status: boolean) => {
   data.forEach((item) => {
-    treeTableRef.value.toggleRowExpansion(item, status)
+    treeTableRef.value?.toggleRowExpansion(item, status)
     if (item.children && item.children.length > 0) toggleExpandAll(item.children, status)
   })
 }
@@ -248,7 +246,7 @@ const handleUpdate = (row: TreeVO) => {
 
 /** 提交按钮 */
 const submitForm = () => {
-  treeFormRef.value.validate(async (valid: boolean) => {
+  treeFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true
       if (form.value.id) {
@@ -258,7 +256,7 @@ const submitForm = () => {
       }
       proxy?.$modal.msgSuccess('操作成功')
       dialog.visible = false
-      getList()
+      await getList()
     }
   })
 }

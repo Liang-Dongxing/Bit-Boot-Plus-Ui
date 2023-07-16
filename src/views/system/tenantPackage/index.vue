@@ -22,9 +22,9 @@
       <template #header>
         <el-row :gutter="10">
           <el-col :span="1.5">
-            <el-button v-hasPermi="['system:tenantPackage:add']" type="primary" plain icon="Plus" @click="handleAdd"
-              >新增</el-button
-            >
+            <el-button v-hasPermi="['system:tenantPackage:add']" type="primary" plain icon="Plus" @click="handleAdd">
+              新增
+            </el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -55,8 +55,8 @@
               plain
               icon="Download"
               @click="handleExport"
-              >导出</el-button
-            >
+              >导出
+            </el-button>
           </el-col>
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
@@ -116,11 +116,11 @@
         <el-form-item label="关联菜单">
           <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
           <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')"
-            >全选/全不选</el-checkbox
-          >
+            >全选/全不选
+          </el-checkbox>
           <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')"
-            >父子联动</el-checkbox
-          >
+            >父子联动
+          </el-checkbox>
           <el-tree
             ref="menuTreeRef"
             class="tree-border"
@@ -155,10 +155,8 @@ import {
   changePackageStatus,
 } from '@/api/system/tenantPackage'
 import { treeselect as menuTreeselect, tenantPackageMenuTreeselect } from '@/api/system/menu'
-import { ComponentInternalInstance } from 'vue'
 import { TenantPkgForm, TenantPkgQuery, TenantPkgVO } from '@/api/system/tenantPackage/types'
 import { MenuTreeOption } from '@/api/system/menu/types'
-import { CheckboxValueType, ElTree, ElForm } from 'element-plus'
 import to from 'await-to-js'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
@@ -175,9 +173,9 @@ const menuExpand = ref(false)
 const menuNodeAll = ref(false)
 const menuOptions = ref<MenuTreeOption[]>([])
 
-const menuTreeRef = ref(ElTree)
-const queryFormRef = ref(ElForm)
-const tenantPackageFormRef = ref(ElForm)
+const menuTreeRef = ref<ElTreeInstance>()
+const queryFormRef = ref<ElFormInstance>()
+const tenantPackageFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -258,11 +256,11 @@ const cancel = () => {
 
 // 表单重置
 const reset = () => {
-  menuTreeRef.value.setCheckedKeys([])
+  menuTreeRef.value?.setCheckedKeys([])
   menuExpand.value = false
   menuNodeAll.value = false
   form.value = { ...initFormData }
-  tenantPackageFormRef.value.resetFields()
+  tenantPackageFormRef.value?.resetFields()
 }
 
 /** 搜索按钮操作 */
@@ -273,7 +271,7 @@ const handleQuery = () => {
 
 /** 重置按钮操作 */
 const resetQuery = () => {
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   handleQuery()
 }
 
@@ -297,7 +295,7 @@ const handleCheckedTreeExpand = (value: CheckboxValueType, type: string) => {
 // 树权限（全选/全不选）
 const handleCheckedTreeNodeAll = (value: CheckboxValueType, type: string) => {
   if (type == 'menu') {
-    menuTreeRef.value.setCheckedNodes(value ? menuOptions.value : [])
+    menuTreeRef.value?.setCheckedNodes(value ? (menuOptions.value as any) : [])
   }
 }
 
@@ -330,12 +328,12 @@ const handleUpdate = (row?: TenantPkgVO) => {
     const response = await getTenantPackage(_packageId)
     loading.value = false
     form.value = response.data
-    nextTick(async () => {
+    awaitnextTick(async () => {
       const res = await packageMenu
       let checkedKeys = res.data.checkedKeys
       checkedKeys.forEach((v) => {
         nextTick(() => {
-          menuTreeRef.value.setChecked(v, true, false)
+          menuTreeRef.value?.setChecked(v, true, false)
         })
       })
     })
@@ -344,7 +342,7 @@ const handleUpdate = (row?: TenantPkgVO) => {
 
 /** 提交按钮 */
 const submitForm = () => {
-  tenantPackageFormRef.value.validate(async (valid: boolean) => {
+  tenantPackageFormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true
       form.value.menuIds = getMenuAllCheckedKeys()
@@ -355,7 +353,7 @@ const submitForm = () => {
       }
       proxy?.$modal.msgSuccess('操作成功')
       dialog.visible = false
-      getList()
+      await getList()
     }
   })
 }
@@ -368,7 +366,7 @@ const handleDelete = async (row?: TenantPkgVO) => {
   })
   await delTenantPackage(_packageIds)
   loading.value = true
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('删除成功')
 }
 

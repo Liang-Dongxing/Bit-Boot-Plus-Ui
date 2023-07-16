@@ -210,9 +210,7 @@
 
 <script setup name="Operlog" lang="ts">
 import { list, delOperlog, cleanOperlog } from '@/api/monitor/operlog'
-import { ComponentInternalInstance } from 'vue'
 import { OperLogForm, OperLogQuery, OperLogVO } from '@/api/monitor/operlog/types'
-import { DateModelType } from 'element-plus'
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const { sys_oper_type, sys_common_status } = toRefs<any>(proxy?.useDict('sys_oper_type', 'sys_common_status'))
@@ -226,8 +224,8 @@ const total = ref(0)
 const dateRange = ref<[DateModelType, DateModelType]>(['', ''])
 const defaultSort = ref<any>({ prop: 'operTime', order: 'descending' })
 
-const operLogTableRef = ref(ElTable)
-const queryFormRef = ref(ElForm)
+const operLogTableRef = ref<ElTableInstance>()
+const queryFormRef = ref<ElFormInstance>()
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -291,9 +289,9 @@ const handleQuery = () => {
 /** 重置按钮操作 */
 const resetQuery = () => {
   dateRange.value = ['', '']
-  queryFormRef.value.resetFields()
+  queryFormRef.value?.resetFields()
   queryParams.value.pageNum = 1
-  operLogTableRef.value.sort(defaultSort.value.prop, defaultSort.value.order)
+  operLogTableRef.value?.sort(defaultSort.value.prop, defaultSort.value.order)
 }
 /** 多选框选中数据 */
 const handleSelectionChange = (selection: OperLogVO[]) => {
@@ -316,7 +314,7 @@ const handleDelete = async (row?: OperLogVO) => {
   const operIds = row?.operId || ids.value
   await proxy?.$modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?')
   await delOperlog(operIds)
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('删除成功')
 }
 
@@ -324,7 +322,7 @@ const handleDelete = async (row?: OperLogVO) => {
 const handleClean = async () => {
   await proxy?.$modal.confirm('是否确认清空所有操作日志数据项?')
   await cleanOperlog()
-  getList()
+  await getList()
   proxy?.$modal.msgSuccess('清空成功')
 }
 

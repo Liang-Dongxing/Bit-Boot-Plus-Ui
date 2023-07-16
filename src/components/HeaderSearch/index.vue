@@ -37,7 +37,7 @@ const options = ref<any>([])
 const searchPool = ref<Router>([])
 const show = ref(false)
 const fuse = ref()
-const headerSearchSelectRef = ref(ElSelect)
+const headerSearchSelectRef = ref<ElSelectInstance>()
 const router = useRouter()
 const routes = computed(() => usePermissionStore().routes)
 
@@ -129,9 +129,9 @@ onMounted(() => {
   searchPool.value = generateRoutes(routes.value)
 })
 
-watchEffect(() => {
-  searchPool.value = generateRoutes(routes.value)
-})
+//watchEffect(() => {
+//     searchPool.value = generateRoutes(routes.value)
+// })
 
 watch(show, (value) => {
   if (value) {

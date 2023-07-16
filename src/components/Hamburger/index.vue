@@ -14,11 +14,10 @@
 </template>
 
 <script setup lang="ts">
+import { propTypes } from '@/utils/propTypes'
+
 defineProps({
-  isActive: {
-    type: Boolean,
-    default: false,
-  },
+  isActive: propTypes.bool.def(false),
 })
 
 const emit = defineEmits(['toggleClick'])
